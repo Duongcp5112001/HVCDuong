@@ -1,0 +1,2306 @@
+openapi: 3.0.0
+info:
+  title: Tap Hub API - Membership API
+  description: API References
+  contact:
+    name: "TAP Co.,Ltd."
+    url: https://www.tap-ic.co.jp/
+  version: "1.0"
+servers:
+  - url: https://x2v8lpejll.execute-api.ap-northeast-1.amazonaws.com/v1
+    description: Sandbox
+security:
+  - AccessToken: []
+tags:
+  - name: MembershipHotelBusinesses
+  - name: MembershipCustomers
+  - name: MembershipContractGroups
+  - name: MembershipHotelReservations
+  - name: MemberShipTicketDispatches
+  - name: MemberShipTicketReceivers
+  - name: MemberShipTickets
+  - name: MembershipTicketSummaries
+  - name: MembershipTicketTransfers
+paths:
+  /accounts/{account_id}/membership-businesses:
+    get:
+      tags:
+        - MembershipHotelBusinesses
+      description: MembershipHotelBusinesses
+      operationId: ListMembershipHotelBusinesses
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListMembershipHotelBusinessesResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: account_id
+        in: path
+        description: account ID
+        required: true
+        schema:
+          type: string
+  /membership-businesses/{business_id}/hotels:
+    get:
+      tags:
+        - MembershipHotels
+      description: MembershipHotels
+      operationId: ListMembershipHotels
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListMembershipHotelsResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: business_id
+        in: path
+        description: 会員制事業ID
+        required: true
+        schema:
+          type: string
+  /membership-hotels/{hotel_id}/reservations:
+    post:
+      tags:
+        - MembershipHotelReservations
+      description: 会員制ホテルの予約登録
+      operationId: CreateMembershipHotelReservation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMembershipHotelReservationRequest'
+            examples:
+              新規会員予約作成:
+                value:
+                  reservation:
+                    guest_main:
+                      customer_id: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                      stay_guest_type_id: MainGuest
+                      sequence: 0
+                    guest_reserved_by:
+                      customer_id: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                      stay_guest_type_id: ReservationGuest
+                      sequence: 0
+                    person_count:
+                      - 1
+                    reservation_class_id: Stay
+                    reservation_status_id: KeepInventory
+                    stay_patterns:
+                      nights_count: 1
+                      rooms_count: 1
+                      sequence: 0
+                      stay_date_range_start: 2023-02-24
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateMembershipHotelReservationResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: hotel_id
+        in: path
+        description: facility id for the given hotel
+        required: true
+        schema:
+          type: string
+  /membership-businesses/{business_id}/customers/{customer_id}/ticket-summaries:
+    get:
+      tags:
+        - MembershipTicketSummaries
+      description: 顧客が所有する利用券集計情報取得
+      operationId: ListMembershipCustomerTicketSummaries
+      parameters:
+        - name: use_year
+          in: query
+          description: 利用年度
+          required: false
+          schema:
+            type: integer
+        - name: cursor
+          in: query
+          description: Query parameter indicating the cursor position of the list to
+            retrieve.
+          required: false
+          schema:
+            type: string
+            example: c-3yvu1pzhd3i7
+        - name: limit
+          in: query
+          description: 取得するリストの最大数を示すクエリパラメーターです。（指定範囲 1 から100）
+          required: false
+          schema:
+            maximum: 100
+            minimum: 1
+            type: integer
+            default: 100
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListMembershipCustomerTicketSummariesResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: business_id
+        in: path
+        description: 会員制事業ID
+        required: true
+        schema:
+          type: string
+      - name: customer_id
+        in: path
+        description: 顧客ID
+        required: true
+        schema:
+          type: string
+  /membership-businesses/{business_id}/customer-accounts/{customer_account_id}/ticket-dispatch-request-condition:
+    get:
+      tags:
+        - MemberShipTicketDispatches
+      description: GetMembershipCustomerAccountTicketDispatchRequestCondition
+      operationId: GetMembershipCustomerAccountTicketDispatchRequestCondition
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMembershipCustomerAccountTicketDispatchRequestConditionResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: business_id
+        in: path
+        description: 会員制事業ID
+        required: true
+        schema:
+          type: string
+      - name: customer_account_id
+        in: path
+        description: 顧客アカウントID
+        required: true
+        schema:
+          type: string
+  /membership-businesses/{business_id}/customer-accounts/{customer_account_id}/ticket-dispatch-requests:
+    post:
+      tags:
+        - MemberShipTicketDispatches
+      description: CreateMembershipCustomerAccountTicketDispatchRequest
+      operationId: CreateMembershipCustomerAccountTicketDispatchRequest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMembershipCustomerAccountTicketDispatchRequestRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateMembershipCustomerAccountTicketDispatchRequestResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: business_id
+        in: path
+        description: 会員制事業ID
+        required: true
+        schema:
+          type: string
+      - name: customer_account_id
+        in: path
+        description: 顧客アカウントID
+        required: true
+        schema:
+          type: string
+  /membership-businesses/{business_id}/customer-accounts/{customer_account_id}/ticket-receivers:
+    get:
+      tags:
+        - MemberShipTicketReceivers
+      description: ListMembershipCustomerAccountTicketReceivers
+      operationId: ListMembershipCustomerAccountTicketReceivers
+      parameters:
+        - name: cursor
+          in: query
+          description: Query parameter indicating the cursor position of the list to
+            retrieve.
+          required: false
+          schema:
+            type: string
+            example: c-3yvu1pzhd3i7
+        - name: limit
+          in: query
+          description: 取得するリストの最大数を示すクエリパラメーターです。（指定範囲 1 から100）
+          required: false
+          schema:
+            maximum: 100
+            minimum: 1
+            type: integer
+            default: 100
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListMembershipCustomerAccountTicketReceiversResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    post:
+      tags:
+        - MemberShipTicketReceivers
+      description: CreateMembershipCustomerAccountTicketReceiver
+      operationId: CreateMembershipCustomerAccountTicketReceiver
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMembershipCustomerAccountTicketReceiverRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateMembershipCustomerAccountTicketReceiverResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: business_id
+        in: path
+        description: 会員制事業ID
+        required: true
+        schema:
+          type: string
+      - name: customer_account_id
+        in: path
+        description: 顧客アカウントID
+        required: true
+        schema:
+          type: string
+  /membership-businesses/{business_id}/customer-accounts/{customer_account_id}/ticket-receivers/{membership_ticket_receiver_id}:
+    get:
+      tags:
+        - MemberShipTicketReceivers
+      description: GetMembershipCustomerAccountTicketReceiver
+      operationId: GetMembershipCustomerAccountTicketReceiver
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMembershipCustomerAccountTicketReceiverResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    put:
+      tags:
+        - MemberShipTicketReceivers
+      description: UpdateMembershipCustomerAccountTicketReceiver
+      operationId: UpdateMembershipCustomerAccountTicketReceiver
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMembershipCustomerAccountTicketReceiverRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateMembershipCustomerAccountTicketReceiverResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    delete:
+      tags:
+        - MemberShipTicketReceivers
+      description: DeleteMembershipCustomerAccountTicketReceiver
+      operationId: DeleteMembershipCustomerAccountTicketReceiver
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteMembershipCustomerAccountTicketReceiverResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    parameters:
+      - name: business_id
+        in: path
+        description: 会員制事業ID
+        required: true
+        schema:
+          type: string
+      - name: customer_account_id
+        in: path
+        description: 顧客アカウントID
+        required: true
+        schema:
+          type: string
+      - name: membership_ticket_receiver_id
+        in: path
+        description: membership ticket receiver id
+        required: true
+        schema:
+          type: string
+  /membership-businesses/{business_id}/customer-accounts/{customer_account_id}/ticket-receivers/{membership_ticket_receiver_id}/auth-requests:
+    post:
+      tags:
+        - MemberShipTicketReceivers
+      description: CreateMembershipCustomerAccountTicketReceiverAuthRequest
+      operationId: CreateMembershipCustomerAccountTicketReceiverAuthRequest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMembershipCustomerAccountTicketReceiverAuthRequestRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateMembershipCustomerAccountTicketReceiverAuthRequestResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: business_id
+        in: path
+        description: 会員制事業ID
+        required: true
+        schema:
+          type: string
+      - name: customer_account_id
+        in: path
+        description: 顧客アカウントID
+        required: true
+        schema:
+          type: string
+      - name: membership_ticket_receiver_id
+        in: path
+        description: membership ticket receiver id
+        required: true
+        schema:
+          type: string
+  /membership-businesses/{business_id}/customer-accounts/{customer_account_id}/ticket-summaries:
+    get:
+      tags:
+        - MembershipTicketSummaries
+      description: 顧客アカウントが所有する利用券集計情報取得
+      operationId: ListMembershipCustomerAccountTicketSummaries
+      parameters:
+        - name: use_year
+          in: query
+          description: 利用年度
+          required: false
+          schema:
+            type: integer
+        - name: cursor
+          in: query
+          description: Query parameter indicating the cursor position of the list to
+            retrieve.
+          required: false
+          schema:
+            type: string
+            example: c-3yvu1pzhd3i7
+        - name: limit
+          in: query
+          description: 取得するリストの最大数を示すクエリパラメーターです。（指定範囲 1 から100）
+          required: false
+          schema:
+            maximum: 100
+            minimum: 1
+            type: integer
+            default: 100
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListMembershipCustomerAccountTicketSummariesResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: business_id
+        in: path
+        description: 会員制事業ID
+        required: true
+        schema:
+          type: string
+      - name: customer_account_id
+        in: path
+        required: true
+        schema:
+          type: string
+  /membership-businesses/{business_id}/customers:
+    get:
+      tags:
+        - MembershipCustomers
+      description: 顧客の会員情報取得
+      operationId: ListMembershipCustomers
+      parameters:
+        - name: hotel_right_id
+          in: query
+          description: 会員権ID（会員権番号）
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: name
+          schema:
+            type: string
+        - name: phone_no
+          in: query
+          description: 携帯電話番号
+          schema:
+            type: string
+        - name: mobile_phone_no
+          in: query
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          description: Query parameter indicating the cursor position of the list to
+            retrieve.
+          required: false
+          schema:
+            type: string
+            example: c-3yvu1pzhd3i7
+        - name: limit
+          in: query
+          description: 取得するリストの最大数を示すクエリパラメーターです。（指定範囲 1 から100）
+          required: false
+          schema:
+            maximum: 100
+            minimum: 1
+            type: integer
+            default: 100
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListMembershipCustomersResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: business_id
+        in: path
+        description: 会員制事業ID
+        required: true
+        schema:
+          type: string
+  /membership-businesses/{business_id}/customers/{customer_id}:
+    get:
+      tags:
+        - MembershipCustomers
+      description: 1顧客の会員情報取得
+      operationId: ListMembershipCustomer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListMembershipCustomersResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: business_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: customer_id
+        in: path
+        required: true
+        schema:
+          type: string
+  /membership-businesses/{business_id}/customers/{customer_id}/contract_groups:
+    get:
+      tags:
+        - MembershipContractGroups
+      description: 顧客が所有する代表会員権番号取得
+      operationId: ListMembershipCustomerContractGroups
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListMembershipCustomerContractGroupsResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: business_id
+        in: path
+        description: 会員制事業ID
+        required: true
+        schema:
+          type: string
+      - name: customer_id
+        in: path
+        description: 顧客ID
+        required: true
+        schema:
+          type: string
+  /membership-businesses/{business_id}/ticket-receiver-condition:
+    get:
+      tags:
+        - MemberShipTicketReceivers
+      description: GetMembershipTicketReceiverCondition
+      operationId: GetMembershipTicketReceiverCondition
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMembershipTicketReceiverConditionResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: business_id
+        in: path
+        description: 会員制事業ID
+        required: true
+        schema:
+          type: string
+  /membership-businesses/{business_id}/tickets:
+    get:
+      tags:
+        - MemberShipTickets
+      description: 利用券情報取得
+      operationId: ListMembershipTickets
+      parameters:
+        - name: contract_group_id
+          in: query
+          description: 会員制契約グループID
+          schema:
+            type: string
+        - name: use_year
+          in: query
+          description: 利用年度
+          required: false
+          schema:
+            type: integer
+        - name: cursor
+          in: query
+          description: Query parameter indicating the cursor position of the list to
+            retrieve.
+          required: false
+          schema:
+            type: string
+            example: c-3yvu1pzhd3i7
+        - name: limit
+          in: query
+          description: 取得するリストの最大数を示すクエリパラメーターです。（指定範囲 1 から100）
+          required: false
+          schema:
+            maximum: 100
+            minimum: 1
+            type: integer
+            default: 100
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListMembershipTicketsResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: business_id
+        in: path
+        description: 会員制事業ID
+        required: true
+        schema:
+          type: string
+  /membership-businesses/{business_id}/customers/{customer_id}/tickets:
+    get:
+      tags:
+        - MemberShipTickets
+      description: 顧客が保持する利用券明細取得
+      operationId: ListMembershipCustomerTickets
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListMembershipCustomerTicketsResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: business_id
+        in: path
+        description: 会員制事業ID
+        required: true
+        schema:
+          type: string
+      - name: customer_id
+        in: path
+        description: 顧客ID
+        required: true
+        schema:
+          type: string
+  /membership-businesses/{business_id}/ticket-summaries:
+    get:
+      tags:
+        - MembershipTicketSummaries
+      description: 利用券の集計データ取得
+      operationId: ListMembershipTicketSummaries
+      parameters:
+        - name: hotel_ids
+          in: query
+          description: ホテルID
+          schema:
+            type: array
+            items:
+              type: string
+        - name: is_print_required
+          in: query
+          description: 印刷を希望する
+          schema:
+            type: boolean
+        - name: use_year
+          in: query
+          description: 利用年度
+          required: false
+          schema:
+            type: integer
+        - name: hotel_right_id
+          in: query
+          description: 会員権ID（会員権番号）
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          description: Query parameter indicating the cursor position of the list to
+            retrieve.
+          required: false
+          schema:
+            type: string
+            example: c-3yvu1pzhd3i7
+        - name: limit
+          in: query
+          description: 取得するリストの最大数を示すクエリパラメーターです。（指定範囲 1 から100）
+          required: false
+          schema:
+            maximum: 100
+            minimum: 1
+            type: integer
+            default: 100
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListMembershipTicketSummariesResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: business_id
+        in: path
+        description: 会員制事業ID
+        required: true
+        schema:
+          type: string
+  /membership-businesses/{business_id}/customer-accounts/{customer_account_id}/ticket-transfers:
+    post:
+      tags:
+        - MembershipTicketTransfers
+      description: CreateMembershipCustomerAccountTicketTransfer
+      operationId: CreateMembershipCustomerAccountTicketTransfer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMembershipCustomerAccountTicketTransferRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateMembershipCustomerAccountTicketTransferResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: business_id
+        in: path
+        description: 会員制事業ID
+        required: true
+        schema:
+          type: string
+      - name: customer_account_id
+        in: path
+        description: 顧客アカウントID
+        required: true
+        schema:
+          type: string
+components:
+  schemas:
+    ListMembershipHotelBusinessesResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            membership_businesses:
+              type: array
+              items:
+                $ref: '#/components/schemas/MembershipBusiness'
+    ApiErrorResponseBadRequest:
+      title: ApiErrorResponseBadRequest
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvalidParameter'
+      x-examples: {}
+    InvalidParameter:
+      title: InvalidParameter
+      type: object
+      properties:
+        parameter:
+          type: string
+          description: parameter name
+          example: start_date
+        detail:
+          type: string
+          description: error detail
+          example: invalid date
+        code:
+          type: string
+          description: error code
+          default: INVALID_PARAMETER
+        value:
+          type: string
+          description: parameter value
+          example: 2021-13-32
+        message:
+          type: string
+          description: error message
+          example: "Expected valid date, but got '2021-13-32' for start_date"
+      description: InvalidParameter
+      x-examples: {}
+    ApiErrorResponseUnauthorized:
+      title: ApiErrorResponseUnauthorized
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+        errors:
+          $ref: '#/components/schemas/ApiError'
+    ApiError:
+      title: ApiError
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    ApiErrorResponseNotFound:
+      title: ApiErrorResponseNotFound
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+        errors:
+          $ref: '#/components/schemas/ApiError'
+    ApiErrorResponseInternalError:
+      title: ApiErrorResponseInternalError
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+        errors:
+          $ref: '#/components/schemas/ApiError'
+      x-examples: {}
+    ListMembershipHotelsResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            membership_hotels:
+              type: array
+              items:
+                $ref: '#/components/schemas/MembershipHotel'
+    CreateMembershipHotelReservationResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateResponse'
+        - type: object
+          properties:
+            reservation:
+              $ref: '#/components/schemas/MembershipHotelReservation'
+    CreateMembershipHotelReservationRequest:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateRequest'
+        - type: object
+          properties:
+            reservation:
+              $ref: '#/components/schemas/MembershipHotelReservation'
+    ListMembershipCustomerTicketSummariesResponse:
+      title: ListMembershipCustomerTicketSummariesResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            membership_ticket_summaries:
+              type: array
+              items:
+                $ref: '#/components/schemas/MembershipTicketSummary'
+      x-stoplight:
+        id: jr66id4oclhkd
+    GetMembershipCustomerAccountTicketDispatchRequestConditionResponse:
+      title: GetMembershipCustomerAccountTicketDispatchRequestConditionResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiGetResponse'
+        - type: object
+          properties:
+            membership_customer_account_ticket_dispatch_request_condition:
+              $ref: '#/components/schemas/MembershipCustomerAccountTicketDispatchRequestCondition'
+    CreateMembershipCustomerAccountTicketDispatchRequestResponse:
+      title: CreateMembershipCustomerAccountTicketDispatchRequestResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateResponse'
+        - type: object
+          properties:
+            membership_customer_account_ticket_dispatch_request:
+              $ref: '#/components/schemas/MembershipCustomerAccountTicketDispatchRequest'
+    CreateMembershipCustomerAccountTicketDispatchRequestRequest:
+      title: CreateMembershipCustomerAccountTicketDispatchRequestRequest
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateRequest'
+        - type: object
+          properties:
+            membership_customer_account_ticket_dispatch_request:
+              $ref: '#/components/schemas/MembershipCustomerAccountTicketDispatchRequest'
+    ListMembershipCustomerAccountTicketReceiversResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            membership_customer_account_receivers:
+              type: array
+              items:
+                $ref: '#/components/schemas/MembershipCustomerAccountTicketReceiver'
+    CreateMembershipCustomerAccountTicketReceiverResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateResponse'
+        - type: object
+          properties:
+            membership_customer_account_receiver:
+              $ref: '#/components/schemas/MembershipCustomerAccountTicketReceiver'
+    CreateMembershipCustomerAccountTicketReceiverRequest:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateRequest'
+        - type: object
+          properties:
+            membership_customer_account_receiver:
+              $ref: '#/components/schemas/MembershipCustomerAccountTicketReceiver'
+    GetMembershipCustomerAccountTicketReceiverResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiGetResponse'
+        - type: object
+          properties:
+            membership_customer_account_receiver:
+              $ref: '#/components/schemas/MembershipCustomerAccountTicketReceiver'
+    UpdateMembershipCustomerAccountTicketReceiverResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateResponse'
+        - type: object
+          properties:
+            membership_customer_account_receiver:
+              $ref: '#/components/schemas/MembershipCustomerAccountTicketReceiver'
+    UpdateMembershipCustomerAccountTicketReceiverRequest:
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateRequest'
+        - type: object
+          properties:
+            membership_customer_account_receiver:
+              $ref: '#/components/schemas/MembershipCustomerAccountTicketReceiver'
+    DeleteMembershipCustomerAccountTicketReceiverResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiDeleteResponse'
+        - type: object
+          properties:
+            membership_customer_account_receiver:
+              $ref: '#/components/schemas/MembershipCustomerAccountTicketReceiver'
+    CreateMembershipCustomerAccountTicketReceiverAuthRequestResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateResponse'
+        - type: object
+          properties:
+            membership_customer_account_receiver:
+              $ref: '#/components/schemas/MembershipCustomerAccountTicketReceiver'
+    CreateMembershipCustomerAccountTicketReceiverAuthRequestRequest:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateRequest'
+    ListMembershipCustomerAccountTicketSummariesResponse:
+      title: ListMembershipCustomerAccountTicketSummariesResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            membership_ticket_summaries:
+              type: array
+              items:
+                $ref: '#/components/schemas/MembershipTicketSummary'
+      x-stoplight:
+        id: t47v26gkju9i7
+    ListMembershipCustomersResponse:
+      type: object
+      properties:
+        membership_customer_list_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/MembershipCustomerListItem'
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+    ListMembershipCustomerContractGroupsResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            groups:
+              type: array
+              items:
+                $ref: '#/components/schemas/MembershipContractGroups'
+    GetMembershipTicketReceiverConditionResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiGetResponse'
+        - type: object
+          properties:
+            membership_ticket_receiver_condition:
+              $ref: '#/components/schemas/MembershipTicketReceiverCondition'
+    ListMembershipTicketsResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/MembershipTicketListItem'
+    ListMembershipCustomerTicketsResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            membership_ticket_summaries:
+              type: array
+              items:
+                $ref: '#/components/schemas/MembershipTicketListItem'
+    ListMembershipTicketSummariesResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            membershipticketsummaries:
+              type: array
+              items:
+                $ref: '#/components/schemas/MembershipTicketSummary'
+    CreateMembershipCustomerAccountTicketTransferResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateResponse'
+        - type: object
+          properties:
+            membership_ticket_transfer:
+              $ref: '#/components/schemas/MembershipCustomerAccountTicketTransfer'
+    CreateMembershipCustomerAccountTicketTransferRequest:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateRequest'
+        - type: object
+          properties:
+            membership_ticket_transfer:
+              $ref: '#/components/schemas/MembershipCustomerAccountTicketTransfer'
+    ApiListResponse:
+      title: ApiListResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            next_cursor:
+              $ref: '#/components/schemas/ApiCommonResponseNextCursor'
+    ApiResponse:
+      title: ApiResponse
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+    ApiCommonResponseRequest:
+      title: ApiCommonResponseRequest
+      type: object
+      properties:
+        version:
+          type: string
+        body:
+          type: string
+        url:
+          type: string
+      description: Request
+    ApiCommonResponseRequestId:
+      title: ApiCommonResponseRequestId
+      type: string
+      description: RequestId
+      example: 594600f4-7eec-47ca-8012-02e7b89859ce
+    ApiCommonResponseNextCursor:
+      title: ApiCommonResponseNextCursor
+      type: string
+      description: "Indicates the position of the next entity. If an entity less than\
+        \ a limit is returned by the current page of the result set, then Cursor value\
+        \ is null."
+      example: c-3yvu1pzhd3i7
+    MembershipBusiness:
+      title: MembershipBusiness
+      required:
+        - membership_business_id
+      type: object
+      properties:
+        membership_business_id:
+          type: string
+          readOnly: true
+    MembershipHotel:
+      title: MembershipHotel
+      required:
+        - hotel_id
+        - name
+      type: object
+      properties:
+        hotel_id:
+          type: string
+        name:
+          type: string
+        membership_hotel_type:
+          $ref: '#/components/schemas/MembershipHotelType'
+    MembershipHotelType:
+      title: MembershipHotelType
+      required:
+        - membership_hotel_type_id
+        - name
+      type: object
+      properties:
+        membership_hotel_type_id:
+          type: string
+        name:
+          type: string
+        is_room_type_selectable:
+          type: boolean
+    ApiCreateResponse:
+      title: ApiCreateResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+    MembershipHotelReservation:
+      allOf:
+        - $ref: '#/components/schemas/Reservation'
+    ApiCreateRequest:
+      title: ApiCreateRequest
+      allOf:
+        - $ref: '#/components/schemas/ApiRequest'
+    ApiRequest:
+      title: ApiRequest
+      type: object
+    MembershipTicketSummary:
+      title: MembershipTicketSummary
+      type: object
+      properties:
+        business_id:
+          type: string
+          description: 会員制事業ID
+          example: "01"
+        contract_group_id:
+          type: string
+          description: 会員制_契約_グループID
+          example: "1"
+        hotel_id:
+          type: string
+          description: ホテルID
+          example: "001"
+        hotel_name:
+          type: string
+          description: ホテル名
+          example: タップホテル
+        hotel_right_id:
+          type: string
+          description: 会員権ID（会員権番号）
+          example: KR0001
+        is_print_required:
+          type: boolean
+          description: 印刷した利用券
+        ticket_types:
+          type: array
+          description: 利用利用内訳
+          items:
+            $ref: '#/components/schemas/MembershipTicketSummaryTicketType'
+        owner_customer_id:
+          type: string
+          description: 会員権を持っている顧客ID
+          example: "000000001"
+        owner_customer_name:
+          type: string
+          description: 会員権を持っている顧客名
+          example: タップタロウ
+        reserve_date_start:
+          $ref: '#/components/schemas/Date'
+        reserve_date_start_value:
+          type: integer
+          description: 予約開始日設定値
+          example: 2
+        reserve_date_start_unit_id:
+          $ref: '#/components/schemas/ReserveDateStartUnitId'
+        use_date_end:
+          $ref: '#/components/schemas/Date'
+        use_date_start:
+          $ref: '#/components/schemas/Date'
+        use_year:
+          type: integer
+          description: 利用年度
+          example: 2022
+        user_customer_id:
+          type: string
+          description: 利用する顧客ID
+          example: "000000001"
+        user_customer_name:
+          type: string
+          description: 利用する顧客ID
+          example: タップタロウ
+      x-stoplight:
+        id: u042w9ebeiacc
+    MembershipTicketSummaryTicketType:
+      title: MembershipTicketSummaryTicketType
+      type: object
+      properties:
+        number_available:
+          type: integer
+          description: 利用可能枚数
+          example: 11
+        number_issued:
+          type: integer
+          description: 発行枚数
+          example: 18
+        number_lost:
+          type: integer
+          description: 失効枚数
+          example: 0
+        number_received:
+          type: integer
+          description: 受け取った枚数
+          example: 3
+        number_reserved:
+          type: integer
+          description: 予約した枚数
+          example: 3
+        number_sent:
+          type: integer
+          description: 贈った枚数
+          example: 2
+        number_printed:
+          type: integer
+          description: 印刷した枚数
+          example: 5
+        number_unused:
+          type: integer
+          description: 発行したが未使用の枚数
+          example: 2
+        number_used:
+          type: integer
+          description: 利用した枚数
+          example: 10
+        ticket_type_id:
+          type: string
+          description: 会員制利用券タイプID
+          example: "1"
+        name:
+          type: string
+          description: 会員制利用券タイプ名
+          example: ホーム
+      x-stoplight:
+        id: nj9d0gdj8nirn
+    ReserveDateStartUnitId:
+      title: ReserveDateStartUnitId
+      type: string
+      description: |
+        日前
+        月前
+      enum:
+        - DaysBefore
+        - MonthsBefore
+    ApiGetResponse:
+      title: ApiGetResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+      x-stoplight:
+        id: rw0znf08mhtv6
+    MembershipCustomerAccountTicketDispatchRequestCondition:
+      title: MembershipCustomerAccountTicketDispatchRequestCondition
+      type: object
+      properties:
+        address_lines:
+          type: array
+          items:
+            type: string
+        hotel_name:
+          type: string
+        contract_groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/MembershipContractGroupItem'
+        ticket_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/MembershipTicketTypeItem'
+    MembershipContractGroupItem:
+      type: object
+      properties:
+        hotel_right_id:
+          type: string
+          description: hotel right id
+        membership_contract_group_id:
+          type: string
+          description: membership contract group id
+        membership_contract_group_label:
+          type: string
+          description: membership contract group label
+    MembershipTicketTypeItem:
+      type: object
+      properties:
+        membership_ticket_type_id:
+          type: string
+          description: membership ticket type id
+        name:
+          type: string
+          description: name
+    MembershipCustomerAccountTicketDispatchRequest:
+      title: MembershipCustomerAccountTicketDispatchRequest
+      type: object
+      properties:
+        address_lines:
+          type: array
+          readOnly: true
+          items:
+            type: string
+        business_id:
+          type: string
+          readOnly: true
+        customer_id:
+          type: string
+        customer_name:
+          type: string
+          readOnly: true
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/MembershipCustomerAccountTicketDispatchRequestDetail'
+        is_all_tickets:
+          type: boolean
+        membership_ticket_dispatch_request_id:
+          type: string
+          readOnly: true
+        phone_no:
+          type: string
+          readOnly: true
+        postal_code:
+          type: string
+          readOnly: true
+    MembershipCustomerAccountTicketDispatchRequestDetail:
+      title: MembershipCustomerAccountTicketDispatchRequestDetail
+      type: object
+      properties:
+        membership_ticket_dispatch_request_detail_id:
+          type: string
+          readOnly: true
+        membership_contract_group_id:
+          type: string
+        membership_ticket_type_id:
+          type: string
+        quantity:
+          type: integer
+    MembershipCustomerAccountTicketReceiver:
+      type: object
+      properties:
+        business_id:
+          type: string
+          description: 会員制事業ID
+          readOnly: true
+          example: "01"
+        customer_id:
+          type: string
+          readOnly: true
+        customer_id_receiver:
+          type: string
+          readOnly: true
+        customer_name:
+          type: string
+          readOnly: true
+        email_auth_requested:
+          $ref: '#/components/schemas/EMail'
+        nick_name:
+          type: string
+        membership_ticket_receiver_id:
+          type: string
+        membership_ticket_receiver_status_id:
+          $ref: '#/components/schemas/MembershipTicketReceiverStatusId'
+        relation_type_id:
+          type: string
+    MembershipTicketReceiverStatusId:
+      title: MembershipTicketReceiverStatusId
+      type: string
+      enum:
+        - Created
+        - Authorize_Completed
+        - Authorize_Requested
+        - Authorize_Timeout
+        - Deleted
+    ApiUpdateResponse:
+      title: ApiUpdateResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+    ApiUpdateRequest:
+      title: ApiUpdateRequest
+      allOf:
+        - $ref: '#/components/schemas/ApiRequest'
+    ApiDeleteResponse:
+      title: ApiGetResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+    MembershipCustomerListItem:
+      allOf:
+        - $ref: '#/components/schemas/CustomerListItem'
+        - type: object
+          properties:
+            membership_hotel_right_ids:
+              type: array
+              items:
+                type: string
+            membership_customer_class_id:
+              $ref: '#/components/schemas/MembershipCustomerClassId'
+    MembershipCustomerClassId:
+      title: MembershipCustomerClassId
+      type: string
+      description: 顧客種別
+      enum:
+        - Corporation
+        - CorporationMember
+        - CorporationMemberGuest
+        - FormerMember
+        - Individual
+        - IndividualMember
+        - IndividualMemberFamily
+        - IndividualMemberGuest
+    MembershipContractGroups:
+      type: object
+      properties:
+        hotel_right_id:
+          type: string
+    MembershipTicketReceiverCondition:
+      title: MembershipTicketReceiverCondition
+      type: object
+      properties:
+        mail_from_auth_request:
+          type: string
+        mail_from_auth_request_domain:
+          type: string
+        auth_request_expiration_hours:
+          type: integer
+    MembershipTicketListItem:
+      type: object
+      properties:
+        business_id:
+          type: string
+        contract_group_id:
+          type: string
+        hotel_id:
+          type: string
+        hotel_name:
+          type: string
+        hotel_right_id:
+          type: string
+        is_printed:
+          type: boolean
+        owner_customer_id:
+          type: string
+        owner_customer_name:
+          type: string
+        pass_code:
+          type: string
+        reservation_id:
+          type: string
+        sequence:
+          type: integer
+        ticket_status_id:
+          $ref: '#/components/schemas/MembershipTicketStatusId'
+        ticket_type_id:
+          type: string
+        use_date_end:
+          $ref: '#/components/schemas/Date'
+        use_date_start:
+          $ref: '#/components/schemas/Date'
+        user_customer_id:
+          type: string
+        user_customer_name:
+          type: string
+    MembershipTicketStatusId:
+      title: MembershipTicketStatusId
+      type: string
+      description: |
+        未使用
+        予約済み
+        使用済み
+      enum:
+        - UnUsed
+        - Reserved
+        - Used
+    MembershipCustomerAccountTicketTransfer:
+      type: object
+      properties:
+        business_id:
+          type: string
+          description: 会員制事業ID
+          readOnly: true
+          example: "01"
+        customer_id:
+          type: string
+          description: 顧客ID
+        customer_name:
+          type: string
+          description: 顧客名
+          readOnly: true
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/MembershipCustomerAccountTicketTransferDetail'
+        membership_ticket_receiver_id:
+          type: string
+          description: membership ticket receiver id
+          readOnly: true
+        membership_ticket_transfer_id:
+          type: string
+          description: membership ticket transfer id
+          readOnly: true
+    MembershipCustomerAccountTicketTransferDetail:
+      type: object
+      properties:
+        contract_groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/MembershipContractGroupItem'
+        hotel_name:
+          type: string
+          description: ホテル名
+          example: タップホテル
+        membership_contract_group_id:
+          type: string
+          description: membership contract group id
+        membership_ticket_transfer_id:
+          type: string
+          description: membership ticket transfer id
+        membership_ticket_type_id:
+          type: string
+          description: membership ticket type id
+        quantity:
+          type: integer
+        ticket_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/MembershipTicketTypeItem'
+    Reservation:
+      title: Reservation
+      description: 予約
+      allOf:
+        - $ref: '#/components/schemas/ReservationStatic'
+        - $ref: '#/components/schemas/ReservationDynamic'
+    ReservationStatic:
+      title: ReservationStatic
+      type: object
+      properties:
+        reservation_id:
+          type: string
+          readOnly: true
+        reservation_number:
+          type: string
+          description: ホテルコード(2桁) + 自動採番(8桁)
+          readOnly: true
+          example: AB00000001
+      description: ReservationStatic
+    ReservationDynamic:
+      title: ReservationDynamic
+      required:
+        - reservation_class_id
+        - reservation_status_id
+      type: object
+      properties:
+        guest_main:
+          $ref: '#/components/schemas/StayGuest'
+        guest_reserved_by:
+          $ref: '#/components/schemas/StayGuest'
+        hotel_name:
+          type: string
+          readOnly: true
+          example: TAPホテル
+        is_cancelled:
+          type: boolean
+          description: キャンセル済み
+          readOnly: true
+          example: false
+        person_count:
+          $ref: '#/components/schemas/PersonCount'
+        provisions:
+          $ref: '#/components/schemas/StayProvision'
+        reservation_class_id:
+          $ref: '#/components/schemas/ReservationClassId'
+        reservation_status_id:
+          $ref: '#/components/schemas/ReservationStatusId'
+        stay_patterns:
+          $ref: '#/components/schemas/StayPattern'
+      description: ReservationDynamic
+    StayGuest:
+      title: StayGuest
+      type: object
+      properties:
+        customer_id:
+          type: string
+          description: ゲストの顧客ID
+        stay_guest_id:
+          type: string
+          description: ゲストID
+          readOnly: true
+        stay_guest_type_id:
+          $ref: '#/components/schemas/StayGuestTypeId'
+        sequence:
+          type: integer
+          example: 1
+      description: ゲスト情報
+    StayGuestTypeId:
+      type: string
+      description: |
+        * `MainGuest` - 利用代表者
+        * `ReservationGuest` -  予約者
+        * `RoomGuest` - 宿泊利用者
+      enum:
+        - MainGuest
+        - ReservationGuest
+        - RoomGuest
+    PersonCount:
+      title: PersonCount
+      maxItems: 6
+      minItems: 1
+      type: array
+      items:
+        type: integer
+    StayProvision:
+      title: StayProvision
+      type: object
+      properties:
+        condition:
+          $ref: '#/components/schemas/StayProvisionCondition'
+        date_range:
+          $ref: '#/components/schemas/DateRange'
+        has_inventory:
+          type: boolean
+          description: 在庫をもっている場合は手配品であればtrue
+          readOnly: true
+          example: false
+        is_same_as_stay_date_range:
+          type: boolean
+          description: 予約期間と同じ期間手配する場合はtrue
+          example: true
+        is_each_day:
+          type: boolean
+          description: 全泊手配する場合はtrue
+          example: false
+        provision_item_id:
+          type: string
+          description: 手配品ID
+          example: ANP
+        quantity:
+          type: integer
+          description: 手配品数量
+          example: 2
+        sequence:
+          type: integer
+          example: 1
+        stay_provision_reason_id:
+          $ref: '#/components/schemas/StayProvisionReasonId'
+    StayProvisionCondition:
+      title: StayProvisionCondition
+      type: object
+      properties:
+        sales_item_id:
+          type: string
+          description: 商品ID　商品の中に手配品がある場合セットされる
+        stay_pattern_range_condition_id:
+          type: string
+        stay_pattern_id:
+          type: string
+        stay_pattern_range_id:
+          type: string
+    StayProvisionReasonId:
+      type: string
+      description: |
+        * `SpecialRequest` - 追加手配品
+        * `StayConditionSalesItemSet` - パッケージに含まれている手配品
+      enum:
+        - SpecialRequest
+        - StayConditionSalesItemSet
+    ReservationClassId:
+      type: string
+      description: |
+        * `DayVisit` - 日帰り
+        * `Stay` - 滞在
+      enum:
+        - DayVisit
+        - Stay
+    ReservationStatusId:
+      type: string
+      description: "* `Confirmed` - 確定状態 \n* `KeepInventory` - 部屋のみ押さえた状態 \n* `Tentative`\
+        \ - 仮予約状態 \n* `Waiting` - キャンセル待ち状態\n"
+      enum:
+        - Confirmed
+        - KeepInventory
+        - Tentative
+        - Waiting
+    StayPattern:
+      title: StayPattern
+      required:
+        - nights_count
+        - rooms_count
+        - sequence
+        - stay_date_range_start
+      type: object
+      properties:
+        nights_count:
+          type: integer
+          description: 泊数
+          example: 1
+        room_type_id:
+          type: string
+        room_type_name:
+          type: string
+          readOnly: true
+        rooms_count:
+          type: integer
+          description: 部屋数
+          example: 1
+        sequence:
+          type: integer
+          example: 1
+        stay_date_range_end:
+          title: "Year, Month, Day"
+          type: string
+          description: 日付(Date)
+          format: date
+          readOnly: true
+        stay_date_range_start:
+          title: "Year, Month, Day"
+          type: string
+          description: 日付(Date)
+          format: date
+        stay_pattern_id:
+          type: string
+          readOnly: true
+        stays:
+          type: array
+          items:
+            $ref: '#/components/schemas/Stay'
+      description: 滞在パターン
+    Stay:
+      title: Stay
+      type: object
+      properties:
+        guests:
+          type: array
+          items:
+            $ref: '#/components/schemas/StayGuest'
+        provisions:
+          type: array
+          items:
+            $ref: '#/components/schemas/StayProvision'
+        stay_id:
+          type: string
+          readOnly: true
+          example: e0fcdc9f-a0a5-421d-8427-44b15ea82aeb
+        sequence:
+          type: integer
+          example: 1
+    Date:
+      title: "Year, Month, Day"
+      type: string
+      description: 日付(Date)
+      format: date
+    EMail:
+      title: E-Mail Address
+      type: string
+      description: メールアドレス(EMail)
+      format: email
+      example: example@example.com
+    CustomerListItem:
+      title: CustomerListItem
+      type: object
+      properties:
+        address_lines:
+          type: array
+          description: address_lines
+          items:
+            type: string
+        birth_date:
+          $ref: '#/components/schemas/Date'
+        customer_id:
+          type: string
+          description: customer_id
+        customer_class_id:
+          $ref: '#/components/schemas/CustomerClassId'
+        email:
+          $ref: '#/components/schemas/EMail'
+        fax_no:
+          type: string
+          description: fax_no
+        is_active:
+          type: boolean
+          description: is_active
+        name_alias:
+          type: string
+          description: name_alias
+        number_of_times:
+          type: integer
+          description: number_of_times
+        phone_no_0:
+          type: string
+          description: phone_no_0
+        phone_no_1:
+          type: string
+          description: phone_no_1
+        postal_code:
+          type: string
+          description: postal_code
+      description: CustomerListItem
+    CustomerClassId:
+      title: CustomerClassId
+      type: string
+      description: CustomerClassId
+      enum:
+        - Corporation
+        - Individual
+    DateRange:
+      title: DateRange
+      type: object
+      properties:
+        end:
+          $ref: '#/components/schemas/Date'
+        start:
+          $ref: '#/components/schemas/Date'
+    inline_response_400:
+      allOf:
+        - $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+    inline_response_401:
+      allOf:
+        - $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+    inline_response_404:
+      allOf:
+        - $ref: '#/components/schemas/ApiErrorResponseNotFound'
+    inline_response_500:
+      allOf:
+        - $ref: '#/components/schemas/ApiErrorResponseInternalError'
+  securitySchemes:
+    AccessToken:
+      type: apiKey
+      name: X-API-Key
+      in: header
+    CognitoToken:
+      type: apiKey
+      name: X-Authorization
+      in: header

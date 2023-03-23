@@ -1,0 +1,556 @@
+/* page:utilities|2ff0dee0-648b-11ed-ac8e-bbec47184e2f:start */
+@mixin \.util-flex {
+  display: flex;
+}
+.util-flex {
+  @include \.util-flex;
+}
+@mixin \.util-flex--align-center {
+  align-items: center;
+}
+.util-flex--align-center {
+  @include \.util-flex--align-center;
+}
+@mixin \.util-flex--align-end {
+  align-items: flex-end;
+}
+.util-flex--align-end {
+  @include \.util-flex--align-end;
+}
+@mixin \.util-flex--align-start {
+  align-items: flex-start;
+}
+.util-flex--align-start {
+  @include \.util-flex--align-start;
+}
+@mixin \.util-flex--column {
+  flex-direction: column;
+}
+.util-flex--column {
+  @include \.util-flex--column;
+}
+@mixin \.util-flex--gap4 {
+  gap: 4px;
+}
+.util-flex--gap4 {
+  @include \.util-flex--gap4;
+}
+@mixin \.util-flex--gap8 {
+  gap: 8px;
+}
+.util-flex--gap8 {
+  @include \.util-flex--gap8;
+}
+@mixin \.util-flex--gap16 {
+  gap: 16px;
+}
+.util-flex--gap16 {
+  @include \.util-flex--gap16;
+}
+@mixin \.util-flex--gap40 {
+  gap: 40px;
+}
+.util-flex--gap40 {
+  @include \.util-flex--gap40;
+}
+@mixin \.util-flex--row-gap4 {
+  row-gap: 4px;
+}
+.util-flex--row-gap4 {
+  @include \.util-flex--row-gap4;
+}
+@mixin \.util-flex--row-gap8 {
+  row-gap: 8px;
+}
+.util-flex--row-gap8 {
+  @include \.util-flex--row-gap8;
+}
+@mixin \.util-flex--row-gap16 {
+  row-gap: 16px;
+}
+.util-flex--row-gap16 {
+  @include \.util-flex--row-gap16;
+}
+@mixin \.util-flex--row-gap24 {
+  row-gap: 24px;
+}
+.util-flex--row-gap24 {
+  @include \.util-flex--row-gap24;
+}
+@mixin \.util-flex--row-gap40 {
+  row-gap: 40px;
+}
+.util-flex--row-gap40 {
+  @include \.util-flex--row-gap40;
+}
+@mixin \.util-flex--column-gap4 {
+  column-gap: 4px;
+}
+.util-flex--column-gap4 {
+  @include \.util-flex--column-gap4;
+}
+@mixin \.util-flex--column-gap8 {
+  column-gap: 8px;
+}
+.util-flex--column-gap8 {
+  @include \.util-flex--column-gap8;
+}
+@mixin \.util-flex--column-gap16 {
+  column-gap: 16px;
+}
+.util-flex--column-gap16 {
+  @include \.util-flex--column-gap16;
+}
+@mixin \.util-flex--column-gap32 {
+  column-gap: 32px;
+}
+.util-flex--column-gap32 {
+  @include \.util-flex--column-gap32;
+}
+@mixin \.util-flex--column-gap40 {
+  column-gap: 40px;
+}
+.util-flex--column-gap40 {
+  @include \.util-flex--column-gap40;
+}
+@mixin \.util-flex--grow-one {
+  flex-grow: 1;
+}
+.util-flex--grow-one {
+  @include \.util-flex--grow-one;
+}
+@mixin \.util-flex--shrink-zero {
+  flex-shrink: 0;
+}
+.util-flex--shrink-zero {
+  @include \.util-flex--shrink-zero;
+}
+@mixin \.util-flex--justify-between {
+  justify-content: space-between;
+}
+.util-flex--justify-between {
+  @include \.util-flex--justify-between;
+}
+@mixin \.util-flex--justify-center {
+  justify-content: center;
+}
+.util-flex--justify-center {
+  @include \.util-flex--justify-center;
+}
+@mixin \.util-flex--justify-end {
+  justify-content: flex-end;
+}
+.util-flex--justify-end {
+  @include \.util-flex--justify-end;
+}
+@mixin \.util-flex--justify-start {
+  justify-content: flex-start;
+}
+.util-flex--justify-start {
+  @include \.util-flex--justify-start;
+}
+@mixin \.util-flex--row {
+  flex-direction: row;
+}
+.util-flex--row {
+  @include \.util-flex--row;
+}
+@mixin \.util-flex--wrap {
+  flex-wrap: wrap !important;
+}
+.util-flex--wrap {
+  @include \.util-flex--wrap;
+}
+@mixin \.util-full-width {
+  width: 100%;
+}
+.util-full-width {
+  @include \.util-full-width;
+}
+@mixin \.util-full-height {
+  height: 100%;
+}
+.util-full-height {
+  @include \.util-full-height;
+}
+@mixin \.util-mb-4 {
+  margin-bottom: 4px !important;
+}
+.util-mb-4 {
+  @include \.util-mb-4;
+}
+@mixin \.util-mb-8 {
+  margin-bottom: 8px !important;
+}
+.util-mb-8 {
+  @include \.util-mb-8;
+}
+@mixin \.util-mb-10 {
+  margin-bottom: 10px !important;
+}
+.util-mb-10 {
+  @include \.util-mb-10;
+}
+@mixin \.util-mb-12 {
+  margin-bottom: 12px !important;
+}
+.util-mb-12 {
+  @include \.util-mb-12;
+}
+@mixin \.util-mb-16 {
+  margin-bottom: 16px !important;
+}
+.util-mb-16 {
+  @include \.util-mb-16;
+}
+@mixin \.util-mb-20 {
+  margin-bottom: 20px !important;
+}
+.util-mb-20 {
+  @include \.util-mb-20;
+}
+@mixin \.util-mb-24 {
+  margin-bottom: 24px !important;
+}
+.util-mb-24 {
+  @include \.util-mb-24;
+}
+@mixin \.util-mb-32 {
+  margin-bottom: 32px !important;
+}
+.util-mb-32 {
+  @include \.util-mb-32;
+}
+@mixin \.util-mb-40 {
+  margin-bottom: 40px !important;
+}
+.util-mb-40 {
+  @include \.util-mb-40;
+}
+@mixin \.util-mb-48 {
+  margin-bottom: 48px !important;
+}
+.util-mb-48 {
+  @include \.util-mb-48;
+}
+@mixin \.util-ml-2 {
+  margin-left: 2px !important;
+}
+.util-ml-2 {
+  @include \.util-ml-2;
+}
+@mixin \.util-ml-4 {
+  margin-left: 4px !important;
+}
+.util-ml-4 {
+  @include \.util-ml-4;
+}
+@mixin \.util-ml-8 {
+  margin-left: 8px !important;
+}
+.util-ml-8 {
+  @include \.util-ml-8;
+}
+@mixin \.util-ml-12 {
+  margin-left: 12px !important;
+}
+.util-ml-12 {
+  @include \.util-ml-12;
+}
+@mixin \.util-ml-16 {
+  margin-left: 16px !important;
+}
+.util-ml-16 {
+  @include \.util-ml-16;
+}
+@mixin \.util-ml-20 {
+  margin-left: 20px !important;
+}
+.util-ml-20 {
+  @include \.util-ml-20;
+}
+@mixin \.util-ml-24 {
+  margin-left: 24px !important;
+}
+.util-ml-24 {
+  @include \.util-ml-24;
+}
+@mixin \.util-ml-32 {
+  margin-left: 32px !important;
+}
+.util-ml-32 {
+  @include \.util-ml-32;
+}
+@mixin \.util-ml-40 {
+  margin-left: 40px !important;
+}
+.util-ml-40 {
+  @include \.util-ml-40;
+}
+@mixin \.util-ml-48 {
+  margin-left: 48px !important;
+}
+.util-ml-48 {
+  @include \.util-ml-48;
+}
+@mixin \.util-ml-76 {
+  margin-left: 76px !important;
+}
+.util-ml-76 {
+  @include \.util-ml-76;
+}
+@mixin \.util-mr-4 {
+  margin-right: 4px !important;
+}
+.util-mr-4 {
+  @include \.util-mr-4;
+}
+@mixin \.util-mr-8 {
+  margin-right: 8px !important;
+}
+.util-mr-8 {
+  @include \.util-mr-8;
+}
+@mixin \.util-mr-12 {
+  margin-right: 12px !important;
+}
+.util-mr-12 {
+  @include \.util-mr-12;
+}
+@mixin \.util-mr-16 {
+  margin-right: 16px !important;
+}
+.util-mr-16 {
+  @include \.util-mr-16;
+}
+@mixin \.util-mr-20 {
+  margin-right: 20px !important;
+}
+.util-mr-20 {
+  @include \.util-mr-20;
+}
+@mixin \.util-mr-24 {
+  margin-right: 24px !important;
+}
+.util-mr-24 {
+  @include \.util-mr-24;
+}
+@mixin \.util-mr-32 {
+  margin-right: 32px !important;
+}
+.util-mr-32 {
+  @include \.util-mr-32;
+}
+@mixin \.util-mr-40 {
+  margin-right: 40px !important;
+}
+.util-mr-40 {
+  @include \.util-mr-40;
+}
+@mixin \.util-mr-48 {
+  margin-right: 48px !important;
+}
+.util-mr-48 {
+  @include \.util-mr-48;
+}
+@mixin \.util-mt-4 {
+  margin-top: 4px !important;
+}
+.util-mt-4 {
+  @include \.util-mt-4;
+}
+@mixin \.util-mt-8 {
+  margin-top: 8px !important;
+}
+.util-mt-8 {
+  @include \.util-mt-8;
+}
+@mixin \.util-mt-12 {
+  margin-top: 12px !important;
+}
+.util-mt-12 {
+  @include \.util-mt-12;
+}
+@mixin \.util-mt-16 {
+  margin-top: 16px !important;
+}
+.util-mt-16 {
+  @include \.util-mt-16;
+}
+@mixin \.util-mt-20 {
+  margin-top: 20px !important;
+}
+.util-mt-20 {
+  @include \.util-mt-20;
+}
+@mixin \.util-mt-24 {
+  margin-top: 24px !important;
+}
+.util-mt-24 {
+  @include \.util-mt-24;
+}
+@mixin \.util-mt-32 {
+  margin-top: 32px !important;
+}
+.util-mt-32 {
+  @include \.util-mt-32;
+}
+@mixin \.util-mt-40 {
+  margin-top: 40px !important;
+}
+.util-mt-40 {
+  @include \.util-mt-40;
+}
+@mixin \.util-mt-48 {
+  margin-top: 48px !important;
+}
+.util-mt-48 {
+  @include \.util-mt-48;
+}
+@mixin \.util-px-4 {
+  padding-right: 4px;
+  padding-left: 4px;
+}
+.util-px-4 {
+  @include \.util-px-4;
+}
+@mixin \.util-px-8 {
+  padding-right: 8px;
+  padding-left: 8px;
+}
+.util-px-8 {
+  @include \.util-px-8;
+}
+@mixin \.util-px-10 {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+.util-px-10 {
+  @include \.util-px-10;
+}
+@mixin \.util-px-12 {
+  padding-right: 12px;
+  padding-left: 12px;
+}
+.util-px-12 {
+  @include \.util-px-12;
+}
+@mixin \.util-px-16 {
+  padding-right: 16px;
+  padding-left: 16px;
+}
+.util-px-16 {
+  @include \.util-px-16;
+}
+@mixin \.util-px-20 {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.util-px-20 {
+  @include \.util-px-20;
+}
+@mixin \.util-px-24 {
+  padding-right: 24px;
+  padding-left: 24px;
+}
+.util-px-24 {
+  @include \.util-px-24;
+}
+@mixin \.util-px-32 {
+  padding-right: 32px;
+  padding-left: 32px;
+}
+.util-px-32 {
+  @include \.util-px-32;
+}
+@mixin \.util-px-40 {
+  padding-right: 40px;
+  padding-left: 40px;
+}
+.util-px-40 {
+  @include \.util-px-40;
+}
+@mixin \.util-py-4 {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+.util-py-4 {
+  @include \.util-py-4;
+}
+@mixin \.util-py-8 {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.util-py-8 {
+  @include \.util-py-8;
+}
+@mixin \.util-py-10 {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.util-py-10 {
+  @include \.util-py-10;
+}
+@mixin \.util-py-12 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.util-py-12 {
+  @include \.util-py-12;
+}
+@mixin \.util-py-16 {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+.util-py-16 {
+  @include \.util-py-16;
+}
+@mixin \.util-py-20 {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.util-py-20 {
+  @include \.util-py-20;
+}
+@mixin \.util-py-24 {
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+.util-py-24 {
+  @include \.util-py-24;
+}
+@mixin \.util-py-32 {
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+.util-py-32 {
+  @include \.util-py-32;
+}
+@mixin \.util-py-40 {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+.util-py-40 {
+  @include \.util-py-40;
+}
+@mixin \.util-overflow-hidden {
+  overflow: hidden;
+}
+.util-overflow-hidden {
+  @include \.util-overflow-hidden;
+}
+@mixin \.util-overflow-x {
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+.util-overflow-x {
+  @include \.util-overflow-x;
+}
+@mixin \.util-overflow-y {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.util-overflow-y {
+  @include \.util-overflow-y;
+}
+/* page:utilities:end */

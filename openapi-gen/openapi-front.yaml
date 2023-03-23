@@ -1,0 +1,1962 @@
+openapi: 3.0.0
+info:
+  title: Tap Hub API - Front API
+  description: API References
+  contact:
+    name: "TAP Co.,Ltd."
+    url: https://www.tap-ic.co.jp/
+  version: "1.0"
+servers:
+  - url: https://44m7fr471b.execute-api.ap-northeast-1.amazonaws.com/v1
+    description: Sandbox
+security:
+  - AccessToken: []
+paths:
+  /hotels/{hotel_id}/extra-service-groups:
+    get:
+      tags:
+        - ExtraServiceItemGroups
+      summary: 付帯サービスグループ一覧取得
+      description: 付帯サービスグループ一覧取得
+      operationId: ListExtraServiceItemGroups
+      parameters:
+        - name: cursor
+          in: query
+          description: Query parameter indicating the cursor position of the list to
+            retrieve.
+          required: false
+          schema:
+            type: string
+            example: c-3yvu1pzhd3i7
+        - name: limit
+          in: query
+          description: 取得するリストの最大数を示すクエリパラメーターです。（指定範囲 1 から100）
+          required: false
+          schema:
+            maximum: 100
+            minimum: 1
+            type: integer
+            default: 100
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListExtraServiceItemGroupsResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: hotel_id
+        in: path
+        description: facility id for the given hotel
+        required: true
+        schema:
+          type: string
+  /hotels/{hotel_id}/meal-places:
+    get:
+      tags:
+        - MealPlaces
+      summary: Meal Places
+      description: Meal Places
+      operationId: ListMealPlaces
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListMealPlacesResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: hotel_id
+        in: path
+        description: facility id for the given hotel
+        required: true
+        schema:
+          type: string
+  /hotels/{hotel_id}/provision-items:
+    get:
+      tags:
+        - ProvisionItems
+      summary: 手配品一覧取得
+      description: 手配品一覧取得
+      operationId: ListProvisionItems
+      parameters:
+        - name: cursor
+          in: query
+          description: Query parameter indicating the cursor position of the list to
+            retrieve.
+          required: false
+          schema:
+            type: string
+            example: c-3yvu1pzhd3i7
+        - name: date_range_end
+          in: query
+          description: 終了日
+          required: false
+          schema:
+            type: string
+            format: data
+        - name: date_range_start
+          in: query
+          description: 開始日
+          required: false
+          schema:
+            type: string
+            format: data
+        - name: with_inventory
+          in: query
+          description: 在庫ありで結果を返すか
+          required: false
+          schema:
+            type: boolean
+        - name: is_provision_has_inventory
+          in: query
+          description: 備品の場合はtrue
+          required: false
+          schema:
+            type: boolean
+        - name: limit
+          in: query
+          description: 取得するリストの最大数を示すクエリパラメーターです。（指定範囲 1 から100）
+          required: false
+          schema:
+            maximum: 100
+            minimum: 1
+            type: integer
+            default: 100
+        - name: name
+          in: query
+          description: 名前
+          required: false
+          schema:
+            type: string
+        - name: provision_item_id
+          in: query
+          description: 手配品ID
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListProvisionItemsResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: hotel_id
+        in: path
+        description: facility id for the given hotel
+        required: true
+        schema:
+          type: string
+  /hotels/{hotel_id}/reservations:
+    get:
+      tags:
+        - Reservations
+      summary: 予約一覧取得
+      description: 予約一覧取得
+      operationId: ListReservations
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListReservationsResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    post:
+      tags:
+        - Reservations
+      summary: 新規予約作成
+      description: 新規予約作成
+      operationId: CreateReservation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReservationRequest'
+            examples:
+              仮押させ予約作成:
+                value:
+                  reservation:
+                    person_count:
+                      - 1
+                      - 0
+                      - 0
+                      - 0
+                    reservation_class_id: Stay
+                    reservation_status_id: KeepInventory
+                    stay_patterns:
+                      nights_count: 1
+                      rooms_count: 1
+                      sequence: 1
+                      stay_date_range_start: 2022-12-01
+              確定予約作成:
+                value:
+                  reservation:
+                    person_count:
+                      - 1
+                      - 0
+                      - 0
+                      - 0
+                    reservation_class_id: Stay
+                    reservation_status_id: Confirmed
+                    stay_patterns:
+                      nights_count: 1
+                      rooms_count: 1
+                      sequence: 1
+                      stay_date_range_start: 2022-12-01
+              ルームタイプを指定して予約作成:
+                value:
+                  reservation:
+                    person_count:
+                      - 1
+                      - 0
+                      - 0
+                      - 0
+                    reservation_class_id: Stay
+                    reservation_status_id: KeepInventory
+                    stay_patterns:
+                      nights_count: 1
+                      room_type_id: NA
+                      rooms_count: 1
+                      sequence: 1
+                      stay_date_range_start: 2022-12-01
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateReservationResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: hotel_id
+        in: path
+        description: facility id for the given hotel
+        required: true
+        schema:
+          type: string
+  /hotels/{hotel_id}/reservations/{reservation_id}:
+    get:
+      tags:
+        - Reservations
+      summary: 予約取得
+      description: 予約取得
+      operationId: GetReservation
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetReservationResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    put:
+      tags:
+        - Reservations
+      summary: 予約更新
+      description: 予約更新
+      operationId: UpdateReservation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateReservationRequest'
+            examples:
+              手配品追加:
+                value:
+                  reservation:
+                    person_count:
+                      - 1
+                      - 0
+                      - 0
+                      - 0
+                    reservation_class_id: Stay
+                    reservation_status_id: Confirmed
+                    provisions:
+                      is_each_day: true
+                      provision_item_id: ANP
+                      quantity: 2
+                      stay_provision_reason_id: SpecialRequest
+                    stay_patterns:
+                      nights_count: 1
+                      room_type_id: NA
+                      rooms_count: 1
+                      sequence: 1
+                      stay_date_range_start: 2022-12-01
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateReservationResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: hotel_id
+        in: path
+        description: facility id for the given hotel
+        required: true
+        schema:
+          type: string
+      - name: reservation_id
+        in: path
+        description: unique id for reservation
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /hotels/{hotel_id}/reservations/{reservation_id}/cancel:
+    post:
+      tags:
+        - Reservations
+      summary: 予約キャンセル
+      description: 予約キャンセル
+      operationId: CreateReservationCancel
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/reservation_id_cancel_body'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateReservationCancelResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: hotel_id
+        in: path
+        description: facility id for the given hotel
+        required: true
+        schema:
+          type: string
+      - name: reservation_id
+        in: path
+        description: unique id for reservation
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /hotels/{hotel_id}/reservation-cancel-reasons:
+    get:
+      tags:
+        - ReservationCancelReasons
+      summary: 予約キャンセル理由一覧取得
+      description: 予約キャンセル理由一覧取得
+      operationId: ListReservationCancelReasons
+      parameters:
+        - name: cursor
+          in: query
+          description: Query parameter indicating the cursor position of the list to
+            retrieve.
+          required: false
+          schema:
+            type: string
+            example: c-3yvu1pzhd3i7
+        - name: limit
+          in: query
+          description: 取得するリストの最大数を示すクエリパラメーターです。（指定範囲 1 から100）
+          required: false
+          schema:
+            maximum: 100
+            minimum: 1
+            type: integer
+            default: 100
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListReservationCancelReasonsResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: hotel_id
+        in: path
+        description: facility id for the given hotel
+        required: true
+        schema:
+          type: string
+  /accounts/{account_id}/customer-accounts/{customer_account_id}/reservations:
+    get:
+      tags:
+        - Reservations
+      summary: 顧客アカウントの予約一覧取得
+      description: 顧客アカウントの予約一覧取得
+      operationId: ListCustomerAccountReservations
+      parameters:
+        - name: cursor
+          in: query
+          description: Query parameter indicating the cursor position of the list to
+            retrieve.
+          required: false
+          schema:
+            type: string
+            example: c-3yvu1pzhd3i7
+        - name: limit
+          in: query
+          description: 取得するリストの最大数を示すクエリパラメーターです。（指定範囲 1 から100）
+          required: false
+          schema:
+            maximum: 100
+            minimum: 1
+            type: integer
+            default: 100
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCustomerAccountReservationsResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: account_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: customer_account_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /accounts/{account_id}/room-inventory-calendars:
+    get:
+      tags:
+        - RoomInventories
+      summary: 部屋残数カレンダー一覧取得
+      description: 部屋残数カレンダー一覧取得
+      operationId: ListRoomInventoryCalendars
+      parameters:
+        - name: date_range_start
+          in: query
+          description: 開始日
+          required: true
+          schema:
+            type: string
+            format: data
+        - name: day_of_weeks
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/DayOfWeek'
+            default: []
+        - name: hotel_id
+          in: query
+          description: ホテルID
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListRoomInventoryCalendarsResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: account_id
+        in: path
+        required: true
+        schema:
+          type: string
+  /hotels/{hotel_id}/room-inventories:
+    get:
+      tags:
+        - RoomInventories
+      summary: 部屋残数一覧取得
+      description: 部屋残数一覧取得
+      operationId: ListRoomInventories
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListRoomInventoriesResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: hotel_id
+        in: path
+        description: facility id for the given hotel
+        required: true
+        schema:
+          type: string
+  /hotels/{hotel_id}/room-types:
+    get:
+      tags:
+        - RoomTypes
+      summary: ルームタイプ一覧取得
+      description: ルームタイプ一覧取得
+      operationId: ListRoomTypes
+      parameters:
+        - name: cursor
+          in: query
+          description: Query parameter indicating the cursor position of the list to
+            retrieve.
+          required: false
+          schema:
+            type: string
+            example: c-3yvu1pzhd3i7
+        - name: limit
+          in: query
+          description: 取得するリストの最大数を示すクエリパラメーターです。（指定範囲 1 から100）
+          required: false
+          schema:
+            maximum: 100
+            minimum: 1
+            type: integer
+            default: 100
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListRoomTypesResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: hotel_id
+        in: path
+        description: facility id for the given hotel
+        required: true
+        schema:
+          type: string
+  /hotels/{hotel_id}/sales-item-sets:
+    get:
+      tags:
+        - SalesItemSets
+      summary: パッケージ一覧取得
+      description: |
+        検索クエリ
+        * `code` - codeが完全一致したものだけに絞り込みます
+        * `name_alias` - name_aliasが部分一致したものだけに絞り込みます
+        * `use_person_count` - person_count_min以上かつperson_count_max以下のものだけに絞り込みます
+        * `use_date` - use_date_rangeに含まれるものだけに絞り込みます
+      operationId: ListSalesItemSets
+      parameters:
+        - name: cursor
+          in: query
+          description: Query parameter indicating the cursor position of the list to
+            retrieve.
+          required: false
+          schema:
+            type: string
+            example: c-3yvu1pzhd3i7
+        - name: limit
+          in: query
+          description: 取得するリストの最大数を示すクエリパラメーターです。（指定範囲 1 から100）
+          required: false
+          schema:
+            maximum: 100
+            minimum: 1
+            type: integer
+            default: 100
+        - name: code
+          in: query
+          description: コード
+          required: false
+          schema:
+            type: string
+        - name: name_alias
+          in: query
+          description: カナ名
+          required: false
+          schema:
+            type: string
+        - name: sales_item_id
+          in: query
+          description: 商品ID
+          required: false
+          schema:
+            type: string
+        - name: use_date
+          in: query
+          description: 宿泊日
+          required: false
+          schema:
+            type: string
+        - name: use_person_count
+          in: query
+          description: 利用人数
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSalesItemSetsResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: hotel_id
+        in: path
+        description: facility id for the given hotel
+        required: true
+        schema:
+          type: string
+components:
+  schemas:
+    ListExtraServiceItemGroupsResponse:
+      title: ListExtraServiceItemGroupsResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            extra_service_item_groups:
+              type: array
+              items:
+                $ref: '#/components/schemas/ExtraServiceItemGroup'
+    ApiErrorResponseBadRequest:
+      title: ApiErrorResponseBadRequest
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvalidParameter'
+      x-examples: {}
+    InvalidParameter:
+      title: InvalidParameter
+      type: object
+      properties:
+        parameter:
+          type: string
+          description: parameter name
+          example: start_date
+        detail:
+          type: string
+          description: error detail
+          example: invalid date
+        code:
+          type: string
+          description: error code
+          default: INVALID_PARAMETER
+        value:
+          type: string
+          description: parameter value
+          example: 2021-13-32
+        message:
+          type: string
+          description: error message
+          example: "Expected valid date, but got '2021-13-32' for start_date"
+      description: InvalidParameter
+      x-examples: {}
+    ApiErrorResponseUnauthorized:
+      title: ApiErrorResponseUnauthorized
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+        errors:
+          $ref: '#/components/schemas/ApiError'
+    ApiError:
+      title: ApiError
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    ApiErrorResponseNotFound:
+      title: ApiErrorResponseNotFound
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+        errors:
+          $ref: '#/components/schemas/ApiError'
+    ApiErrorResponseInternalError:
+      title: ApiErrorResponseInternalError
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+        errors:
+          $ref: '#/components/schemas/ApiError'
+      x-examples: {}
+    ListMealPlacesResponse:
+      title: ListMealPlacesResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            meal_places:
+              type: array
+              items:
+                $ref: '#/components/schemas/MealPlace'
+    ListProvisionItemsResponse:
+      title: ListProvisionItemsResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            provision_items:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProvisionItem'
+    ListReservationsResponse:
+      title: ListReservationsResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            reservations:
+              type: array
+              items:
+                $ref: '#/components/schemas/ReservationListItem'
+    CreateReservationResponse:
+      title: CreateReservationResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateResponse'
+        - type: object
+          properties:
+            reservation:
+              $ref: '#/components/schemas/Reservation'
+    CreateReservationRequest:
+      title: CreateReservationRequest
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateRequest'
+        - type: object
+          properties:
+            reservation:
+              $ref: '#/components/schemas/ReservationDynamic'
+    GetReservationResponse:
+      title: GetReservationResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiGetResponse'
+        - type: object
+          properties:
+            reservation:
+              $ref: '#/components/schemas/Reservation'
+    UpdateReservationResponse:
+      title: UpdateReservationResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateResponse'
+        - type: object
+          properties:
+            reservation:
+              $ref: '#/components/schemas/Reservation'
+    UpdateReservationRequest:
+      title: UpdateReservationRequest
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateRequest'
+        - type: object
+          properties:
+            reservation:
+              $ref: '#/components/schemas/Reservation'
+    CreateReservationCancelResponse:
+      title: CreateReservationCancelResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateResponse'
+        - type: object
+          properties:
+            reservation_cancel:
+              $ref: '#/components/schemas/ReservationCancel'
+    CreateReservationCancelRequest:
+      title: CreateReservationCancelRequest
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateRequest'
+        - type: object
+          properties:
+            reservation_cancel:
+              $ref: '#/components/schemas/ReservationCancel'
+    ListReservationCancelReasonsResponse:
+      title: ListReservationCancelReasonsResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            reservation_cancel_reasons:
+              type: array
+              items:
+                $ref: '#/components/schemas/ReservationCancelReason'
+    ListCustomerAccountReservationsResponse:
+      title: ListCustomerAccountReservationsResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            customer_account_reservations:
+              type: array
+              items:
+                $ref: '#/components/schemas/CustomerAccountReservation'
+    ListRoomInventoryCalendarsResponse:
+      title: ListRoomInventoryCalendarsResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            room_inventories:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoomInventoryCalendar'
+    DayOfWeek:
+      title: DayOfWeek
+      type: string
+      description: 曜日
+      example: Sunday
+      enum:
+        - Sunday
+        - Monday
+        - Tuesday
+        - Wednesday
+        - Thursday
+        - Friday
+        - Saturday
+    ListRoomInventoriesResponse:
+      title: ListRoomInventoriesResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            room_inventories:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoomInventory'
+    ListRoomTypesResponse:
+      title: ListRoomTypesResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            room_types:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoomType'
+    ListSalesItemSetsResponse:
+      title: ListSalesItemSetsResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            sales_item_sets:
+              type: array
+              items:
+                $ref: '#/components/schemas/SalesItemSetListItem'
+    ApiListResponse:
+      title: ApiListResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            next_cursor:
+              $ref: '#/components/schemas/ApiCommonResponseNextCursor'
+    ApiResponse:
+      title: ApiResponse
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+    ApiCommonResponseRequest:
+      title: ApiCommonResponseRequest
+      type: object
+      properties:
+        version:
+          type: string
+        body:
+          type: string
+        url:
+          type: string
+      description: Request
+    ApiCommonResponseRequestId:
+      title: ApiCommonResponseRequestId
+      type: string
+      description: RequestId
+      example: 594600f4-7eec-47ca-8012-02e7b89859ce
+    ApiCommonResponseNextCursor:
+      title: ApiCommonResponseNextCursor
+      type: string
+      description: "Indicates the position of the next entity. If an entity less than\
+        \ a limit is returned by the current page of the result set, then Cursor value\
+        \ is null."
+      example: c-3yvu1pzhd3i7
+    ExtraServiceItemGroup:
+      title: ExtraServiceItemGroup
+      type: object
+      properties:
+        extra_service_item_group_id:
+          type: string
+          description: グループID
+          example: TC
+        name:
+          type: string
+          description: 付帯サービスグループ名
+          example: テニスコート
+    MealPlace:
+      title: MealPlace
+      required:
+        - is_active
+        - name
+        - name_alias
+        - name_short
+      type: object
+      properties:
+        is_active:
+          type: boolean
+          example: true
+        meal_place_id:
+          type: string
+          example: RG
+        name:
+          type: string
+          description: 名前
+          example: Beer Garden
+        name_alias:
+          type: string
+          description: 別名
+          example: ビアガーデン
+        name_short:
+          type: string
+          description: 略称
+          example: ガーデン
+    ProvisionItem:
+      title: ProvisionItem
+      required:
+        - name
+        - name_alias
+        - name_short
+        - provision_item_id
+        - sequence
+      type: object
+      properties:
+        has_inventory:
+          type: boolean
+          description: 在庫管理する場合はtrue
+          example: false
+        min_availability:
+          type: integer
+          description: 日付指定ありの場合、期間内の最小の利用可能数を返します
+          example: 0
+        is_active:
+          type: boolean
+          example: true
+        is_each_day:
+          type: boolean
+          description: 全泊手配の場合はtrue
+          example: false
+        name:
+          type: string
+          description: 名前
+          example: アンプ一式
+        name_alias:
+          type: string
+          description: 別名
+          example: アンプイッシキ
+        name_short:
+          type: string
+          description: 略称
+          example: アンプ
+        provision_item_id:
+          type: string
+          description: 手配品ID
+          example: ANP
+        sequence:
+          type: integer
+          example: 1
+        symbol_characters:
+          type: string
+          example: A
+    ReservationListItem:
+      title: ReservationListItem
+      type: object
+      properties:
+        date_range_start_min:
+          $ref: '#/components/schemas/Date'
+        hotel_code:
+          type: string
+          description: クラブコード
+          example: AT
+        reservation_status_id:
+          $ref: '#/components/schemas/ReservationStatusId'
+        main_guest_name:
+          type: string
+          description: 利用代表者
+          example: 田中太郎
+        main_guest_name_alias:
+          type: string
+          description: 利用代表者(カナ)
+          example: タナカタロウ
+        nights_count:
+          type: integer
+          description: 泊数
+          example: 2
+        person_count:
+          type: integer
+          description: 人数
+          example: 3
+        remarks:
+          type: string
+          description: 備考
+          example: "[予約]朝食未確認"
+        reservation_channel_name:
+          type: string
+          description: 予約経路
+          example: TEL
+        reservation_class_id:
+          $ref: '#/components/schemas/ReservationClassId'
+        with_meal:
+          type: boolean
+          description: レストラン
+        with_sales_item_set:
+          type: boolean
+          description: プラン
+      description: 予約一覧の情報
+      x-stoplight:
+        id: viiq1i2r6ya49
+    ReservationStatusId:
+      type: string
+      description: "* `Confirmed` - 確定状態 \n* `KeepInventory` - 部屋のみ押さえた状態 \n* `Tentative`\
+        \ - 仮予約状態 \n* `Waiting` - キャンセル待ち状態\n"
+      enum:
+        - Confirmed
+        - KeepInventory
+        - Tentative
+        - Waiting
+    ReservationClassId:
+      type: string
+      description: |
+        * `DayVisit` - 日帰り
+        * `Stay` - 滞在
+      enum:
+        - DayVisit
+        - Stay
+    ApiCreateResponse:
+      title: ApiCreateResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+    Reservation:
+      title: Reservation
+      description: 予約
+      allOf:
+        - $ref: '#/components/schemas/ReservationStatic'
+        - $ref: '#/components/schemas/ReservationDynamic'
+    ReservationStatic:
+      title: ReservationStatic
+      type: object
+      properties:
+        reservation_id:
+          type: string
+          format: uuid
+          readOnly: true
+        reservation_number:
+          type: string
+          description: ホテルコード(2桁) + 自動採番(8桁)
+          readOnly: true
+          example: AB00000001
+      description: ReservationStatic
+    ReservationDynamic:
+      title: ReservationDynamic
+      required:
+        - reservation_class_id
+        - reservation_status_id
+      type: object
+      properties:
+        guest_main:
+          $ref: '#/components/schemas/StayGuest'
+        guest_reserved_by:
+          $ref: '#/components/schemas/StayGuest'
+        hotel_name:
+          type: string
+          readOnly: true
+          example: TAPホテル
+        is_cancelled:
+          type: boolean
+          description: キャンセル済み
+          readOnly: true
+          example: false
+        person_count:
+          $ref: '#/components/schemas/PersonCount'
+        provisions:
+          $ref: '#/components/schemas/StayProvision'
+        reservation_class_id:
+          $ref: '#/components/schemas/ReservationClassId'
+        reservation_status_id:
+          $ref: '#/components/schemas/ReservationStatusId'
+        stay_patterns:
+          $ref: '#/components/schemas/StayPattern'
+      description: ReservationDynamic
+    StayGuest:
+      title: StayGuest
+      type: object
+      properties:
+        customer_id:
+          type: string
+          description: ゲストの顧客ID
+          format: uuid
+        stay_guest_id:
+          type: string
+          description: ゲストID
+          format: uuid
+          readOnly: true
+        stay_guest_type_id:
+          $ref: '#/components/schemas/StayGuestTypeId'
+        sequence:
+          type: integer
+          example: 1
+      description: ゲスト情報
+    StayGuestTypeId:
+      type: string
+      description: |
+        * `MainGuest` - 利用代表者
+        * `ReservationGuest` -  予約者
+        * `RoomGuest` - 宿泊利用者
+      enum:
+        - MainGuest
+        - ReservationGuest
+        - RoomGuest
+    PersonCount:
+      title: PersonCount
+      maxItems: 6
+      minItems: 1
+      type: array
+      items:
+        type: integer
+    StayProvision:
+      title: StayProvision
+      type: object
+      properties:
+        condition:
+          $ref: '#/components/schemas/StayProvisionCondition'
+        date_range:
+          $ref: '#/components/schemas/DateRange'
+        has_inventory:
+          type: boolean
+          description: 在庫をもっている場合は手配品であればtrue
+          readOnly: true
+          example: false
+        is_same_as_stay_date_range:
+          type: boolean
+          description: 予約期間と同じ期間手配する場合はtrue
+          example: true
+        is_each_day:
+          type: boolean
+          description: 全泊手配する場合はtrue
+          example: false
+        provision_item_id:
+          type: string
+          description: 手配品ID
+          example: ANP
+        quantity:
+          type: integer
+          description: 手配品数量
+          example: 2
+        sequence:
+          type: integer
+          example: 1
+        stay_provision_reason_id:
+          $ref: '#/components/schemas/StayProvisionReasonId'
+    StayProvisionCondition:
+      title: StayProvisionCondition
+      type: object
+      properties:
+        sales_item_id:
+          type: string
+          description: 商品ID　商品の中に手配品がある場合セットされる
+          format: uuid
+        stay_pattern_range_condition_id:
+          type: string
+          format: uuid
+        stay_pattern_id:
+          type: string
+          format: uuid
+        stay_pattern_range_id:
+          type: string
+          format: uuid
+    StayProvisionReasonId:
+      type: string
+      description: |
+        * `SpecialRequest` - 追加手配品
+        * `StayConditionSalesItemSet` - パッケージに含まれている手配品
+      enum:
+        - SpecialRequest
+        - StayConditionSalesItemSet
+    StayPattern:
+      title: StayPattern
+      required:
+        - nights_count
+        - rooms_count
+        - sequence
+        - stay_date_range_start
+      type: object
+      properties:
+        nights_count:
+          type: integer
+          description: 泊数
+          example: 1
+        room_type_id:
+          type: string
+        room_type_name:
+          type: string
+          readOnly: true
+        rooms_count:
+          type: integer
+          description: 部屋数
+          example: 1
+        sequence:
+          type: integer
+          example: 1
+        stay_date_range_end:
+          title: "Year, Month, Day"
+          type: string
+          description: 日付(Date)
+          format: date
+          readOnly: true
+        stay_date_range_start:
+          title: "Year, Month, Day"
+          type: string
+          description: 日付(Date)
+          format: date
+        stay_pattern_id:
+          type: string
+          format: uuid
+          readOnly: true
+        stays:
+          type: array
+          items:
+            $ref: '#/components/schemas/Stay'
+      description: 滞在パターン
+    Stay:
+      title: Stay
+      type: object
+      properties:
+        guests:
+          type: array
+          items:
+            $ref: '#/components/schemas/StayGuest'
+        provisions:
+          type: array
+          items:
+            $ref: '#/components/schemas/StayProvision'
+        stay_id:
+          type: string
+          format: uuid
+          readOnly: true
+          example: e0fcdc9f-a0a5-421d-8427-44b15ea82aeb
+        sequence:
+          type: integer
+          example: 1
+    ApiCreateRequest:
+      title: ApiCreateRequest
+      allOf:
+        - $ref: '#/components/schemas/ApiRequest'
+    ApiRequest:
+      title: ApiRequest
+      type: object
+    ApiGetResponse:
+      title: ApiGetResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+      x-stoplight:
+        id: rw0znf08mhtv6
+    ApiUpdateResponse:
+      title: ApiUpdateResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+    ApiUpdateRequest:
+      title: ApiUpdateRequest
+      allOf:
+        - $ref: '#/components/schemas/ApiRequest'
+    ReservationCancel:
+      title: ReservationCancel
+      type: object
+      properties:
+        cancel_reason_id:
+          type: string
+          description: キャンセル理由ID
+        cancel_remarks:
+          type: string
+          description: キャンセル備考
+        cancel_timestamp:
+          type: string
+          format: timestamp
+          readOnly: true
+        cancel_user_id:
+          type: string
+          readOnly: true
+    ReservationCancelReason:
+      title: ReservationCancelReason
+      required:
+        - is_active
+        - name
+        - name_alias
+        - name_short
+        - sequence
+      type: object
+      properties:
+        is_active:
+          type: boolean
+          example: true
+        name:
+          type: string
+          description: 名前
+          example: 悪天候
+        name_alias:
+          type: string
+          description: 別名
+          example: アクテンコウ
+        name_short:
+          type: string
+          description: 略称
+          example: 悪天候
+        name_second:
+          type: string
+          description: 外国語名
+          example: Bad Weather
+        reservation_cancel_reason_id:
+          type: string
+          description: 予約キャンセル理由ID
+        sequence:
+          type: integer
+          example: 1
+    CustomerAccountReservation:
+      title: CustomerAccountReservation
+      type: object
+      properties:
+        hotel_code:
+          type: string
+          description: ホテルコード
+          example: TH
+        hotel_id:
+          type: string
+          description: ホテルID
+          example: "001"
+        hotel_name:
+          type: string
+          description: ホテル名
+          example: タップホテル
+        nights_count:
+          type: integer
+          description: |
+            泊数　
+            滞在期間の最短日と最長日の泊数を返します
+          example: 3
+        reservation_id:
+          type: string
+          format: uuid
+          readOnly: true
+        stay_date_range_end_max:
+          type: string
+          description: |
+            滞在期間の最長日　
+            複数部屋の際に旅程が変わる場合は最後の日程を返します
+          format: date
+        stay_date_range_start_min:
+          type: string
+          description: |
+            滞在期間の最短日　
+            複数部屋の際に旅程が変わる場合は最初の日程を返します
+          format: date
+    RoomInventoryCalendar:
+      title: RoomInventoryCalendar
+      type: object
+      properties:
+        dates:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoomInventoryCalenderDate'
+        item_type_hotels:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoomInventoryCalendarItemTypeHotel'
+      description: 残室状況カレンダー
+    RoomInventoryCalenderDate:
+      title: RoomInventoryCalenderDate
+      type: object
+      properties:
+        date:
+          $ref: '#/components/schemas/Date'
+        is_holiday:
+          type: boolean
+          example: false
+      description: 曜日ごとの情報（祝日や休館日等）
+    RoomInventoryCalendarItemTypeHotel:
+      title: RoomInventoryCalendarItemTypeHotel
+      type: object
+      properties:
+        dates:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoomInventoryCalendarItemTypeHotelDate'
+        hotel:
+          type: string
+          description: TAPホテル
+          example: hotel
+        item_type_name:
+          type: string
+          description: 在庫名称
+          example: ホーム
+        room_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoomInventoryCalendarItemTypeHotelRoomType'
+        rooms_count_at_date_range_start:
+          type: integer
+          description: ホテルの部屋数の合計値
+          example: 46
+      description: ホテル毎の残数状況の情報
+    RoomInventoryCalendarItemTypeHotelDate:
+      title: RoomInventoryCalendarItemTypeHotelDate
+      type: object
+      properties:
+        date:
+          $ref: '#/components/schemas/Date'
+        availability:
+          type: integer
+          description: 日付毎の部屋の残数の合計値
+          example: 13
+      description: ホテルの日付毎の部屋の残数合計情報
+    RoomInventoryCalendarItemTypeHotelRoomType:
+      title: RoomInventoryCalendarItemTypeHotelRoomType
+      type: object
+      properties:
+        dates:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoomInventoryCalendarItemTypeHotelRoomTypeDate'
+        guest_count_standard:
+          type: integer
+          description: 利用人数
+          example: 2
+        room_type_id:
+          type: string
+          description: ルームタイプID
+          example: SD
+        room_type_name:
+          type: string
+          description: ルームタイプ名
+          example: ツイン
+        rooms_count_at_date_range_start:
+          type: integer
+          description: ルームタイプの部屋数
+          example: 20
+      description: ホテルのルームタイプ毎の残数情報
+    RoomInventoryCalendarItemTypeHotelRoomTypeDate:
+      title: RoomInventoryCalendarItemTypeHotelRoomTypeDate
+      type: object
+      properties:
+        date:
+          $ref: '#/components/schemas/Date'
+        availability:
+          type: integer
+          description: ルームタイプの残数
+          example: 7
+      description: ルームタイプ毎の残数情報
+    RoomInventory:
+      title: RoomInventory
+      type: object
+      properties:
+        availability:
+          type: integer
+          description: 在庫数
+          example: 10
+        date:
+          $ref: '#/components/schemas/Date'
+        item_id:
+          type: string
+          description: ルーム在庫アイテムID
+          example: A01
+        item_name:
+          type: string
+          description: ルーム在庫アイテム名称
+          example: 洋室スイート
+        policy:
+          $ref: '#/components/schemas/RoomInventoryPolicy'
+        out_of_order:
+          type: integer
+          description: 故障部屋数
+          example: 0
+        room_type_id:
+          type: string
+          description: ルームタイプID
+          example: SD
+        room_type_name:
+          type: string
+          description: ルームタイプ名称
+          example: 洋室
+        sold:
+          type: integer
+          description: 販売数
+          example: 15
+        tentative:
+          type: integer
+          description: 仮予約数
+          example: 3
+        type_id:
+          $ref: '#/components/schemas/RoomInventoryTypeId'
+        waiting:
+          type: integer
+          description: キャンセル待ち数
+          example: 0
+      x-stoplight:
+        id: o49aiz3md9r4y
+    RoomInventoryPolicy:
+      title: RoomInventoryPolicy
+      type: object
+      properties:
+        is_closed:
+          type: boolean
+          description: 売止
+        target_availability:
+          type: integer
+          description: 売止指示数
+          example: 5
+      x-stoplight:
+        id: xboursmbxtead
+    RoomInventoryTypeId:
+      title: RoomInventoryTypeId
+      type: string
+      description: ルーム在庫タイプ
+      enum:
+        - Base
+        - Share
+        - Block
+        - Waiting
+        - OutOfOrder
+        - Tentative
+      x-stoplight:
+        id: 8fnwpuy1uenh7
+    RoomType:
+      title: RoomType
+      type: object
+      properties:
+        room_type_id:
+          type: string
+          example: SS
+        guest_count_max:
+          type: integer
+          description: 最大利用人数
+          example: 4
+        guest_count_standard:
+          type: integer
+          description: 標準利用人数
+          example: 3
+        is_active:
+          type: boolean
+          example: true
+        name:
+          type: string
+          description: 名前
+          example: スタンダードシングル禁煙
+        name_alias:
+          type: string
+          description: 別名
+          example: Standard Single - No Smoking
+        name_short:
+          type: string
+          description: 略称
+          example: SS
+        room_type_group_id:
+          type: string
+          format: uuid
+          example: e0fcdc9f-a0a5-421d-8427-44b15ea82aeb
+        sequence:
+          type: integer
+          example: 1
+      description: Model for a room type
+    SalesItemSetListItem:
+      title: SalesItemSetListItem
+      type: object
+      properties:
+        sales_item_id:
+          type: string
+          description: 商品ID
+          example: e0fcdc9f-a0a5-421d-8427-44b15ea82aeb
+        code:
+          type: string
+          description: プランコード
+          example: AAA
+        name:
+          type: string
+          description: 名前
+          example: 往復乗車券付きプラン
+        description:
+          type: string
+          description: 内容
+          example: 1泊 2食付
+        use_date_range:
+          $ref: '#/components/schemas/DateRange'
+        sales_date_range:
+          $ref: '#/components/schemas/DateRange'
+        person_count_min:
+          type: integer
+          description: 最低利用人数
+          example: 2
+        person_count_max:
+          type: integer
+          description: 最大利用人数
+          example: 5
+      x-stoplight:
+        id: 9qh59d2hd5ufj
+    Date:
+      title: "Year, Month, Day"
+      type: string
+      description: 日付(Date)
+      format: date
+    DateRange:
+      title: DateRange
+      type: object
+      properties:
+        end:
+          $ref: '#/components/schemas/Date'
+        start:
+          $ref: '#/components/schemas/Date'
+    reservation_id_cancel_body:
+      allOf:
+        - $ref: '#/components/schemas/CreateReservationCancelRequest'
+  securitySchemes:
+    AccessToken:
+      type: apiKey
+      name: X-API-Key
+      in: header
+    CognitoToken:
+      type: apiKey
+      name: X-Authorization
+      in: header

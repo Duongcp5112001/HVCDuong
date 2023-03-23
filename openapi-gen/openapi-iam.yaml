@@ -1,0 +1,1506 @@
+openapi: 3.0.0
+info:
+  title: Tap Hub API - IAM API
+  description: API References
+  contact:
+    name: "TAP Co.,Ltd."
+    url: https://www.tap-ic.co.jp/
+  version: "1.0"
+servers:
+  - url: https://ekclzi1by2.execute-api.ap-northeast-1.amazonaws.com/v1
+security:
+  - AccessToken: []
+paths:
+  /accounts/{account_id}:
+    get:
+      tags:
+        - Accounts
+      summary: GetAccount
+      description: GetAccount
+      operationId: GetAccount
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAccountResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    put:
+      tags:
+        - Accounts
+      summary: UpdateAccount
+      description: Update Account
+      operationId: UpdateAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAccountRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateAccountResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: account_id
+        in: path
+        description: account_id
+        required: true
+        schema:
+          type: string
+  /accounts/{account_id}/groups:
+    get:
+      tags:
+        - Groups
+      summary: ListGroups
+      description: ListGroups
+      operationId: ListGroups
+      parameters:
+        - name: name
+          in: query
+          description: name
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListGroupsResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    post:
+      tags:
+        - Groups
+      summary: CreateGroup
+      description: CreateGroup
+      operationId: CreateGroup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGroupRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateGroupResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: account_id
+        in: path
+        description: account_id
+        required: true
+        schema:
+          type: string
+  /accounts/{account_id}/groups/{group_id}:
+    get:
+      tags:
+        - Groups
+      summary: GetGroup
+      description: GetGroup
+      operationId: GetGroup
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetGroupResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    put:
+      tags:
+        - Groups
+      summary: UpdateGroup
+      description: UpdateGroup
+      operationId: UpdateGroup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/groups_group_id_body'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateGroupResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    delete:
+      tags:
+        - Groups
+      summary: DeleteGroup
+      description: DeleteGroup
+      operationId: DeleteGroup
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteGroupResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: account_id
+        in: path
+        description: account_id
+        required: true
+        schema:
+          type: string
+      - name: group_id
+        in: path
+        description: group id
+        required: true
+        schema:
+          type: string
+  /accounts/{account_id}/policies:
+    get:
+      tags:
+        - Policies
+      summary: List Policies
+      description: List Policies
+      operationId: ListPolicies
+      parameters:
+        - name: name
+          in: query
+          description: name
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListPoliciesResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    post:
+      tags:
+        - Policies
+      summary: Create Policy
+      description: Create Policy
+      operationId: CreatePolicy
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePolicyRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatePolicyResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    parameters:
+      - name: account_id
+        in: path
+        description: account_id
+        required: true
+        schema:
+          type: string
+  /accounts/{account_id}/policies/{policy_id}:
+    get:
+      tags:
+        - Policies
+      summary: Get Policy
+      description: Get Policy
+      operationId: GetPolicy
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPolicyResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    put:
+      tags:
+        - Policies
+      summary: Update Policy
+      description: Update Policy
+      operationId: UpdatePolicy
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePolicyRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatePolicyResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    delete:
+      tags:
+        - Policies
+      summary: Delete Policy
+      description: Delete Policy
+      operationId: DeletePolicy
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletePolicyResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    parameters:
+      - name: account_id
+        in: path
+        description: account_id
+        required: true
+        schema:
+          type: string
+      - name: policy_id
+        in: path
+        description: policy_id
+        required: true
+        schema:
+          type: string
+  /accounts/{account_id}/users/{user_id}/permission-groups:
+    get:
+      tags:
+        - UserPermissionGroups
+      summary: List UserPermissionGroups
+      description: List User Permission Groups
+      operationId: ListUserPermissionGroups
+      parameters:
+        - name: name
+          in: query
+          description: name
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListUserPermissionGroupsResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    post:
+      tags:
+        - UserPermissionGroups
+      summary: Create UserPermissionGroup
+      description: Create UserPermissionGroup
+      operationId: CreateUserPermissionGroup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserPermissionGroupRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateUserPermissionGroupResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: account_id
+        in: path
+        description: account_id
+        required: true
+        schema:
+          type: string
+      - name: user_id
+        in: path
+        description: user_id
+        required: true
+        schema:
+          type: string
+  /accounts/{account_id}/users/{user_id}/permission-groups/{permission_group_id}:
+    get:
+      tags:
+        - UserPermissionGroups
+      summary: Get UserPermissionGroup
+      description: Get UserPermissionGroup
+      operationId: GetUserPermissionGroup
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUserPermissionGroupResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    put:
+      tags:
+        - UserPermissionGroups
+      summary: Update UserPermissionGroup
+      description: Update UserPermissionGroup
+      operationId: UpdateUserPermissionGroup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserPermissionGroupRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateUserPermissionGroupResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    delete:
+      tags:
+        - UserPermissionGroups
+      summary: Delete UserPermissionGroup
+      description: Delete UserPermissionGroup
+      operationId: DeleteUserPermissionGroup
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteUserPermissionGroupResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: account_id
+        in: path
+        description: account_id
+        required: true
+        schema:
+          type: string
+      - name: user_id
+        in: path
+        description: user_id
+        required: true
+        schema:
+          type: string
+      - name: permission_group_id
+        in: path
+        description: permission_group_id
+        required: true
+        schema:
+          type: string
+  /accounts/{account_id}/users:
+    get:
+      tags:
+        - Users
+      summary: List User
+      description: List Users
+      operationId: ListUsers
+      parameters:
+        - name: name
+          in: query
+          description: name
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListUsersResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    post:
+      tags:
+        - Users
+      summary: Create User
+      description: Create User
+      operationId: CreateUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateUserResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: account_id
+        in: path
+        description: account_id
+        required: true
+        schema:
+          type: string
+  /accounts/{account_id}/users/{user_id}:
+    get:
+      tags:
+        - Users
+      summary: Get User
+      description: Get User
+      operationId: GetUser
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUserResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    put:
+      tags:
+        - Users
+      summary: Update User
+      description: Update User
+      operationId: UpdateUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateUserResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    delete:
+      tags:
+        - Users
+      summary: Delete User
+      description: Delete User
+      operationId: DeleteUser
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: account_id
+        in: path
+        description: account_id
+        required: true
+        schema:
+          type: string
+      - name: user_id
+        in: path
+        description: user_id
+        required: true
+        schema:
+          type: string
+components:
+  schemas:
+    GetAccountResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiGetResponse'
+        - type: object
+          properties:
+            account:
+              $ref: '#/components/schemas/Account'
+    UpdateAccountResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateResponse'
+        - type: object
+          properties:
+            account:
+              $ref: '#/components/schemas/Account'
+    UpdateAccountRequest:
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateRequest'
+        - type: object
+          properties:
+            account:
+              $ref: '#/components/schemas/Account'
+    ApiErrorResponseBadRequest:
+      title: ApiErrorResponseBadRequest
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvalidParameter'
+      x-examples: {}
+    InvalidParameter:
+      title: InvalidParameter
+      type: object
+      properties:
+        parameter:
+          type: string
+          description: parameter name
+          example: start_date
+        detail:
+          type: string
+          description: error detail
+          example: invalid date
+        code:
+          type: string
+          description: error code
+          default: INVALID_PARAMETER
+        value:
+          type: string
+          description: parameter value
+          example: 2021-13-32
+        message:
+          type: string
+          description: error message
+          example: "Expected valid date, but got '2021-13-32' for start_date"
+      description: InvalidParameter
+      x-examples: {}
+    ApiErrorResponseUnauthorized:
+      title: ApiErrorResponseUnauthorized
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+        errors:
+          $ref: '#/components/schemas/ApiError'
+    ApiError:
+      title: ApiError
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    ApiErrorResponseNotFound:
+      title: ApiErrorResponseNotFound
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+        errors:
+          $ref: '#/components/schemas/ApiError'
+    ApiErrorResponseInternalError:
+      title: ApiErrorResponseInternalError
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+        errors:
+          $ref: '#/components/schemas/ApiError'
+      x-examples: {}
+    ListGroupsResponse:
+      title: ListGroupsResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            groups:
+              type: array
+              items:
+                $ref: '#/components/schemas/Group'
+      x-stoplight:
+        id: h86g6lqn96q4x
+    CreateGroupResponse:
+      title: CreateGroupResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateResponse'
+        - type: object
+          properties:
+            group:
+              $ref: '#/components/schemas/Group'
+      x-stoplight:
+        id: hp3sq9gdpnapi
+    CreateGroupRequest:
+      title: CreateGroupRequest
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateRequest'
+        - type: object
+          properties:
+            group:
+              $ref: '#/components/schemas/Group'
+      x-stoplight:
+        id: tn5xaqohc4vgv
+    GetGroupResponse:
+      title: GetGroupResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiGetResponse'
+        - type: object
+          properties:
+            group:
+              $ref: '#/components/schemas/Group'
+      x-stoplight:
+        id: s23jpydhs1zwc
+    UpdateGroupResponse:
+      title: UpdateGroupResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateResponse'
+        - type: object
+          properties:
+            group:
+              $ref: '#/components/schemas/Group'
+      x-stoplight:
+        id: f0t6uhscvql1k
+    UpdateGroupRequest:
+      title: UpdateGroupRequest
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateRequest'
+        - type: object
+          properties:
+            group:
+              $ref: '#/components/schemas/Group'
+      x-stoplight:
+        id: 3r14bfcjj2ct8
+    DeleteGroupResponse:
+      title: DeleteGroupResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiDeleteResponse'
+      x-stoplight:
+        id: e2c5uadky4fpx
+    ListPoliciesResponse:
+      title: ListPoliciesResponse
+      description: ListPoliciesResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            policies:
+              type: array
+              items:
+                $ref: '#/components/schemas/Policy'
+    CreatePolicyResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateResponse'
+        - type: object
+          properties:
+            policy:
+              $ref: '#/components/schemas/Policy'
+    CreatePolicyRequest:
+      title: CreatePolicyRequest
+      description: CreatePolicyRequest
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateRequest'
+        - type: object
+          properties:
+            policy:
+              $ref: '#/components/schemas/Policy'
+      x-stoplight:
+        id: uekh51q9zxhi9
+    GetPolicyResponse:
+      title: GetPolicyResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiGetResponse'
+        - type: object
+          properties:
+            policy:
+              $ref: '#/components/schemas/Policy'
+    UpdatePolicyResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateResponse'
+        - type: object
+          properties:
+            policy:
+              $ref: '#/components/schemas/Policy'
+    UpdatePolicyRequest:
+      title: UpdatePolicyRequest
+      description: UpdatePolicyRequest
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateRequest'
+        - type: object
+          properties:
+            policy:
+              $ref: '#/components/schemas/Policy'
+    DeletePolicyResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiDeleteResponse'
+    ListUserPermissionGroupsResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiGetResponse'
+        - type: object
+          properties:
+            user_permission_groups:
+              type: array
+              items:
+                $ref: '#/components/schemas/UserPermissionGroup'
+    CreateUserPermissionGroupResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateResponse'
+        - type: object
+          properties:
+            user_permission_group:
+              $ref: '#/components/schemas/UserPermissionGroup'
+    CreateUserPermissionGroupRequest:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateRequest'
+        - type: object
+          properties:
+            user_permission_group:
+              $ref: '#/components/schemas/UserPermissionGroup'
+    GetUserPermissionGroupResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiGetResponse'
+        - type: object
+          properties:
+            user_permission_group:
+              $ref: '#/components/schemas/UserPermissionGroup'
+    UpdateUserPermissionGroupResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateResponse'
+        - type: object
+          properties:
+            user_permission_group:
+              $ref: '#/components/schemas/UserPermissionGroup'
+    UpdateUserPermissionGroupRequest:
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateRequest'
+        - type: object
+          properties:
+            user_permission_group:
+              $ref: '#/components/schemas/UserPermissionGroup'
+    DeleteUserPermissionGroupResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiDeleteResponse'
+    ListUsersResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            users:
+              type: array
+              items:
+                $ref: '#/components/schemas/User'
+    CreateUserResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateResponse'
+        - type: object
+          properties:
+            user:
+              $ref: '#/components/schemas/User'
+    CreateUserRequest:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateRequest'
+        - type: object
+          properties:
+            user:
+              $ref: '#/components/schemas/User'
+    GetUserResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiGetResponse'
+        - type: object
+          properties:
+            user:
+              $ref: '#/components/schemas/User'
+    UpdateUserResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateResponse'
+        - type: object
+          properties:
+            user:
+              $ref: '#/components/schemas/User'
+    UpdateUserRequest:
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateRequest'
+        - type: object
+          properties:
+            user:
+              $ref: '#/components/schemas/User'
+    DeleteUserResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiDeleteResponse'
+    ApiGetResponse:
+      title: ApiGetResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+      x-stoplight:
+        id: rw0znf08mhtv6
+    ApiResponse:
+      title: ApiResponse
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+    ApiCommonResponseRequest:
+      title: ApiCommonResponseRequest
+      type: object
+      properties:
+        version:
+          type: string
+        body:
+          type: string
+        url:
+          type: string
+      description: Request
+    ApiCommonResponseRequestId:
+      title: ApiCommonResponseRequestId
+      type: string
+      description: RequestId
+      example: 594600f4-7eec-47ca-8012-02e7b89859ce
+    Account:
+      title: Account
+      allOf:
+        - $ref: '#/components/schemas/Editable'
+        - type: object
+          properties:
+            account_id:
+              type: string
+            name:
+              type: string
+    ApiUpdateResponse:
+      title: ApiUpdateResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+    ApiUpdateRequest:
+      title: ApiUpdateRequest
+      allOf:
+        - $ref: '#/components/schemas/ApiRequest'
+    ApiRequest:
+      title: ApiRequest
+      type: object
+    ApiListResponse:
+      title: ApiListResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            next_cursor:
+              $ref: '#/components/schemas/ApiCommonResponseNextCursor'
+    ApiCommonResponseNextCursor:
+      title: ApiCommonResponseNextCursor
+      type: string
+      description: "Indicates the position of the next entity. If an entity less than\
+        \ a limit is returned by the current page of the result set, then Cursor value\
+        \ is null."
+      example: c-3yvu1pzhd3i7
+    Group:
+      title: Group
+      allOf:
+        - $ref: '#/components/schemas/Editable'
+        - type: object
+          properties:
+            account_id:
+              type: string
+              readOnly: true
+            group_id:
+              type: string
+            name:
+              type: string
+            policy_ids:
+              type: array
+              items:
+                $ref: '#/components/schemas/GroupPolicy'
+      x-stoplight:
+        id: 63nirs74loj4f
+    GroupPolicy:
+      title: GroupPolicy
+      type: object
+      properties:
+        policy_id:
+          type: string
+      x-stoplight:
+        id: 70okynln5fqel
+    ApiCreateResponse:
+      title: ApiCreateResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+    ApiCreateRequest:
+      title: ApiCreateRequest
+      allOf:
+        - $ref: '#/components/schemas/ApiRequest'
+    ApiDeleteResponse:
+      title: ApiGetResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+    Policy:
+      title: Policy
+      description: Policy
+      allOf:
+        - $ref: '#/components/schemas/Editable'
+        - type: object
+          properties:
+            policy_id:
+              type: string
+            name:
+              type: string
+    UserPermissionGroup:
+      allOf:
+        - $ref: '#/components/schemas/Editable'
+        - type: object
+          properties:
+            permission_group_id:
+              type: string
+    User:
+      title: User
+      allOf:
+        - $ref: '#/components/schemas/Editable'
+        - type: object
+          properties:
+            user_id:
+              type: string
+            name:
+              type: string
+      x-stoplight:
+        id: 42izj6j0lrg6z
+    Editable:
+      title: Abstract class for editable objects
+      type: object
+      properties:
+        create_info:
+          $ref: '#/components/schemas/EditInfo'
+        change_info:
+          $ref: '#/components/schemas/EditInfo'
+    EditInfo:
+      title: EditInfo
+      type: object
+      properties:
+        host_name:
+          maxLength: 20
+          type: string
+        time_stamp:
+          type: string
+          format: date-time
+        user_account_id:
+          maxLength: 32
+          type: string
+      readOnly: true
+    groups_group_id_body:
+      allOf:
+        - $ref: '#/components/schemas/UpdateGroupRequest'
+    inline_response_400:
+      allOf:
+        - $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+    inline_response_401:
+      allOf:
+        - $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+    inline_response_404:
+      allOf:
+        - $ref: '#/components/schemas/ApiErrorResponseNotFound'
+    inline_response_500:
+      allOf:
+        - $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    inline_response_200:
+      allOf:
+        - $ref: '#/components/schemas/DeleteUserResponse'
+  securitySchemes:
+    AccessToken:
+      type: apiKey
+      name: X-API-Key
+      in: header
+    CognitoToken:
+      type: apiKey
+      name: X-Authorization
+      in: header

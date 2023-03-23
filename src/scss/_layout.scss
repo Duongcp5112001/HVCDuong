@@ -1,0 +1,105 @@
+/* page:layout|2f461ff0-648b-11ed-9a55-a7067976f8d7:start */
+@mixin body {
+  font-family: Helvetica Neue, Arial, BIZ UDPGothic, Hiragino Kaku Gothic ProN,
+    Meiryo, Hiragino Sans, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 130%;
+}
+body {
+  @include body;
+}
+@mixin \.lay-container {
+  height: 100vh;
+  display: grid;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+.lay-container {
+  @include \.lay-container;
+}
+@mixin \.lay-container--3panes {
+  grid-template-areas: 'header header header' 'nav content content' 'nav content content';
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: 48px 1fr;
+}
+.lay-container--3panes {
+  @include \.lay-container--3panes;
+}
+@mixin \.lay-container--4panes {
+  grid-template-areas: 'header header header' 'nav content sidebar' 'nav content sidebar';
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: 48px 1fr;
+}
+.lay-container--4panes {
+  @include \.lay-container--4panes;
+}
+@mixin \.lay-container--5panes {
+  grid-template-areas: 'header header header' 'nav content sidebar' 'nav footer footer';
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: 48px 1fr;
+}
+.lay-container--5panes {
+  @include \.lay-container--5panes;
+}
+@mixin \.lay-header {
+  grid-area: header;
+  z-index: 100;
+  background: $color-background-neutral--light-02;
+}
+.lay-header {
+  @include \.lay-header;
+}
+@mixin \.lay-nav {
+  grid-area: nav;
+  background: $color-background-neutral--light-02;
+}
+.lay-nav {
+  @include \.lay-nav;
+}
+@mixin \.lay-aside {
+  grid-area: sidebar;
+  background: $color-background-neutral--light-02;
+}
+.lay-aside {
+  @include \.lay-aside;
+}
+@mixin \.lay-main {
+  grid-area: content;
+  overflow: auto;
+  height: 100%;
+  background: $color-background-neutral--light-02;
+}
+.lay-main {
+  @include \.lay-main;
+}
+@mixin \.lay-main__container {
+  padding: 16px 24px;
+  min-width: 1016px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.lay-main__container {
+  @include \.lay-main__container;
+}
+@mixin \.lay-main__container--3-panes {
+  min-width: 746px;
+}
+.lay-main__container--3-panes {
+  @include \.lay-main__container--3-panes;
+}
+@mixin \.lay-footer {
+  grid-area: footer;
+  background: $color-background-neutral--light-02;
+}
+.lay-footer {
+  @include \.lay-footer;
+}
+@mixin \.lay-headline {
+  line-height: 40px;
+}
+.lay-headline {
+  @include \.lay-headline;
+}
+/* page:layout:end */

@@ -1,0 +1,2217 @@
+openapi: 3.0.0
+info:
+  title: Tap Hub API - CRM API
+  description: crm-root
+  contact:
+    name: "TAP Co.,Ltd."
+    url: https://www.tap-ic.co.jp/
+  version: "1.0"
+servers:
+  - url: https://sqfgv0s4b9.execute-api.ap-northeast-1.amazonaws.com/v1
+    description: Sandbox
+security:
+  - AccessToken: []
+tags:
+  - name: Customers
+paths:
+  /accounts/{account_id}/customer-account-login:
+    post:
+      tags:
+        - CustomerAccountLogin
+      description: Create Customer Account Login
+      operationId: CreateCustomerAccountLogin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCustomerAccountLoginRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCustomerAccountLoginResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: account_id
+        in: path
+        required: true
+        schema:
+          type: string
+  /accounts/{account_id}/customer-accounts/{customer_account_id}/messages:
+    get:
+      tags:
+        - CustomerAccountMessages
+      description: List Customer Messages
+      operationId: ListCustomerAccountMessages
+      parameters:
+        - name: cursor
+          in: query
+          description: Query parameter indicating the cursor position of the list to
+            retrieve.
+          required: false
+          schema:
+            type: string
+            example: c-3yvu1pzhd3i7
+        - name: limit
+          in: query
+          description: 取得するリストの最大数を示すクエリパラメーターです。（指定範囲 1 から100）
+          required: false
+          schema:
+            maximum: 100
+            minimum: 1
+            type: integer
+            default: 100
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCustomerAccountMessagesResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    post:
+      tags:
+        - CustomerAccountMessages
+      description: Create Customer Account Message
+      operationId: CreateCustomerAccountMessage
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCustomerAccountMessageRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCustomerAccountMessageResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: account_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: customer_account_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /accounts/{account_id}/customer-accounts/{customer_account_id}/messages/{customer_account_message_id}:
+    get:
+      tags:
+        - CustomerAccountMessages
+      description: Get Customer Account Message
+      operationId: GetCustomerAccountMessage
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCustomerAccountMessageResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    parameters:
+      - name: account_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: customer_account_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: customer_account_message_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /accounts/{account_id}/customer-accounts:
+    post:
+      tags:
+        - CustomerAccounts
+      summary: 新規顧客アカウントの作成
+      description: 新規顧客アカウントの作成
+      operationId: CreateCustomerAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCustomerAccountRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCustomerAccountResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: account_id
+        in: path
+        required: true
+        schema:
+          type: string
+  /accounts/{account_id}/customer-accounts/{customer_account_id}:
+    get:
+      tags:
+        - CustomerAccounts
+      summary: 顧客アカウントの取得
+      description: 顧客アカウントの取得
+      operationId: GetCustomerAccount
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCustomerAccountResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    put:
+      tags:
+        - CustomerAccounts
+      summary: 顧客アカウントの更新
+      description: 顧客アカウントの更新
+      operationId: UpdateCustomerAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCustomerAccountRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateCustomerAccountResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    delete:
+      tags:
+        - CustomerAccounts
+      summary: 顧客アカウントの削除
+      description: 顧客アカウントの削除
+      operationId: DeleteCustomerAccount
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteCustomerAccountResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    parameters:
+      - name: account_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: customer_account_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /accounts/{account_id}/customer-accounts/{customer_account_id}/phone-no-as-mfa:
+    put:
+      tags:
+        - CustomerAccounts
+      summary: 顧客アカウントの多段階認証用の電話番号更新
+      description: 顧客アカウントの多段階認証用の電話番号更新
+      operationId: UpdateCustomerAccountPhoneNoAsMFA
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCustomerAccountPhoneNoAsMFARequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateCustomerAccountPhoneNoAsMFAResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    parameters:
+      - name: account_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: customer_account_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /accounts/{account_id}/customer-accounts/{customer_account_id}/password:
+    put:
+      tags:
+        - CustomerAccounts
+      summary: 顧客アカウントのパスワード更新
+      description: 顧客アカウントのパスワード更新
+      operationId: UpdateCustomerAccountPassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCustomerAccountPasswordRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateCustomerAccountPasswordResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    parameters:
+      - name: account_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: customer_account_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /accounts/{account_id}/customers:
+    get:
+      tags:
+        - Customers
+      description: get a list of customer
+      operationId: ListCustomers
+      parameters:
+        - name: cursor
+          in: query
+          description: Query parameter indicating the cursor position of the list to
+            retrieve.
+          required: false
+          schema:
+            type: string
+            example: c-3yvu1pzhd3i7
+        - name: limit
+          in: query
+          description: 取得するリストの最大数を示すクエリパラメーターです。（指定範囲 1 から100）
+          required: false
+          schema:
+            maximum: 100
+            minimum: 1
+            type: integer
+            default: 100
+        - name: customer_class_id
+          in: query
+          description: customer class
+          required: true
+          schema:
+            type: string
+            enum:
+              - Corporation
+              - Individual
+        - name: email
+          in: query
+          description: customer email
+          schema:
+            type: string
+        - name: hotel_ids
+          in: query
+          description: hotel id array
+          schema:
+            type: array
+            items:
+              type: string
+        - name: name
+          in: query
+          description: customer name
+          schema:
+            type: string
+        - name: phone_no
+          in: query
+          description: customer phone number
+          schema:
+            pattern: "^[0-9-()+]+"
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCustomersResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    parameters:
+      - name: account_id
+        in: path
+        required: true
+        schema:
+          type: string
+  /accounts/{account_id}/customers/{customer_id}:
+    delete:
+      tags:
+        - Customers
+      description: Delete Customer
+      operationId: DeleteCustomer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteCustomerResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    parameters:
+      - name: account_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: customer_id
+        in: path
+        required: true
+        schema:
+          type: string
+  /accounts/{account_id}/corporate-customers:
+    post:
+      tags:
+        - Customers
+      description: Create Corporate Customer
+      operationId: CreateCorporateCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCorporateCustomerRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCorporateCustomerResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: account_id
+        in: path
+        required: true
+        schema:
+          type: string
+  /accounts/{account_id}/corporate-customers/{customer_id}:
+    get:
+      tags:
+        - Customers
+      description: get a corporate customer
+      operationId: GetCorporateCustomer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCorporateCustomerResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    put:
+      tags:
+        - Customers
+      description: Update Corporate Customer
+      operationId: UpdateCorporateCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCorporateCustomerRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateCorporateCustomerResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    parameters:
+      - name: account_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: customer_id
+        in: path
+        required: true
+        schema:
+          type: string
+  /accounts/{account_id}/individual-customers:
+    post:
+      tags:
+        - Customers
+      description: Create Individual Customer
+      operationId: CreateIndividualCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateIndividualCustomerRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateIndividualCustomerResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: account_id
+        in: path
+        required: true
+        schema:
+          type: string
+  /accounts/{account_id}/individual-customers/{customer_id}:
+    get:
+      tags:
+        - Customers
+      description: get a individual customer
+      operationId: GetIndividualCustomer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetIndividualCustomerResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    put:
+      tags:
+        - Customers
+      description: Update Individual Customer
+      operationId: UpdateIndividualCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateIndividualCustomerRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateIndividualCustomerResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    parameters:
+      - name: account_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: customer_id
+        in: path
+        required: true
+        schema:
+          type: string
+components:
+  schemas:
+    CreateCustomerAccountLoginResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateResponse'
+        - type: object
+          properties:
+            customer_account_login:
+              $ref: '#/components/schemas/CustomerAccountLogin'
+    CreateCustomerAccountLoginRequest:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateRequest'
+        - type: object
+          properties:
+            email:
+              $ref: '#/components/schemas/EMail'
+            password:
+              type: string
+              description: ログイン用パスワード
+              format: password
+              example: pa$$word
+    ApiErrorResponseBadRequest:
+      title: ApiErrorResponseBadRequest
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvalidParameter'
+      x-examples: {}
+    InvalidParameter:
+      title: InvalidParameter
+      type: object
+      properties:
+        parameter:
+          type: string
+          description: parameter name
+          example: start_date
+        detail:
+          type: string
+          description: error detail
+          example: invalid date
+        code:
+          type: string
+          description: error code
+          default: INVALID_PARAMETER
+        value:
+          type: string
+          description: parameter value
+          example: 2021-13-32
+        message:
+          type: string
+          description: error message
+          example: "Expected valid date, but got '2021-13-32' for start_date"
+      description: InvalidParameter
+      x-examples: {}
+    ApiErrorResponseUnauthorized:
+      title: ApiErrorResponseUnauthorized
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+        errors:
+          $ref: '#/components/schemas/ApiError'
+    ApiError:
+      title: ApiError
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    ApiErrorResponseNotFound:
+      title: ApiErrorResponseNotFound
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+        errors:
+          $ref: '#/components/schemas/ApiError'
+    ApiErrorResponseInternalError:
+      title: ApiErrorResponseInternalError
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+        errors:
+          $ref: '#/components/schemas/ApiError'
+      x-examples: {}
+    ListCustomerAccountMessagesResponse:
+      title: ListCustomerAccountMessagesResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            customer_messages:
+              type: array
+              items:
+                $ref: '#/components/schemas/CustomerAccountMessage'
+    CreateCustomerAccountMessageResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateResponse'
+        - type: object
+          properties:
+            customer_message:
+              $ref: '#/components/schemas/CustomerAccountMessage'
+    CreateCustomerAccountMessageRequest:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateRequest'
+        - type: object
+          properties:
+            customer_message:
+              allOf:
+                - $ref: '#/components/schemas/CustomerAccountMessageStatic'
+                - $ref: '#/components/schemas/CustomerAccountMessageDynamic'
+    GetCustomerAccountMessageResponse:
+      title: GetCustomerAccountMessageResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiGetResponse'
+        - type: object
+          properties:
+            customer_message:
+              $ref: '#/components/schemas/CustomerAccountMessage'
+    CreateCustomerAccountResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateResponse'
+        - type: object
+          properties:
+            customer_account:
+              $ref: '#/components/schemas/CustomerAccount'
+    CreateCustomerAccountRequest:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateRequest'
+        - type: object
+          properties:
+            customer_account:
+              $ref: '#/components/schemas/CustomerAccount'
+    GetCustomerAccountResponse:
+      title: GetPolicyResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiGetResponse'
+        - type: object
+          properties:
+            customer_account:
+              $ref: '#/components/schemas/CustomerAccount'
+    UpdateCustomerAccountResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateResponse'
+        - type: object
+          properties:
+            customer_account:
+              $ref: '#/components/schemas/CustomerAccount'
+    UpdateCustomerAccountRequest:
+      title: UpdatePolicyRequest
+      description: UpdatePolicyRequest
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateRequest'
+        - type: object
+          properties:
+            customer_account:
+              $ref: '#/components/schemas/CustomerAccountDynamic'
+    DeleteCustomerAccountResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiDeleteResponse'
+    UpdateCustomerAccountPhoneNoAsMFAResponse:
+      title: UpdateCustomerAccountPhoneNoAsMFAResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateResponse'
+        - type: object
+          properties:
+            phone_no:
+              $ref: '#/components/schemas/PhoneNumber'
+    UpdateCustomerAccountPhoneNoAsMFARequest:
+      title: UpdateCustomerAccountPhoneNoAsMFARequest
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateRequest'
+        - type: object
+          properties:
+            phone_no:
+              $ref: '#/components/schemas/PhoneNumber'
+    UpdateCustomerAccountPasswordResponse:
+      title: UpdateCustomerAccountPasswordResponse
+      allOf:
+        - $ref: '#/components/schemas/UpdatePasswordsResponse'
+    UpdateCustomerAccountPasswordRequest:
+      title: UpdateCustomerAccountPasswordRequest
+      allOf:
+        - $ref: '#/components/schemas/UpdatePasswordRequest'
+    ListCustomersResponse:
+      title: ListCustomersResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            customers:
+              type: array
+              items:
+                $ref: '#/components/schemas/CustomerListItem'
+          description: returns a list of customer
+          x-examples: {}
+    DeleteCustomerResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiDeleteResponse'
+    CreateCorporateCustomerResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateResponse'
+        - type: object
+          properties:
+            customer:
+              $ref: '#/components/schemas/CorporateCustomer'
+    CreateCorporateCustomerRequest:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateRequest'
+        - type: object
+          properties:
+            customer:
+              $ref: '#/components/schemas/CorporateCustomer'
+    GetCorporateCustomerResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiGetResponse'
+        - type: object
+          properties:
+            customer:
+              $ref: '#/components/schemas/CorporateCustomer'
+    UpdateCorporateCustomerResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateResponse'
+        - type: object
+          properties:
+            customer:
+              $ref: '#/components/schemas/CorporateCustomer'
+    UpdateCorporateCustomerRequest:
+      description: UpdatePolicyRequest
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateRequest'
+        - type: object
+          properties:
+            customer:
+              $ref: '#/components/schemas/CorporateCustomer'
+    CreateIndividualCustomerResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateResponse'
+        - type: object
+          properties:
+            customer:
+              $ref: '#/components/schemas/IndividualCustomer'
+    CreateIndividualCustomerRequest:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateRequest'
+        - type: object
+          properties:
+            customer:
+              $ref: '#/components/schemas/IndividualCustomer'
+    GetIndividualCustomerResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiGetResponse'
+        - type: object
+          properties:
+            customer:
+              $ref: '#/components/schemas/IndividualCustomer'
+    UpdateIndividualCustomerResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateResponse'
+        - type: object
+          properties:
+            customer:
+              $ref: '#/components/schemas/IndividualCustomer'
+    UpdateIndividualCustomerRequest:
+      description: UpdatePolicyRequest
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateRequest'
+        - type: object
+          properties:
+            customer:
+              $ref: '#/components/schemas/IndividualCustomer'
+    ApiCreateResponse:
+      title: ApiCreateResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+    ApiResponse:
+      title: ApiResponse
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+    ApiCommonResponseRequest:
+      title: ApiCommonResponseRequest
+      type: object
+      properties:
+        version:
+          type: string
+        body:
+          type: string
+        url:
+          type: string
+      description: Request
+    ApiCommonResponseRequestId:
+      title: ApiCommonResponseRequestId
+      type: string
+      description: RequestId
+      example: 594600f4-7eec-47ca-8012-02e7b89859ce
+    CustomerAccountLogin:
+      properties:
+        phone_no_as_mfa:
+          $ref: '#/components/schemas/PhoneNumber'
+      allOf:
+        - $ref: '#/components/schemas/Login'
+        - $ref: '#/components/schemas/CustomerAccountStatic'
+    CustomerAccountStatic:
+      title: CustomerAccountStatic
+      type: object
+      properties:
+        customer_account_id:
+          type: string
+          description: 顧客アカウント識別ID
+          format: uuid
+          readOnly: true
+          example: 94d11de5-c19a-403b-bfd6-219437a0391d
+    ApiCreateRequest:
+      title: ApiCreateRequest
+      allOf:
+        - $ref: '#/components/schemas/ApiRequest'
+    ApiRequest:
+      title: ApiRequest
+      type: object
+    EMail:
+      title: E-Mail Address
+      type: string
+      description: メールアドレス(EMail)
+      format: email
+      example: example@example.com
+    ApiListResponse:
+      title: ApiListResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            next_cursor:
+              $ref: '#/components/schemas/ApiCommonResponseNextCursor'
+    ApiCommonResponseNextCursor:
+      title: ApiCommonResponseNextCursor
+      type: string
+      description: "Indicates the position of the next entity. If an entity less than\
+        \ a limit is returned by the current page of the result set, then Cursor value\
+        \ is null."
+      example: c-3yvu1pzhd3i7
+    CustomerAccountMessage:
+      title: CustomerAccountMessage
+      description: Customer Account Message
+      allOf:
+        - $ref: '#/components/schemas/Editable'
+        - $ref: '#/components/schemas/CustomerAccountStatic'
+        - $ref: '#/components/schemas/CustomerAccountMessageStatic'
+        - $ref: '#/components/schemas/CustomerAccountMessageDynamic'
+    CustomerAccountMessageStatic:
+      title: CustomerAccountMessageStatic
+      type: object
+      properties:
+        customer_account_message_id:
+          type: string
+          description: 顧客アカウントに対するメッセージ識別ID
+          format: uuid
+          example: e0fcdc9f-a0a5-421d-8427-44b15ea82aeb
+    CustomerAccountMessageDynamic:
+      title: CustomerAccountMessageDynamic
+      type: object
+      properties:
+        customer_account_message_event:
+          $ref: '#/components/schemas/CustomerAccountMessageEvent'
+        customer_account_message_mark_as_read:
+          $ref: '#/components/schemas/CustomerAccountMessageMarkAsRead'
+    CustomerAccountMessageEvent:
+      title: CustomerAccountMessageEvent
+      type: object
+      properties:
+        create_timestamp:
+          type: string
+          description: メッセージイベントが生成された時刻
+          format: date-time
+          example: 2019-08-24T14:15:22Z
+        message_event_type_id:
+          type: string
+          description: メッセージイベント識別ID
+          format: uuid
+          example: e0fcdc9f-a0a5-421d-8427-44b15ea82aeb
+        message_event_type_name:
+          type: string
+          description: イベント名
+          example: 新着重要通知
+    CustomerAccountMessageMarkAsRead:
+      title: CustomerAccountMessageMarkAsRead
+      type: object
+      properties:
+        is_read:
+          type: boolean
+          description: 既読
+          example: true
+        read_timestamp:
+          type: string
+          description: 既読の時刻
+          format: date-time
+          readOnly: true
+          example: 2019-08-24T14:15:22Z
+    ApiGetResponse:
+      title: ApiGetResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+      x-stoplight:
+        id: rw0znf08mhtv6
+    CustomerAccount:
+      title: CustomerAccount
+      description: Customer Account
+      allOf:
+        - $ref: '#/components/schemas/Editable'
+        - $ref: '#/components/schemas/CustomerAccountStatic'
+        - $ref: '#/components/schemas/CustomerAccountDynamic'
+    CustomerAccountDynamic:
+      title: CustomerAccountDynamic
+      type: object
+      properties:
+        name_first:
+          type: string
+          description: 名
+          example: 太郎
+        name_last:
+          type: string
+          description: 性
+          example: タップ
+        name_alias_first:
+          type: string
+          description: 名(カナ)
+          example: タロウ
+        name_alias_last:
+          type: string
+          description: 性(カナ)
+          example: タップ
+        name_second:
+          type: string
+          description: 別名
+          example: タップ
+        phone_no:
+          $ref: '#/components/schemas/PhoneNumber'
+        email:
+          $ref: '#/components/schemas/EMail'
+        birth_date:
+          $ref: '#/components/schemas/Date'
+        gender_type_id:
+          $ref: '#/components/schemas/GenderTypeId'
+    ApiUpdateResponse:
+      title: ApiUpdateResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+    ApiUpdateRequest:
+      title: ApiUpdateRequest
+      allOf:
+        - $ref: '#/components/schemas/ApiRequest'
+    ApiDeleteResponse:
+      title: ApiGetResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+    PhoneNumber:
+      title: Phone Number
+      maxLength: 30
+      type: string
+      description: 電話番号(PhoneNumber)
+      format: "^[0-9-()+]+"
+      example: 000-0000-0000
+    UpdatePasswordsResponse:
+      title: UpdatePasswordsResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateResponse'
+    UpdatePasswordRequest:
+      title: UpdatePasswordRequest
+      allOf:
+        - $ref: '#/components/schemas/ApiRequest'
+        - type: object
+          properties:
+            current:
+              type: string
+              description: 現在のパスワード
+              format: password
+              example: current_p@sword
+            new:
+              type: string
+              description: 新しいパスワード
+              format: password
+              example: new_p@sword
+    CustomerListItem:
+      title: CustomerListItem
+      type: object
+      properties:
+        create_info:
+          $ref: '#/components/schemas/EditInfo'
+        change_info:
+          $ref: '#/components/schemas/EditInfo'
+        address_lines:
+          type: array
+          description: address_lines
+          items:
+            type: string
+        birth_date:
+          $ref: '#/components/schemas/Date'
+        customer_id:
+          type: string
+          description: customer_id
+        customer_class_id:
+          $ref: '#/components/schemas/CustomerClassId'
+        email:
+          $ref: '#/components/schemas/EMail'
+        fax_no:
+          type: string
+          description: fax_no
+        is_active:
+          type: boolean
+          description: is_active
+        name_alias:
+          type: string
+          description: name_alias
+        number_of_times:
+          type: integer
+          description: number_of_times
+        phone_no_0:
+          type: string
+          description: phone_no_0
+        phone_no_1:
+          type: string
+          description: phone_no_1
+        postal_code:
+          type: string
+          description: postal_code
+      description: CustomerListItem
+    CustomerClassId:
+      title: CustomerClassId
+      type: string
+      description: CustomerClassId
+      enum:
+        - Corporation
+        - Individual
+    CorporateCustomer:
+      title: CorporateCustomer
+      description: Corporate Customer
+      allOf:
+        - $ref: '#/components/schemas/Customer'
+        - type: object
+          properties:
+            addresses:
+              type: array
+              items:
+                $ref: '#/components/schemas/CustomerCorporationAddress'
+            corporation:
+              $ref: '#/components/schemas/CustomerCorporation'
+            parent_customer_id:
+              type: string
+    Customer:
+      title: Customer
+      type: object
+      description: CustomerBasicInfo
+      allOf:
+        - $ref: '#/components/schemas/Editable'
+        - $ref: '#/components/schemas/CustomerStatic'
+        - $ref: '#/components/schemas/CustomerDynamic'
+    CustomerStatic:
+      title: CustomerStatic
+      type: object
+      properties:
+        customer_id:
+          type: string
+          description: customer_id
+    CustomerDynamic:
+      title: Customer
+      type: object
+      properties:
+        ar_closing_date:
+          $ref: '#/components/schemas/Date'
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerAttribute'
+        bill_address_id:
+          type: string
+          description: bill_address_id
+        bill_address_name:
+          type: string
+          description: bill_address_name
+        customer_class_id:
+          $ref: '#/components/schemas/CustomerClassId'
+        division_id:
+          type: string
+          description: division_id
+        division_name:
+          type: string
+          description: division_name
+          readOnly: true
+        divisions:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerHotelDivision'
+        dm_delivery_option_id:
+          $ref: '#/components/schemas/CustomerDmDeliveryOptionId'
+        email_main:
+          $ref: '#/components/schemas/EMail'
+        emails:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerEmail'
+        gift_plans:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerGiftPlan'
+        memberships:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerMembership'
+        name:
+          type: string
+          description: name
+        name_alias:
+          type: string
+          description: name_alias
+        name_second:
+          type: string
+          description: name_second
+        name_second_alias:
+          type: string
+          description: name_second_alias
+        person_relations:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerPersonRelation'
+        remark:
+          type: string
+          description: remark
+    CustomerAttribute:
+      title: CustomerAttribute
+      type: object
+      properties:
+        boolean_value:
+          type: boolean
+        index:
+          type: integer
+        input_method_id:
+          $ref: '#/components/schemas/CustomerAttributeInputMethodId'
+        item_id:
+          type: string
+          description: item_id
+        item_name:
+          type: string
+          description: item_name
+          readOnly: true
+        item_name_alias:
+          type: string
+          description: item_name_alias
+          readOnly: true
+        item_name_short:
+          type: string
+          description: item_name_short
+          readOnly: true
+        item_sequence:
+          type: integer
+          description: item_sequence
+          readOnly: true
+        item_is_active:
+          type: boolean
+          description: item_is_active
+          readOnly: true
+        number_double:
+          type: number
+          description: number_double
+          format: double
+        number_integer:
+          type: integer
+          description: number_integer
+        parent_item_id:
+          type: string
+          description: parent_item_id
+          readOnly: true
+        parent_item_name:
+          type: string
+          description: parent_item_name
+          readOnly: true
+        parent_item_type_id:
+          type: string
+          description: parent_item_type_id
+          readOnly: true
+        text:
+          type: string
+          description: text
+        type_id:
+          $ref: '#/components/schemas/CustomerAttributeTypeId'
+      description: Customer Attribute
+    CustomerAttributeInputMethodId:
+      title: CustomerAttributeInputMethodId
+      type: string
+      description: CustomerAttributeInputMethodId
+      enum:
+        - Checkbox
+        - Item
+        - ItemWithGroup
+        - MultiITem
+        - NumberDouble
+        - NumberInteger
+        - Text
+    CustomerAttributeTypeId:
+      title: CustomerAttributeTypeId
+      type: string
+      description: CustomerAttributeTypeId
+      enum:
+        - BillAddressCreditAvailability
+        - BirthDayCelebration
+        - Category
+        - Certification
+        - Currency
+        - General0
+        - General1
+        - General2
+        - General3
+        - General4
+        - General5
+        - General6
+        - General7
+        - General8
+        - General9
+        - HonorificTitle
+        - JobFamily
+        - Language
+        - LocationArea
+        - LocationAreaRange
+        - LocationLine
+        - LocationStation
+        - Nationality
+        - Rank
+        - RankReason
+        - SalesPerson
+        - SubCategory
+        - WeddingAnniversary
+    CustomerHotelDivision:
+      title: CustomerHotelDivision
+      type: object
+      properties:
+        division_id:
+          type: string
+        division_name:
+          type: string
+      description: Customer Hotel Division
+    CustomerDmDeliveryOptionId:
+      title: CustomerDmDeliveryOptionId
+      type: string
+      description: CustomerDmDeliveryOptionId
+      enum:
+        - Company
+        - Home
+        - NoDelivery
+        - Office
+        - Other
+    CustomerEmail:
+      title: CustomerEmail
+      properties:
+        email:
+          $ref: '#/components/schemas/EMail'
+        is_enabled:
+          type: boolean
+          description: is_enabled
+        sequence:
+          type: integer
+          description: sequence
+        type_id:
+          $ref: '#/components/schemas/CustomerEmailTypeId'
+      description: Customer Email
+    CustomerEmailTypeId:
+      title: CustomerEmailTypeId
+      type: string
+      description: CustomerEmailTypeId
+      enum:
+        - Home
+        - Mobile
+        - Office
+        - Unknown
+    CustomerGiftPlan:
+      title: CustomerGiftPlan
+      type: object
+      properties:
+        opportunity_id:
+          type: string
+          description: opportunity_id
+        opportunity_name:
+          type: string
+          description: opportunity_name
+          readOnly: true
+        item_id:
+          type: string
+          description: item_id
+        item_name:
+          type: string
+          description: item_name
+          readOnly: true
+        quantity:
+          type: integer
+      description: Customer Gift Plan
+    CustomerMembership:
+      title: CustomerMembership
+      properties:
+        cancellation_date:
+          $ref: '#/components/schemas/Date'
+        cancellation_reason_id:
+          type: string
+          description: cancellation_reason_id
+        cancellation_reason_name:
+          type: string
+          description: cancellation_reason_name
+          readOnly: true
+        customer_id:
+          type: string
+          description: customer_id
+        expiration_date:
+          $ref: '#/components/schemas/Date'
+        membership_program_id:
+          type: string
+          description: membership_program_id
+        membership_program_name:
+          type: string
+          description: membership_program_name
+          readOnly: true
+        joined_date:
+          $ref: '#/components/schemas/Date'
+        number:
+          type: string
+          description: number
+        number_type_name:
+          type: string
+          description: number_type_name
+        remark:
+          type: string
+          description: remark
+        status_id:
+          $ref: '#/components/schemas/MembershipStatusId'
+      description: Customer Membership
+    MembershipStatusId:
+      title: MembershipStatusId
+      type: string
+      description: MembershipStatusId
+      enum:
+        - Cancelled
+        - Recess
+        - Valid
+    CustomerPersonRelation:
+      title: CustomerPersonRelation
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/CustomerAddress'
+        customer_person_relation_id:
+          type: string
+          description: customer_person_relation_id
+        job_family_id:
+          type: string
+          description: job_family_id
+        job_family_name:
+          type: string
+          description: job_family_name
+          readOnly: true
+        name:
+          type: string
+          description: name
+        name_alias:
+          type: string
+          description: name_alias
+        office_name:
+          type: string
+          description: office_name
+        person:
+          $ref: '#/components/schemas/CustomerPerson'
+        person_customer_id:
+          type: string
+          description: person_customer_id
+        relation_type_group_id:
+          type: string
+          description: relation_type_group_id
+          readOnly: true
+        relation_type_group_name:
+          type: string
+          description: relation_type_group_name
+          readOnly: true
+        relation_type_id:
+          type: string
+          description: relation_type_id
+        relation_type_name:
+          type: string
+          description: relation_type_name
+          readOnly: true
+        remark:
+          type: string
+          description: remark
+      description: CustomerPersonRelation
+      allOf:
+        - $ref: '#/components/schemas/Editable'
+    CustomerAddress:
+      title: CustomerAddress
+      properties:
+        fax_no:
+          type: string
+          description: fax_no
+        lines:
+          type: array
+          items:
+            type: string
+        phone_nos:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber_1'
+        postal_code:
+          type: string
+          description: postal_code
+        remark:
+          type: string
+          description: remark
+      description: Customer Address
+    PhoneNumber_1:
+      title: PhoneNumber
+      type: object
+      properties:
+        phone_no:
+          pattern: "^0[-0-9]{9,12}$"
+          type: string
+          description: number
+      description: PhoneNumber
+    CustomerPerson:
+      title: CustomerPerson
+      properties:
+        birth_date:
+          $ref: '#/components/schemas/Date'
+        customer_person_id:
+          type: string
+          description: customer_person_id
+        gender_type_id:
+          $ref: '#/components/schemas/GenderTypeId'
+        honorific_title_id:
+          type: string
+          description: honorific_title_id
+        honorific_title_name:
+          type: string
+          description: honorific_title_name
+          readOnly: true
+        honorific_title_affixation_id:
+          $ref: '#/components/schemas/AffixationId'
+        is_no_smoking:
+          type: boolean
+          description: is_no_smoking
+        marital_status_id:
+          type: string
+          description: marital_status_id
+        marital_status_name:
+          type: string
+          description: marital_status_name
+          readOnly: true
+        name_first:
+          type: string
+          description: name_first
+        name_last:
+          type: string
+          description: name_last
+        name_alias_first:
+          type: string
+          description: name_alias_first
+        name_alias_last:
+          type: string
+          description: name_alias_last
+        name_second_alias_first:
+          type: string
+          description: name_second_alias_first
+        name_second_alias_last:
+          type: string
+          description: name_second_alias_last
+        name_second_first:
+          type: string
+          description: name_second_first
+        name_second_last:
+          type: string
+          description: name_second_last
+      description: Customer Person
+      allOf:
+        - $ref: '#/components/schemas/Editable'
+    AffixationId:
+      title: AffixationId
+      type: string
+      description: |
+        * `Prefix` - Prefix
+        * `Suffix` - Suffix
+      enum:
+        - Prefix
+        - Suffix
+    CustomerCorporationAddress:
+      title: CustomerCorporationAddress
+      description: Customer Corporation Address
+      allOf:
+        - $ref: '#/components/schemas/CustomerAddress'
+        - type: object
+          properties:
+            branch_name:
+              type: string
+              description: branch_name
+            branch_name_alias:
+              type: string
+              description: branch_name_alias
+            department_name:
+              type: string
+              description: department_name
+            partner:
+              $ref: '#/components/schemas/CustomerCorporationAddressPartner'
+            phone_no_extension:
+              type: string
+              description: phone_no_extension
+    CustomerCorporationAddressPartner:
+      title: CustomerCorporationAddressPartner
+      properties:
+        name:
+          type: string
+          description: name
+        name_alias:
+          type: string
+          description: name_alias
+        honorific_title_affixation_id:
+          $ref: '#/components/schemas/AffixationId'
+        honorific_title_id:
+          type: string
+          description: honorific_title_id
+        honorific_title_name:
+          type: string
+          description: honorific_title_name
+          readOnly: true
+        joined_date:
+          $ref: '#/components/schemas/Date'
+        post_name:
+          type: string
+          description: post_name
+      description: Customer Corporation Address Partner
+    CustomerCorporation:
+      title: CustomerCorporation
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/CustomerCorporationAddress'
+        capital_amount:
+          type: number
+          description: capital_amount
+          format: double
+        establishment_date:
+          $ref: '#/components/schemas/Date'
+        is_supplier:
+          type: boolean
+          description: is_supplier
+        name:
+          type: string
+          description: Name
+        name_alias:
+          type: string
+          description: name_alias
+        name_alias_normalized:
+          type: string
+          description: name_alias_normalized
+        person_count:
+          type: integer
+          description: person_count
+        representative:
+          $ref: '#/components/schemas/CustomerCorporationRepresentative'
+        supplier:
+          $ref: '#/components/schemas/CustomerCorporationSupplier'
+        type_affixation_id:
+          $ref: '#/components/schemas/AffixationId'
+        url:
+          $ref: '#/components/schemas/Url'
+      description: Customer Corporation
+    CustomerCorporationRepresentative:
+      title: CustomerCorporationRepresentative
+      properties:
+        name:
+          type: string
+          description: name
+        name_alias:
+          type: string
+          description: name_alias
+        title:
+          type: string
+          description: title
+      description: Customer Corporation Representative
+    CustomerCorporationSupplier:
+      title: CustomerCorporationSupplier
+      properties:
+        contract_number:
+          type: string
+          description: contract_number
+        contract_division_name:
+          type: string
+          description: contract_division_name
+      description: Customer Corporation Supplier
+    Url:
+      title: Url
+      type: object
+      properties:
+        url:
+          pattern: "https?://[\\w/:%#$&\\?\\(\\)~\\.=\\+\\-]+"
+          type: string
+          description: url
+      description: Url
+    IndividualCustomer:
+      title: IndividualCustomer
+      description: Individual Customer
+      allOf:
+        - $ref: '#/components/schemas/Customer'
+        - type: object
+          properties:
+            addresses:
+              type: array
+              items:
+                $ref: '#/components/schemas/CustomerAddress'
+            anniversaries:
+              $ref: '#/components/schemas/IndividualCustomerAnniversary'
+            birth_place_name:
+              type: string
+              description: birth_place_name
+            cars:
+              type: array
+              items:
+                $ref: '#/components/schemas/CustomerCar'
+            corporation:
+              $ref: '#/components/schemas/CustomerCorporation'
+            corporation_attributes:
+              type: array
+              items:
+                $ref: '#/components/schemas/IndividualCustomerCorporationAttribute'
+            office_address:
+              $ref: '#/components/schemas/CustomerCorporationAddress'
+            organizations:
+              type: array
+              items:
+                $ref: '#/components/schemas/IndividualCustomerOrganization'
+            passport:
+              $ref: '#/components/schemas/Passport'
+            person:
+              $ref: '#/components/schemas/CustomerPerson'
+            residence_type_id:
+              $ref: '#/components/schemas/ResidenceTypeId'
+            url:
+              $ref: '#/components/schemas/Url'
+    IndividualCustomerAnniversary:
+      title: IndividualCustomerAnniversary
+      type: object
+      properties:
+        engagement_hotel_id:
+          type: string
+          description: engagement_hotel_id
+        engagement_hotel_name:
+          type: string
+          description: engagement_hotel_name
+          readOnly: true
+        wedding_date:
+          $ref: '#/components/schemas/Date'
+        wedding_hotel_id:
+          type: string
+          description: wedding_hotel_id
+        wedding_hotel_name:
+          type: string
+          description: wedding_hotel_name
+          readOnly: true
+      description: Individua Customer Anniversary
+    CustomerCar:
+      title: CustomerCar
+      type: object
+      properties:
+        number:
+          type: string
+          description: Car Number
+        name:
+          type: string
+          description: Car Name
+      description: Customer Car
+    IndividualCustomerCorporationAttribute:
+      title: IndividualCustomerCorporationAttribute
+      description: Individual Customer Corporation Attribute
+      allOf:
+        - $ref: '#/components/schemas/CustomerAttribute'
+    IndividualCustomerOrganization:
+      title: IndividualCustomerOrganization
+      properties:
+        name:
+          type: string
+          description: name
+        title_name:
+          type: string
+          description: title_name
+      description: Individual Customer Organization
+    Passport:
+      title: Passport
+      type: object
+      properties:
+        number:
+          type: string
+          description: number
+      description: Passport
+    ResidenceTypeId:
+      title: ResidenceTypeId
+      type: string
+      description: ResidenceTypeId
+      enum:
+        - DomesticResidence
+        - ForeignNonResidence
+        - DomesticNonResidence
+        - ForeignResidence
+    Login:
+      title: Login
+      type: object
+      properties:
+        expires_in:
+          type: string
+        id_token:
+          type: string
+        refresh_token:
+          type: string
+        token_type:
+          type: string
+    Editable:
+      title: Abstract class for editable objects
+      type: object
+      properties:
+        create_info:
+          $ref: '#/components/schemas/EditInfo'
+        change_info:
+          $ref: '#/components/schemas/EditInfo'
+    EditInfo:
+      title: EditInfo
+      type: object
+      properties:
+        host_name:
+          maxLength: 20
+          type: string
+        time_stamp:
+          type: string
+          format: date-time
+        user_account_id:
+          maxLength: 32
+          type: string
+      readOnly: true
+    Date:
+      title: "Year, Month, Day"
+      type: string
+      description: 日付(Date)
+      format: date
+    GenderTypeId:
+      title: Gender Type ID
+      type: string
+      description: 性別(Gender Type)
+      example: Male
+      enum:
+        - Male
+        - Female
+        - Other
+    inline_response_400:
+      allOf:
+        - $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+    inline_response_401:
+      allOf:
+        - $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+    inline_response_404:
+      allOf:
+        - $ref: '#/components/schemas/ApiErrorResponseNotFound'
+    inline_response_500:
+      allOf:
+        - $ref: '#/components/schemas/ApiErrorResponseInternalError'
+  securitySchemes:
+    AccessToken:
+      type: apiKey
+      name: X-API-Key
+      in: header
+    CognitoToken:
+      type: apiKey
+      name: X-Authorization
+      in: header

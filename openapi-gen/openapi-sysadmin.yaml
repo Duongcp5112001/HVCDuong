@@ -1,0 +1,977 @@
+openapi: 3.0.0
+info:
+  title: System Admin API
+  description: 外部には公開せずにTAPが利用するAPI。
+  contact:
+    name: "TAP Co.,Ltd."
+    url: https://www.tap-ic.co.jp/
+  version: "1.0"
+servers:
+  - url: https://jv292uv5w6.execute-api.ap-northeast-1.amazonaws.com/v1
+    description: Sandbox
+security:
+  - AccessToken: []
+paths:
+  /accounts/{account_id}/hotels:
+    get:
+      tags:
+        - AccountHotels
+      description: アカウントホテルの一覧取得
+      operationId: ListAccountHotels
+      parameters:
+        - name: cursor
+          in: query
+          description: Query parameter indicating the cursor position of the list to
+            retrieve.
+          required: false
+          schema:
+            type: string
+            example: c-3yvu1pzhd3i7
+        - name: limit
+          in: query
+          description: 取得するリストの最大数を示すクエリパラメーターです。（指定範囲 1 から100）
+          required: false
+          schema:
+            maximum: 100
+            minimum: 1
+            type: integer
+            default: 100
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListAccountHotelsResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    post:
+      tags:
+        - AccountHotels
+      description: アカウントホテルの新規作成
+      operationId: CreateAccountHotel
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAccountHotelRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAccountHotelResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    parameters:
+      - name: account_id
+        in: path
+        description: account id
+        required: true
+        schema:
+          type: string
+  /accounts/{account_id}/hotels/{hotel_id}:
+    delete:
+      tags:
+        - AccountHotels
+      description: アカウントホテルの削除
+      operationId: DeleteAccountHotel
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteAccountHotelResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    parameters:
+      - name: account_id
+        in: path
+        description: account id
+        required: true
+        schema:
+          type: string
+      - name: hotel_id
+        in: path
+        description: hotel id
+        required: true
+        schema:
+          type: string
+  /sysadmin/accounts:
+    get:
+      tags:
+        - Accounts
+      description: アカウントの一覧取得
+      operationId: ListAccounts
+      parameters:
+        - name: cursor
+          in: query
+          description: Query parameter indicating the cursor position of the list to
+            retrieve.
+          required: false
+          schema:
+            type: string
+            example: c-3yvu1pzhd3i7
+        - name: limit
+          in: query
+          description: 取得するリストの最大数を示すクエリパラメーターです。（指定範囲 1 から100）
+          required: false
+          schema:
+            maximum: 100
+            minimum: 1
+            type: integer
+            default: 100
+        - name: name
+          in: query
+          description: name
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListAccountsResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    post:
+      tags:
+        - Accounts
+      description: アカウントの新規作成
+      operationId: CreateAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAccountRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAccountResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+  /sysadmin/accounts/{account_id}:
+    get:
+      tags:
+        - Accounts
+      description: アカウント取得
+      operationId: GetAccount
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAccountResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    put:
+      tags:
+        - Accounts
+      description: アカウントの更新
+      operationId: UpdateAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAccountRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateAccountResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    delete:
+      tags:
+        - Accounts
+      description: アカウントの削除
+      operationId: DeleteAccount
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteAccountResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    parameters:
+      - name: account_id
+        in: path
+        description: account id
+        required: true
+        schema:
+          type: string
+  /hotels:
+    get:
+      tags:
+        - Hotels
+      description: ホテルの一覧取得
+      operationId: ListHotels
+      parameters:
+        - name: cursor
+          in: query
+          description: Query parameter indicating the cursor position of the list to
+            retrieve.
+          required: false
+          schema:
+            type: string
+            example: c-3yvu1pzhd3i7
+        - name: limit
+          in: query
+          description: 取得するリストの最大数を示すクエリパラメーターです。（指定範囲 1 から100）
+          required: false
+          schema:
+            maximum: 100
+            minimum: 1
+            type: integer
+            default: 100
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListHotelsResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+    post:
+      tags:
+        - Hotels
+      description: ホテルの新規登録
+      operationId: CreateHotel
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateHotelRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateHotelResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseNotFound'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponseInternalError'
+  /hotels/{hotel_id}:
+    get:
+      tags:
+        - Hotels
+      summary: ホテルの取得
+      description: ホテルの取得
+      operationId: GetHotel
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetHotelResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    put:
+      tags:
+        - Hotels
+      summary: ホテルの更新
+      description: ホテルの更新
+      operationId: UpdateHotel
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateHotelRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateHotelResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    delete:
+      tags:
+        - Hotels
+      summary: ホテルの削除
+      description: ホテルの削除
+      operationId: DeleteHotel
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteHotelResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    parameters:
+      - name: hotel_id
+        in: path
+        description: hotel id
+        required: true
+        schema:
+          type: string
+components:
+  schemas:
+    ListAccountHotelsResponse:
+      title: ListAccountHotelsResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            account_hotels:
+              type: array
+              items:
+                $ref: '#/components/schemas/AccountHotel'
+    CreateAccountHotelResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateResponse'
+        - type: object
+          properties:
+            account_hotel:
+              $ref: '#/components/schemas/AccountHotel'
+    CreateAccountHotelRequest:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateRequest'
+        - type: object
+          properties:
+            account_hotel:
+              $ref: '#/components/schemas/AccountHotel'
+    ApiErrorResponseBadRequest:
+      title: ApiErrorResponseBadRequest
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvalidParameter'
+      x-examples: {}
+    InvalidParameter:
+      title: InvalidParameter
+      type: object
+      properties:
+        parameter:
+          type: string
+          description: parameter name
+          example: start_date
+        detail:
+          type: string
+          description: error detail
+          example: invalid date
+        code:
+          type: string
+          description: error code
+          default: INVALID_PARAMETER
+        value:
+          type: string
+          description: parameter value
+          example: 2021-13-32
+        message:
+          type: string
+          description: error message
+          example: "Expected valid date, but got '2021-13-32' for start_date"
+      description: InvalidParameter
+      x-examples: {}
+    ApiErrorResponseUnauthorized:
+      title: ApiErrorResponseUnauthorized
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+        errors:
+          $ref: '#/components/schemas/ApiError'
+    ApiError:
+      title: ApiError
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    ApiErrorResponseNotFound:
+      title: ApiErrorResponseNotFound
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+        errors:
+          $ref: '#/components/schemas/ApiError'
+    ApiErrorResponseInternalError:
+      title: ApiErrorResponseInternalError
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+        errors:
+          $ref: '#/components/schemas/ApiError'
+      x-examples: {}
+    DeleteAccountHotelResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiDeleteResponse'
+    ListAccountsResponse:
+      title: ListAccountsResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            accounts:
+              type: array
+              items:
+                $ref: '#/components/schemas/Account'
+    CreateAccountResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateResponse'
+        - type: object
+          properties:
+            account:
+              $ref: '#/components/schemas/Account'
+    CreateAccountRequest:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateRequest'
+        - type: object
+          properties:
+            account:
+              $ref: '#/components/schemas/Account'
+    GetAccountResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiGetResponse'
+        - type: object
+          properties:
+            account:
+              $ref: '#/components/schemas/Account'
+    UpdateAccountResponse:
+      title: UpdateAccountResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateResponse'
+        - type: object
+          properties:
+            account:
+              $ref: '#/components/schemas/Account'
+    UpdateAccountRequest:
+      title: UpdateAccountRequest
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateRequest'
+        - type: object
+          properties:
+            account:
+              $ref: '#/components/schemas/Account'
+    DeleteAccountResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiDeleteResponse'
+    ListHotelsResponse:
+      title: ListHotelsResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiListResponse'
+        - type: object
+          properties:
+            hotels:
+              type: array
+              items:
+                $ref: '#/components/schemas/Hotel'
+    CreateHotelResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateResponse'
+        - type: object
+          properties:
+            hotel:
+              $ref: '#/components/schemas/Hotel'
+    CreateHotelRequest:
+      allOf:
+        - $ref: '#/components/schemas/ApiCreateRequest'
+        - type: object
+          properties:
+            hotel:
+              $ref: '#/components/schemas/Hotel'
+    GetHotelResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiGetResponse'
+        - type: object
+          properties:
+            hotel:
+              $ref: '#/components/schemas/Hotel'
+    UpdateHotelResponse:
+      title: UpdateHotelResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateResponse'
+        - type: object
+          properties:
+            hotel:
+              $ref: '#/components/schemas/Hotel'
+    UpdateHotelRequest:
+      title: UpdateHotelRequest
+      allOf:
+        - $ref: '#/components/schemas/ApiUpdateRequest'
+        - type: object
+          properties:
+            hotel:
+              allOf:
+                - $ref: '#/components/schemas/HotelDynamic'
+    DeleteHotelResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiDeleteResponse'
+    ApiListResponse:
+      title: ApiListResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+        - type: object
+          properties:
+            next_cursor:
+              $ref: '#/components/schemas/ApiCommonResponseNextCursor'
+    ApiResponse:
+      title: ApiResponse
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/ApiCommonResponseRequest'
+        request_id:
+          $ref: '#/components/schemas/ApiCommonResponseRequestId'
+    ApiCommonResponseRequest:
+      title: ApiCommonResponseRequest
+      type: object
+      properties:
+        version:
+          type: string
+        body:
+          type: string
+        url:
+          type: string
+      description: Request
+    ApiCommonResponseRequestId:
+      title: ApiCommonResponseRequestId
+      type: string
+      description: RequestId
+      example: 594600f4-7eec-47ca-8012-02e7b89859ce
+    ApiCommonResponseNextCursor:
+      title: ApiCommonResponseNextCursor
+      type: string
+      description: "Indicates the position of the next entity. If an entity less than\
+        \ a limit is returned by the current page of the result set, then Cursor value\
+        \ is null."
+      example: c-3yvu1pzhd3i7
+    AccountHotel:
+      title: AccountHotel
+      required:
+        - hotel_id
+        - permission_group_id
+      type: object
+      properties:
+        hotel_id:
+          type: string
+          example: "11"
+        hotel_name:
+          type: string
+          readOnly: true
+        permission_group_id:
+          type: string
+          example: e0fcdc9fa0a5421d842744b15ea82aeb
+    ApiCreateResponse:
+      title: ApiCreateResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+    ApiCreateRequest:
+      title: ApiCreateRequest
+      allOf:
+        - $ref: '#/components/schemas/ApiRequest'
+    ApiRequest:
+      title: ApiRequest
+      type: object
+    ApiDeleteResponse:
+      title: ApiGetResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+    Account:
+      title: Account
+      required:
+        - account_id
+        - name
+      type: object
+      properties:
+        account_id:
+          type: string
+          example: C01
+        name:
+          type: string
+          example: TAP
+    ApiGetResponse:
+      title: ApiGetResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+      x-stoplight:
+        id: rw0znf08mhtv6
+    ApiUpdateResponse:
+      title: ApiUpdateResponse
+      allOf:
+        - $ref: '#/components/schemas/ApiResponse'
+    ApiUpdateRequest:
+      title: ApiUpdateRequest
+      allOf:
+        - $ref: '#/components/schemas/ApiRequest'
+    Hotel:
+      title: Hotel
+      allOf:
+        - $ref: '#/components/schemas/HotelStatic'
+        - $ref: '#/components/schemas/HotelDynamic'
+    HotelStatic:
+      title: HotelStatic
+      required:
+        - hotel_id
+      type: object
+      properties:
+        hotel_id:
+          type: string
+          example: "11"
+    HotelDynamic:
+      title: HotelDynamic
+      required:
+        - code
+        - name
+        - name_alias
+        - name_short
+        - sequence
+        - symbol_characters
+      type: object
+      properties:
+        code:
+          type: string
+          example: T11
+        name:
+          type: string
+          example: TAPホテル
+        name_alias:
+          type: string
+          example: タップホテル
+        name_short:
+          type: string
+          example: Tホテル
+        symbol_characters:
+          type: string
+          example: T
+        sequence:
+          type: integer
+          example: 1
+    inline_response_400:
+      allOf:
+        - $ref: '#/components/schemas/ApiErrorResponseBadRequest'
+    inline_response_401:
+      allOf:
+        - $ref: '#/components/schemas/ApiErrorResponseUnauthorized'
+    inline_response_404:
+      allOf:
+        - $ref: '#/components/schemas/ApiErrorResponseNotFound'
+    inline_response_500:
+      allOf:
+        - $ref: '#/components/schemas/ApiErrorResponseInternalError'
+  securitySchemes:
+    AccessToken:
+      type: apiKey
+      name: X-API-Key
+      in: header
+    CognitoToken:
+      type: apiKey
+      name: X-Authorization
+      in: header

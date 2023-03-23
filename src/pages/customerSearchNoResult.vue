@@ -1,0 +1,358 @@
+<template>
+  <div class="lay-container lay-container--3panes">
+    <the-sidebar/>
+    <main class="lay-main">
+      <div class="lay-main__container">
+        <Disclosure>
+          <template #title>
+            <Text class="util-mr-24" bold>顧客照会</Text>
+            <ToggleButtonSet
+              :selected-id="selectedToggleButtonId"
+              width="195px"
+              size="small"
+              type="outlined"
+              @click-item="onClickToggleButton"
+            >
+              <ToggleButton id="content-1">顧客検索</ToggleButton>
+              <ToggleButton id="content-2">法人代行検索</ToggleButton>
+            </ToggleButtonSet>
+          </template>
+          <div
+            class="
+              util-flex util-flex--gap8
+              util-mb-16
+              util-flex--wrap util-flex--align-end
+            "
+          >
+            <FieldContainer label="会員番号" width="200px">
+              <TextField v-model="memberCode" />
+            </FieldContainer>
+            <FieldContainer label="顧客名（カタカナ）" width="200px">
+              <TextField v-model="clientName" />
+            </FieldContainer>
+            <FieldContainer label="電話番号" width="200px">
+              <TextField v-model="telephone" />
+            </FieldContainer>
+            <FieldContainer class="util-mr-8" label="利用券番号" width="200px">
+              <TextField v-model="ticket" />
+            </FieldContainer>
+            <Button color="neutral" icon="search"> 検索 </Button>
+            <Button color="neutral" type="outlined">クリア</Button>
+          </div>
+          <Text>検索結果なし</Text>
+        </Disclosure>
+        <Panel color="dark">
+          <span class="util-flex util-flex--column util-flex--align-start">
+            <span class="util-flex util-mr-32 util-mb-16">
+              <Text bold size="large">新規予約</Text>
+            </span>
+            <span class="util-flex util-flex--column util-full-width">
+              <span
+                class="
+                  util-flex util-flex--align-center util-flex--gap16
+                  util-mb-16
+                  util-flex--wrap
+                "
+              >
+                <FieldContainer label="宿泊施設" width="456px" required>
+                  <Dropdown
+                    v-model:value="currentTextDropdownSelection1"
+                    placeholder=""
+                    size="small"
+                    width="456px"
+                  >
+                    <DropdownItem
+                      v-for="(option, i) in textDropdownOptions"
+                      :key="i"
+                      :label="option.label"
+                      :value="option.value"
+                    >
+                    </DropdownItem>
+                  </Dropdown>
+                </FieldContainer>
+                <FieldContainer label="宿泊日" required>
+                  <DatePicker
+                    size="small"
+                    :date="selectedDate"
+                    @change-date="onChangeDate"
+                  />
+                </FieldContainer>
+                <span class="util-flex util-flex--align-end">
+                  <FieldContainer label="泊数" width="64px" required>
+                    <Dropdown
+                      v-model:value="currentNumericDropdownSelection1"
+                      placeholder="0"
+                      size="small"
+                      width="64px"
+                    >
+                      <DropdownItem
+                        v-for="(option, i) in numericDropdownOptions"
+                        :key="i"
+                        :label="option.label"
+                        :value="option.value"
+                      >
+                      </DropdownItem>
+                    </Dropdown>
+                  </FieldContainer>
+                  <Text class="util-ml-4" color="light" bold size="2xs">
+                    泊
+                  </Text>
+                </span>
+                <span class="util-flex util-flex--align-end">
+                  <FieldContainer label="部屋数" width="64px" required>
+                    <Dropdown
+                      v-model:value="currentNumericDropdownSelection2"
+                      placeholder="0"
+                      size="small"
+                      width="64px"
+                    >
+                      <DropdownItem
+                        v-for="(option, i) in numericDropdownOptions"
+                        :key="i"
+                        :label="option.label"
+                        :value="option.value"
+                      >
+                      </DropdownItem>
+                    </Dropdown>
+                  </FieldContainer>
+                  <Text class="util-ml-4" color="light" bold size="2xs">
+                    室
+                  </Text>
+                </span>
+                <span class="util-flex util-flex--align-end">
+                  <FieldContainer label="大人" width="64px" required>
+                    <Dropdown
+                      v-model:value="currentNumericDropdownSelection3"
+                      placeholder="0"
+                      size="small"
+                      width="64px"
+                    >
+                      <DropdownItem
+                        v-for="(option, i) in numericDropdownOptions"
+                        :key="i"
+                        :label="option.label"
+                        :value="option.value"
+                      >
+                      </DropdownItem>
+                    </Dropdown>
+                  </FieldContainer>
+                  <Text class="util-ml-4" color="light" bold size="2xs">
+                    人
+                  </Text>
+                </span>
+                <span class="util-flex util-flex--align-end">
+                  <FieldContainer label="中人" width="64px">
+                    <Dropdown
+                      v-model:value="currentNumericDropdownSelection4"
+                      placeholder="0"
+                      size="small"
+                      width="64px"
+                    >
+                      <DropdownItem
+                        v-for="(option, i) in numericDropdownOptions"
+                        :key="i"
+                        :label="option.label"
+                        :value="option.value"
+                      >
+                      </DropdownItem>
+                    </Dropdown>
+                  </FieldContainer>
+                  <Text class="util-ml-4" color="light" bold size="2xs">
+                    人
+                  </Text>
+                </span>
+                <span class="util-flex util-flex--align-end">
+                  <FieldContainer label="小人" width="64px">
+                    <Dropdown
+                      v-model:value="currentNumericDropdownSelection5"
+                      placeholder="0"
+                      size="small"
+                      width="64px"
+                    >
+                      <DropdownItem
+                        v-for="(option, i) in numericDropdownOptions"
+                        :key="i"
+                        :label="option.label"
+                        :value="option.value"
+                      >
+                      </DropdownItem>
+                    </Dropdown>
+                  </FieldContainer>
+                  <Text class="util-ml-4" color="light" bold size="2xs">
+                    人
+                  </Text>
+                </span>
+                <span class="util-flex util-flex--align-end">
+                  <FieldContainer label="幼児" width="64px">
+                    <Dropdown
+                      v-model:value="currentNumericDropdownSelection6"
+                      placeholder="0"
+                      size="small"
+                      width="64px"
+                    >
+                      <DropdownItem
+                        v-for="(option, i) in numericDropdownOptions"
+                        :key="i"
+                        :label="option.label"
+                        :value="option.value"
+                      >
+                      </DropdownItem>
+                    </Dropdown>
+                  </FieldContainer>
+                  <Text class="util-ml-4" color="light" bold size="2xs">
+                    人
+                  </Text>
+                </span>
+              </span>
+              <span
+                class="
+                  util-flex util-flex--align-center util-flex--justify-between
+                "
+              >
+                <span
+                  class="
+                    util-flex
+                    util-flex--align-end
+                    util-flex--wrap
+                    util-flex--gap16
+                  "
+                >
+                  <FieldContainer label="優待券" width="160px">
+                    <Dropdown
+                      v-model:value="currentTextDropdownSelection2"
+                      placeholder="VV0000"
+                      size="small"
+                      width="160px"
+                    >
+                      <DropdownItem
+                        v-for="(option, i) in textDropdownOptions"
+                        :key="i"
+                        :label="option.label"
+                        :value="option.value"
+                      >
+                      </DropdownItem>
+                    </Dropdown>
+                  </FieldContainer>
+                  <span
+                    class="
+                      util-flex
+                      util-flex--align-center
+                      util-flex--gap8
+                      util-flex--wrap
+                      util-mb-8
+                    "
+                  >
+                    <Checkbox v-model:checked="isSmoking" label="喫煙可" />
+                    <Checkbox v-model:checked="isPets" label="ペット可" />
+                    <Checkbox
+                      v-model:checked="isConnectedRoom"
+                      label="コネクトルーム"
+                    />
+                  </span>
+                </span>
+                <span class="util-flex util-flex--align-center util-flex--gap8">
+                  <Button size="large" @click="onClickGetRoom">部屋確保</Button>
+                  <Button
+                    size="large"
+                    color="neutral"
+                    @click="onClickCheckAvailableRooms"
+                  >
+                    残室確認／特殊予約
+                  </Button>
+                </span>
+              </span>
+            </span>
+          </span>
+        </Panel>
+      </div>
+    </main>
+  </div>
+</template>
+
+<script setup lang="ts">
+import Disclosure from '../components/Disclosure/Disclosure.vue';
+import ToggleButtonSet from '../components/ToggleButton/ToggleButtonSet.vue';
+import ToggleButton from '../components/ToggleButton/ToggleButton.vue';
+import Text from '../components/Text/Text.vue';
+import Button from '../components/Button/Button.vue';
+import Panel from '../components/Panel/Panel.vue';
+import TextField from '../components/TextField/TextField.vue';
+import Checkbox from '../components/Checkbox/Checkbox.vue';
+import DatePicker from '../components/DatePicker/DatePicker.vue';
+import FieldContainer from '../components/FieldContainer/FieldContainer.vue';
+import Dropdown from '../components/Dropdown/Dropdown.vue';
+import DropdownItem from '../components/Dropdown/DropdownItem.vue';
+import { ref } from 'vue';
+import TheSidebar from "@/containers/TheSidebar.vue";
+
+const selectedDate = ref(new Date());
+
+const memberCode = ref('');
+const clientName = ref('');
+const telephone = ref('');
+const ticket = ref('');
+const isSmoking = ref(false);
+const isPets = ref(true);
+const isConnectedRoom = ref(false);
+const selectedToggleButtonId = ref('content-1');
+
+const currentNumericDropdownSelection1 = ref('');
+const currentNumericDropdownSelection2 = ref('');
+const currentNumericDropdownSelection3 = ref('');
+const currentNumericDropdownSelection4 = ref('');
+const currentNumericDropdownSelection5 = ref('');
+const currentNumericDropdownSelection6 = ref('');
+
+const numericDropdownOptions = [
+  {
+    label: '1',
+    value: '1',
+  },
+  {
+    label: '2',
+    value: '2',
+  },
+  {
+    label: '3',
+    value: '3',
+  },
+];
+
+const currentTextDropdownSelection1 = ref('');
+const currentTextDropdownSelection2 = ref('');
+
+const textDropdownOptions = [
+  {
+    label: 'First Option',
+    value: 'First Option',
+  },
+  {
+    label: 'Second Option',
+    value: 'Second Option',
+  },
+  {
+    label: 'Third Option',
+    value: 'Third Option',
+  },
+];
+
+const onClickToggleButton = (id: string) => {
+  console.log('clicked toggle button: ', id);
+  selectedToggleButtonId.value = id;
+};
+
+const onChangeDate = (date: Date) => {
+  console.log('onChangeDate', date);
+  selectedDate.value = date;
+};
+
+const onClickGetRoom = () => {
+  console.log('clickedGetRoom');
+};
+
+const onClickCheckAvailableRooms = () => {
+  console.log('clickedCheckAvailableRooms');
+};
+</script>
+
+<style scoped lang="scss"></style>
