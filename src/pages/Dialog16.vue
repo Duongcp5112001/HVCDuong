@@ -96,6 +96,8 @@ import Dropdown from '../components/Dropdown/Dropdown.vue';
 import DropdownItem from '../components/Dropdown/DropdownItem.vue';
 import Checkbox from '../components/Checkbox/Checkbox.vue';
 import TextField from '../components/TextField/TextField.vue';
+import { resolve } from 'path';
+import { reject } from 'lodash';
 
 
 const open = ref(true);
@@ -233,7 +235,7 @@ const getAllIsChecked = () => {
 const getAllIsIndeterminate = () => {
   const checkedOptions = rowsData.value.filter((row) => row.checked);
   return (
-    checkedOptions.length > 0 && checkedOptions.length < rowsData.value.length && disabled.value === true
+    checkedOptions.length > 0 && checkedOptions.length < rowsData.value.length
   );
 };
 
@@ -244,33 +246,58 @@ const onCheckAll = () => {
   });
 };
 
+const checkTypeDataNumberMethod = (checkTypeDataNumber: any) => {
+  for (var i = 0; i < checkTypeDataNumber.length; i++) {
+    console.log("method number");
+    const con1 = checkTypeDataNumber[i].maxQuantity as number >= checkTypeDataNumber[i].valueTextField;
+    const con2 = checkTypeDataNumber[i].valueTextField > 0;
+    const con3 = checkTypeDataNumber[i].valueTextField == 0 || checkTypeDataNumber[i].valueTextField == null;
+    if (con1 && con2) {
+      disabled.value = false;
+    } else if (con3) {
+      disabled.value = true;
+      break;
+    } else {
+      disabled.value = true;
+      break;
+    }
+  }
+};
+
+const checkTypeDataUndefinedMethod = (checkTypeDataUndefine: any) => {
+  for (var i = 0; i < checkTypeDataUndefine.length; i++) {
+    console.log("method Undefined");
+    const con1 = checkTypeDataUndefine[i].valueTextField > 0;
+    const con2 = checkTypeDataUndefine[i].valueTextField == 0 || checkTypeDataUndefine[i].valueTextField == null;
+    if (con1) {
+      disabled.value = false;
+    } else if (con2) {
+      disabled.value = true;
+      break;
+    } else {
+      disabled.value = true;
+      break;
+    }
+  }
+} 
+
 const onCheckButtonDisabled = () => {
-  console.log("abc");
-  const rowValue = rowsData.value.find((row) => row.checked === true);
-  const conditionCheckType = rowValue && typeof rowValue.maxQuantity == 'number';
-  const conditionCheckType1 = rowValue && typeof rowValue.maxQuantity == 'undefined';
-  if(conditionCheckType){
-    const condition1 = rowValue.maxQuantity >= rowValue.valueTextField;
-    const condition2 = rowValue.valueTextField > 0;
-    const condition3 = rowValue.valueTextField == 0 || rowValue.valueTextField == null;
-    if(condition1 && condition2) {
-      disabled.value = false;
-    } else if (condition3){
+  const rowValue = rowsData.value.filter((row) => row.checked === true);
+  if(rowValue.length > 0){
+    const checkTypeDataNumber = rowValue.filter((row) => typeof row.maxQuantity == 'number');
+    const checkTypeDataUndefine = rowValue.filter((row) => typeof row.maxQuantity == 'undefined');
+    if (checkTypeDataNumber.length > 0 && checkTypeDataUndefine.length > 0) {
+      checkTypeDataUndefinedMethod(checkTypeDataUndefine); 
+      checkTypeDataNumberMethod(checkTypeDataNumber);
+    } else if (checkTypeDataNumber.length > 0 && checkTypeDataUndefine.length <= 0) {
+      checkTypeDataNumberMethod(checkTypeDataNumber);
+    } else if (checkTypeDataNumber.length <= 0 && checkTypeDataUndefine.length > 0) {
+      checkTypeDataUndefinedMethod(checkTypeDataUndefine);
+    } else {
       disabled.value = true;
     }
-    console.log("if condition");
-  } else if (conditionCheckType1) {
-    const condition4 = rowValue.valueTextField > 0 ;
-    const condition5 = rowValue.valueTextField == 0 || rowValue.valueTextField == null;
-    if(condition4){
-      disabled.value = false;
-    } else if (condition5){
-      disabled.value = true;
-    }
-    console.log("else if condition");
   } else {
     disabled.value = true;
-    console.log("else condition");
   }
 }
 </script>
