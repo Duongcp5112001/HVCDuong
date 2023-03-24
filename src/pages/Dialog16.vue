@@ -1,6 +1,6 @@
 <template>
   <Button @click="open = true ; disabled = true">Open Dialog</Button>
-  <Dialog :open="open" size="large" @close-dialog="onCloseDialog" @vnode-before-update="onCheckButtonDisabled()">
+  <Dialog :open="open" size="large" @close-dialog="onCloseDialog">
     <template #header>
       <Text size="xl" bold>手配品・備品</Text>
     </template>
@@ -83,7 +83,7 @@
 
 <script setup lang="ts">
 import Text from '../components/Text/Text.vue';
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import Dialog from '../components/Dialog/Dialog.vue';
 import Button from '../components/Button/Button.vue';
 import Panel from '../components/Panel/Panel.vue';
@@ -98,6 +98,8 @@ import Checkbox from '../components/Checkbox/Checkbox.vue';
 import TextField from '../components/TextField/TextField.vue';
 import { resolve } from 'path';
 import { reject } from 'lodash';
+import { onBeforeUpdate, onUpdated, watch } from 'vue';
+
 
 
 const open = ref(true);
@@ -214,6 +216,7 @@ const rowsData = ref([
   },
 ]);
 
+
 const onCloseDialog = () => {
   open.value = false;
 };
@@ -283,23 +286,21 @@ const checkTypeDataUndefinedMethod = (checkTypeDataUndefine: any) => {
 
 const onCheckButtonDisabled = () => {
   const rowValue = rowsData.value.filter((row) => row.checked === true);
-  if(rowValue.length > 0){
-    const checkTypeDataNumber = rowValue.filter((row) => typeof row.maxQuantity == 'number');
-    const checkTypeDataUndefine = rowValue.filter((row) => typeof row.maxQuantity == 'undefined');
-    if (checkTypeDataNumber.length > 0 && checkTypeDataUndefine.length > 0) {
-      checkTypeDataUndefinedMethod(checkTypeDataUndefine); 
-      checkTypeDataNumberMethod(checkTypeDataNumber);
-    } else if (checkTypeDataNumber.length > 0 && checkTypeDataUndefine.length <= 0) {
-      checkTypeDataNumberMethod(checkTypeDataNumber);
-    } else if (checkTypeDataNumber.length <= 0 && checkTypeDataUndefine.length > 0) {
-      checkTypeDataUndefinedMethod(checkTypeDataUndefine);
-    } else {
+  for(const row of rowValue) {
+    if(row.maxQuantity && Number(row.valueTextField) <= Number(row.maxQuantity) &&  Number(row.valueTextField) ){
+      console.log(row.maxQuantity);
+      disabled.value = false;
+    }else{
       disabled.value = true;
+      break
     }
-  } else {
-    disabled.value = true;
   }
 }
+
+watch(rowsData.value,()=> {
+  onCheckButtonDisabled()
+}
+)
 </script>
 
 <style scoped lang="scss"></style>
