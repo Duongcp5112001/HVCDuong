@@ -76,7 +76,7 @@
       </Table>
     </template>
     <template #footer>
-      <Button size="large" width="200px" :disabled="disabled" @click="">登録</Button>
+      <Button size="large" width="200px" :disabled="disabled">登録</Button>
     </template>
   </Dialog>
 </template>
@@ -98,7 +98,7 @@ import Checkbox from '../components/Checkbox/Checkbox.vue';
 import TextField from '../components/TextField/TextField.vue';
 import { resolve } from 'path';
 import { reject } from 'lodash';
-import { onBeforeUpdate, onUpdated, watch } from 'vue';
+import { computed, watch } from 'vue';
 
 
 
@@ -106,7 +106,6 @@ const open = ref(true);
 
 const supply = ref('');
 const code = ref('');
-const disabled = ref(true);
 
 const supplyDropdownOptions = [
   {
@@ -249,58 +248,26 @@ const onCheckAll = () => {
   });
 };
 
-const checkTypeDataNumberMethod = (checkTypeDataNumber: any) => {
-  for (var i = 0; i < checkTypeDataNumber.length; i++) {
-    console.log("method number");
-    const con1 = checkTypeDataNumber[i].maxQuantity as number >= checkTypeDataNumber[i].valueTextField;
-    const con2 = checkTypeDataNumber[i].valueTextField > 0;
-    const con3 = checkTypeDataNumber[i].valueTextField == 0 || checkTypeDataNumber[i].valueTextField == null;
-    if (con1 && con2) {
-      disabled.value = false;
-    } else if (con3) {
-      disabled.value = true;
-      break;
-    } else {
-      disabled.value = true;
-      break;
-    }
-  }
-};
-
-const checkTypeDataUndefinedMethod = (checkTypeDataUndefine: any) => {
-  for (var i = 0; i < checkTypeDataUndefine.length; i++) {
-    console.log("method Undefined");
-    const con1 = checkTypeDataUndefine[i].valueTextField > 0;
-    const con2 = checkTypeDataUndefine[i].valueTextField == 0 || checkTypeDataUndefine[i].valueTextField == null;
-    if (con1) {
-      disabled.value = false;
-    } else if (con2) {
-      disabled.value = true;
-      break;
-    } else {
-      disabled.value = true;
-      break;
-    }
-  }
-} 
-
 const onCheckButtonDisabled = () => {
   const rowValue = rowsData.value.filter((row) => row.checked === true);
   for(const row of rowValue) {
-    if(row.maxQuantity && Number(row.valueTextField) <= Number(row.maxQuantity) &&  Number(row.valueTextField) ){
+    if(row.maxQuantity && Number(row.valueTextField) <= Number(row.maxQuantity) && Number(row.valueTextField) ){
       console.log(row.maxQuantity);
-      disabled.value = false;
+      return false;
+      // console.log("if");
     }else{
-      disabled.value = true;
-      break
+      return true;
+      // console.log("else");
+      // break
     }
   }
 }
 
-watch(rowsData.value,()=> {
-  onCheckButtonDisabled()
-}
-)
+// const disabled = computed(() => ref(onCheckButtonDisabled()))
+
+const disabled = computed(() => {
+  return onCheckButtonDisabled()
+});
 </script>
 
 <style scoped lang="scss"></style>
