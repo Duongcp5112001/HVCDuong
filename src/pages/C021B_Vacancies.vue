@@ -100,6 +100,7 @@
         :color-for-selection="colorForSelection"
         :days-for-selection="getDaysForSelection()"
         @selected-days="selectDays"
+        @room-name="roomName"
         @go-to-prev-two-weeks="goToPrevTwoWeeks"
         @go-to-next-two-weeks="goToNextTwoWeeks"
       >
@@ -145,7 +146,8 @@
                 />
               </span>
             </TableCell>
-            <TableCell> 裏磐梯グランデコ </TableCell>
+            <TableCell>{{ nameOfRoom }}
+            </TableCell>
             <TableCell>
               <ComboBox
                 v-model:value="row1RoomType"
@@ -192,6 +194,7 @@
               <DatePicker
                 size="small"
                 width="160px"
+                placeholder="yyyy/mm/dd"
                 :date="row1Date"
                 @change-date="onChangeRow1Date"
               />
@@ -260,270 +263,6 @@
                 confirm-button-color="critical"
                 confirm-button-label="削除"
                 @confirm="onConfirmDeleteRow1"
-              >
-                <Button color="critical" icon="delete" type="text" />
-                <template #popupTitle>削除しますか？</template>
-              </InlinePopup>
-            </TableCell>
-          </TableRow>
-          <TableRow id="row-2">
-            <TableCell text-align="center" slot-color="slot01">
-              <span class="util-flex util-flex--justify-center">
-                <RadioButton
-                  :checked="selectedRow.includes('row-2')"
-                  name="hotel-selection"
-                  @input="onSelectRow('row-2')"
-                />
-              </span>
-            </TableCell>
-            <TableCell> 裏磐梯グランデコ </TableCell>
-            <TableCell>
-              <ComboBox
-                v-model:value="row2RoomType"
-                placeholder=""
-                size="small"
-                width="224px"
-                error
-                :search-icon="false"
-              >
-                <ComboBoxItem
-                  v-for="(option, i) in roomTypeOptions"
-                  :key="i"
-                  :label="option.label"
-                  :value="option.value"
-                >
-                </ComboBoxItem>
-              </ComboBox>
-            </TableCell>
-            <TableCell>
-              <ComboBox
-                v-model:value="roomRequestRow2"
-                placeholder=""
-                size="small"
-                width="160px"
-                :search-icon="false"
-              >
-                <ComboBoxItem
-                  v-for="(option, i) in roomRequestOptions"
-                  :key="i"
-                  :label="option.label"
-                  :value="option.value"
-                >
-                </ComboBoxItem>
-              </ComboBox>
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="roomCodeRow2"
-                input-type="number"
-                placeholder="0"
-                width="159px"
-              />
-            </TableCell>
-            <TableCell>
-              <DatePicker
-                size="small"
-                width="160px"
-                :date="row2Date"
-                @change-date="onChangeRow2Date"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="daysNumberRow2"
-                input-type="number"
-                placeholder="0"
-                width="63px"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="roomsNumberRow2"
-                input-type="number"
-                placeholder="0"
-                width="63px"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="adultsNumberRow2"
-                input-type="number"
-                placeholder="0"
-                width="63px"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="childrenNumberRow2"
-                input-type="number"
-                placeholder="0"
-                width="63px"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="infantsNumberRow2"
-                input-type="number"
-                placeholder="0"
-                width="63px"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="babiesNumberRow2"
-                input-type="number"
-                placeholder="0"
-                width="63px"
-              />
-            </TableCell>
-            <TableCell text-align="center">
-              <InlinePopupSplitStays
-                :days-to-split="14"
-                target-label="連泊"
-                aligned="right"
-                counter-label="泊"
-                @confirm-split="onConfirmSplit2"
-              />
-            </TableCell>
-            <TableCell text-align="center">
-              <InlinePopup
-                direction="top"
-                aligned="right"
-                confirm-button-color="critical"
-                confirm-button-label="削除"
-                @confirm="onConfirmDeleteRow2"
-              >
-                <Button color="critical" icon="delete" type="text" />
-                <template #popupTitle>削除しますか？</template>
-              </InlinePopup>
-            </TableCell>
-          </TableRow>
-          <TableRow id="row-3">
-            <TableCell text-align="center" slot-color="slot01">
-              <span class="util-flex util-flex--justify-center">
-                <RadioButton
-                  :checked="selectedRow.includes('row-3')"
-                  name="hotel-selection"
-                  @input="onSelectRow('row-3')"
-                />
-              </span>
-            </TableCell>
-            <TableCell> 裏磐梯グランデコ </TableCell>
-            <TableCell>
-              <ComboBox
-                v-model:value="row3RoomType"
-                placeholder=""
-                size="small"
-                width="224px"
-                error
-                :search-icon="false"
-              >
-                <ComboBoxItem
-                  v-for="(option, i) in roomTypeOptions"
-                  :key="i"
-                  :label="option.label"
-                  :value="option.value"
-                >
-                </ComboBoxItem>
-              </ComboBox>
-            </TableCell>
-            <TableCell>
-              <ComboBox
-                v-model:value="roomRequestRow3"
-                placeholder=""
-                size="small"
-                width="160px"
-                :search-icon="false"
-              >
-                <ComboBoxItem
-                  v-for="(option, i) in roomRequestOptions"
-                  :key="i"
-                  :label="option.label"
-                  :value="option.value"
-                >
-                </ComboBoxItem>
-              </ComboBox>
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="roomCodeRow3"
-                input-type="number"
-                placeholder="0"
-                width="159px"
-              />
-            </TableCell>
-            <TableCell>
-              <DatePicker
-                size="small"
-                width="160px"
-                :date="row3Date"
-                @change-date="onChangeRow3Date"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="daysNumberRow3"
-                input-type="number"
-                placeholder="0"
-                width="63px"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="roomsNumberRow3"
-                input-type="number"
-                placeholder="0"
-                width="63px"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="adultsNumberRow3"
-                input-type="number"
-                placeholder="0"
-                width="63px"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="childrenNumberRow3"
-                input-type="number"
-                placeholder="0"
-                width="63px"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="infantsNumberRow3"
-                input-type="number"
-                placeholder="0"
-                width="63px"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="babiesNumberRow3"
-                input-type="number"
-                placeholder="0"
-                width="63px"
-              />
-            </TableCell>
-            <TableCell text-align="center">
-              <InlinePopupSplitStays
-                :days-to-split="14"
-                target-label="連泊"
-                aligned="right"
-                counter-label="泊"
-                @confirm-split="onConfirmSplit2"
-              />
-            </TableCell>
-            <TableCell text-align="center">
-              <InlinePopup
-                direction="top"
-                aligned="right"
-                confirm-button-color="critical"
-                confirm-button-label="削除"
-                @confirm="onConfirmDeleteRow3"
               >
                 <Button color="critical" icon="delete" type="text" />
                 <template #popupTitle>削除しますか？</template>
@@ -630,7 +369,7 @@ import Icon from '../components/Icon/Icon.vue';
 import InlinePopup from '../components/InlinePopup/InlinePopup.vue';
 import VacantRooms, {
   SlotColors,
-  SelectedDates,
+  SelectedDates
 } from '../components/VacantRooms/VacantRooms.vue';
 import ComboBox from '../components/ComboBox/ComboBox.vue';
 import ComboBoxItem from '../components/ComboBox/ComboBoxItem.vue';
@@ -649,24 +388,6 @@ const infantsNumberRow1 = ref('0');
 const babiesNumberRow1 = ref('0');
 
 const roomRequestRow1 = ref('海側');
-const roomRequestRow2 = ref('海側');
-const roomRequestRow3 = ref('海側');
-
-const roomCodeRow2 = ref('301');
-const daysNumberRow2 = ref('1');
-const roomsNumberRow2 = ref('1');
-const adultsNumberRow2 = ref('2');
-const childrenNumberRow2 = ref('0');
-const infantsNumberRow2 = ref('0');
-const babiesNumberRow2 = ref('0');
-
-const roomCodeRow3 = ref('301');
-const daysNumberRow3 = ref('1');
-const roomsNumberRow3 = ref('1');
-const adultsNumberRow3 = ref('2');
-const childrenNumberRow3 = ref('0');
-const infantsNumberRow3 = ref('0');
-const babiesNumberRow3 = ref('0');
 
 const roomCondition = ref('');
 const roomRequest = ref('');
@@ -676,41 +397,31 @@ const errorMessageActivated = ref(false);
 
 const colorForSelection: Ref<SlotColors> = ref('slot01');
 
+const nameOfRoom = ref('');
 const selectedRow = ref(['row-1']);
-const row1RoomType = ref('SDツイン');
-const row2RoomType = ref('SDツイン');
-const row3RoomType = ref('SDツイン');
-const row1Date = ref(new Date());
-const row2Date = ref(new Date());
-const row3Date = ref(new Date());
+const row1RoomType = ref('');
+const row1Date = ref('');
+
+const roomName = (roomName: string) => {
+  const name  = roomName;
+  nameOfRoom.value = name;
+}
 
 const selectDays = (selectedDays: SelectedDates) => {
-  const { blockId, categoryId, dates } = selectedDays;
+  const { blockId, categoryId, categoryName, dates} = selectedDays;
   console.log(
     'The selected dates:',
     dates,
     '\nInside the category Id:',
     categoryId,
+    '\nInside the category Name:',
+    categoryName,
     '\nInside the block Id:',
-    blockId
+    blockId,
   );
 
-  switch (selectedRow.value[0]) {
-    case 'row-1':
-      row1RoomType.value = categoryId;
-      row1Date.value = dates[0];
-      break;
-    case 'row-2':
-      row2RoomType.value = categoryId;
-      row2Date.value = dates[0];
-      break;
-    case 'row-3':
-      row3RoomType.value = categoryId;
-      row3Date.value = dates[0];
-      break;
-    default:
-      break;
-  }
+  row1RoomType.value = categoryName;
+  row1Date.value = dates[0];
 };
 
 const goToPrevTwoWeeks = () => {
@@ -731,56 +442,19 @@ const onChangeRow1Date = (date: Date) => {
   row1Date.value = date;
 };
 
-const onChangeRow2Date = (date: Date) => {
-  console.log('onChangeDate', date);
-  row2Date.value = date;
-};
-
-const onChangeRow3Date = (date: Date) => {
-  console.log('onChangeDate', date);
-  row3Date.value = date;
-};
-
 const onSelectRow = (rowId: string) => {
   console.log('onSelectRow', rowId);
-  switch (rowId) {
-    case 'row-1':
-      selectedRow.value = ['row-1'];
-      colorForSelection.value = 'slot01';
-      break;
-    case 'row-2':
-      selectedRow.value = ['row-2'];
-      colorForSelection.value = 'slot01';
-      break;
-    case 'row-3':
-      selectedRow.value = ['row-3'];
-      colorForSelection.value = 'slot01';
-      break;
-    default:
-      selectedRow.value = [];
-      colorForSelection.value = '';
-      break;
-  }
+    selectedRow.value = ['row-1'];
+    colorForSelection.value = 'slot01';
 };
 
 const onConfirmSplit1 = (splittedNights: number[]) => {
   console.log('onConfirmSplit1', splittedNights);
 };
-const onConfirmSplit2 = (splittedNights: number[]) => {
-  console.log('onConfirmSplit2', splittedNights);
-};
-
 const onConfirmDeleteRow1 = () => {
   console.log('onConfirmDeleteRow1');
 };
 
-const onConfirmDeleteRow2 = () => {
-  console.log('onConfirmDeleteRow2');
-};
-
-const onConfirmDeleteRow3 = () => {
-  console.log('onConfirmDeleteRow3');
-};
 
 const onConfirmDeleteAll = () => {
   console.log('onConfirmDeleteAll');
