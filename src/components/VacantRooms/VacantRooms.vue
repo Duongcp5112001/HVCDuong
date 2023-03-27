@@ -375,11 +375,9 @@ const emit = defineEmits<{
   (event: 'roomName', roomName: string): void;
 }>();
 
-
-
 const selectDays = (block : any) => {
   const areDaysHighlighted = highlightedCells.value.highlightedDays.length > 0;
-  console.log("abc - " + highlightedCells.value)
+  console.log(areDaysHighlighted);
   if (areDaysHighlighted) {
     const dates = props.calendar
       .filter((day, index) => {
@@ -393,7 +391,6 @@ const selectDays = (block : any) => {
       dates,
     }, props.rowNumber, block.room.name);
     emit('roomName', block.room.name);
-
   } else {
     console.log('no days highlighted');
   }
@@ -457,6 +454,8 @@ const highlightCells = (
   const notEnoughDays =
     adjustedIndex + props.daysForSelection > category.fourteenDays.length;
 
+  console.log("adjustedIndex " + adjustedIndex)
+
   if (dayInCalendarIsDisabled) {
     console.log('The hovered day in calendar is disabled');
     return;
@@ -486,12 +485,15 @@ const highlightCells = (
     return;
   }
 
+  console.log("highlightedDays.length " + highlightedDays.length)
+  console.log("props.daysForSelection " + props.daysForSelection)
+
   if (highlightedDays.length === props.daysForSelection) {
     highlightedCells.value = {
       blockId,
       categoryId: category.id,
       categoryName: category.name,
-      highlightedDays,
+      highlightedDays: highlightedDays,
     };
   }
 };
@@ -500,6 +502,7 @@ const unhighlightCells = () => {
   highlightedCells.value = {
     blockId: '',
     categoryId: '',
+    categoryName: '',
     highlightedDays: [],
   };
 };
