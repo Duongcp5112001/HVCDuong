@@ -249,10 +249,11 @@
             </TableCell>
             <TableCell text-align="center">
               <InlinePopupSplitStays
-                :days-to-split="14"
+                :days-to-split="daysNumberRow1"
                 target-label="連泊"
                 aligned="right"
                 counter-label="泊"
+                :disabled="checkButtonSplit"
                 @confirm-split="onConfirmSplit1"
               />
             </TableCell>
@@ -296,6 +297,7 @@
           width="120px"
           type="outlined"
           color="neutral"
+          :disabled="checkButtonAdd"
           @click="onAddPattern"
         >
           追加
@@ -347,7 +349,7 @@
 
 <script setup lang="ts">
 import Text from '../components/Text/Text.vue';
-import { ref, Ref } from 'vue';
+import { computed, ref, Ref } from 'vue';
 import Dialog from '../components/Dialog/Dialog.vue';
 import Button from '../components/Button/Button.vue';
 import Panel from '../components/Panel/Panel.vue';
@@ -379,7 +381,11 @@ import InlinePopupSplitStays from '../components/InlinePopup/variations/InlinePo
 
 const sampleData = vacanciesSampleDataPatternB();
 
+const nameOfRoom = ref('');
+const row1RoomType = ref('');
+const roomRequestRow1 = ref('海側');
 const roomCodeRow1 = ref('301');
+const row1Date = ref('');
 const daysNumberRow1 = ref('1');
 const roomsNumberRow1 = ref('1');
 const adultsNumberRow1 = ref('2');
@@ -387,24 +393,41 @@ const childrenNumberRow1 = ref('0');
 const infantsNumberRow1 = ref('0');
 const babiesNumberRow1 = ref('0');
 
-const roomRequestRow1 = ref('海側');
-
 const roomCondition = ref('');
 const roomRequest = ref('');
 const selectedDate1 = ref(new Date());
 
-const errorMessageActivated = ref(false);
-
 const colorForSelection: Ref<SlotColors> = ref('slot01');
 
-const nameOfRoom = ref('');
 const selectedRow = ref(['row-1']);
-const row1RoomType = ref('');
-const row1Date = ref('');
 
 const roomName = (roomName: string) => {
   const name  = roomName;
   nameOfRoom.value = name;
+}
+
+const errorMessageActivated = computed(() => {
+  return checkError();
+})
+
+const checkButtonSplit = computed(() => {
+  if (Number(daysNumberRow1.value) > 1) {
+    return false;
+  } else {
+    return true;
+  }
+})
+
+const checkButtonAdd = computed(() => {
+  return checkError();
+})
+
+const checkError = () => {
+  if (nameOfRoom.value === "" || row1Date.value === "" || roomCodeRow1.value === "") {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 const selectDays = (selectedDays: SelectedDates) => {
@@ -472,10 +495,6 @@ const getDaysForSelection = () => {
   switch (selectedRow.value[0]) {
     case 'row-1':
       return parseInt(daysNumberRow1.value);
-    case 'row-2':
-      return parseInt(daysNumberRow2.value);
-    case 'row-3':
-      return parseInt(daysNumberRow3.value);
     default:
       return 0;
   }
