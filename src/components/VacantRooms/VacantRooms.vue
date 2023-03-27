@@ -308,12 +308,14 @@ export type CalendarDay = {
 export type HighlightedDays = {
   blockId: string;
   categoryId: string;
+  categoryName: string;
   highlightedDays: number[];
 };
 
 export type SelectedDates = {
   blockId: string;
   categoryId: string;
+  categoryName: string;
   dates: Date[];
 };
 
@@ -370,10 +372,14 @@ const emit = defineEmits<{
   (event: 'goToPrevTwoWeeks'): void;
   (event: 'goToNextTwoWeeks'): void;
   (event: 'selectedDays', payload: SelectedDates, rowNumber?: number, roomName?: string): void;
+  (event: 'roomName', roomName: string): void;
 }>();
+
+
 
 const selectDays = (block : any) => {
   const areDaysHighlighted = highlightedCells.value.highlightedDays.length > 0;
+  console.log("abc - " + highlightedCells.value)
   if (areDaysHighlighted) {
     const dates = props.calendar
       .filter((day, index) => {
@@ -383,8 +389,11 @@ const selectDays = (block : any) => {
     emit('selectedDays', {
       blockId: highlightedCells.value.blockId,
       categoryId: highlightedCells.value.categoryId,
+      categoryName: highlightedCells.value.categoryName,
       dates,
     }, props.rowNumber, block.room.name);
+    emit('roomName', block.room.name);
+
   } else {
     console.log('no days highlighted');
   }
@@ -433,6 +442,7 @@ const daysWhenHotelIsOpenHeldCount = (
 const highlightedCells: Ref<HighlightedDays> = ref({
   blockId: '',
   categoryId: '',
+  categoryName: '',
   highlightedDays: [],
 });
 
@@ -480,6 +490,7 @@ const highlightCells = (
     highlightedCells.value = {
       blockId,
       categoryId: category.id,
+      categoryName: category.name,
       highlightedDays,
     };
   }
