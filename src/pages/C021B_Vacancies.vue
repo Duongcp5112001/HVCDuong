@@ -136,21 +136,25 @@
           </TableRow>
         </template>
         <template #body>
-          <TableRow id="row-1">
+          <TableRow 
+            v-for="(row, index) in rows"
+            :key="index"
+            :id="row.rowId"
+            >
             <TableCell text-align="center" slot-color="slot01">
               <span class="util-flex util-flex--justify-center">
                 <RadioButton
-                  :checked="selectedRow.includes('row-1')"
+                  :checked="row.rowId.includes('row-1')"
                   name="hotel-selection"
-                  @input="onSelectRow('row-1')"
+                  @input="onSelectRow(row.rowId)"
                 />
               </span>
             </TableCell>
-            <TableCell>{{ nameOfRoom }}
+            <TableCell>{{ row.roomName }}
             </TableCell>
             <TableCell>
               <ComboBox
-                v-model:value="row1RoomType"
+                v-model:value="row.roomeType"
                 placeholder=""
                 size="small"
                 width="224px"
@@ -167,7 +171,7 @@
             </TableCell>
             <TableCell>
               <ComboBox
-                v-model:value="roomRequestRow1"
+                v-model:value="row.roomRequest"
                 placeholder=""
                 size="small"
                 width="160px"
@@ -184,7 +188,7 @@
             </TableCell>
             <TableCell>
               <TextField
-                v-model="roomCodeRow1"
+                v-model="row.roomCode"
                 input-type="number"
                 placeholder="0"
                 width="159px"
@@ -195,13 +199,13 @@
                 size="small"
                 width="160px"
                 placeholder="yyyy/mm/dd"
-                :date="row1Date"
+                :date="row.roomDate"
                 @change-date="onChangeRow1Date"
               />
             </TableCell>
             <TableCell>
               <TextField
-                v-model="daysNumberRow1"
+                v-model="row.roomDays"
                 input-type="number"
                 placeholder="0"
                 width="63px"
@@ -209,7 +213,7 @@
             </TableCell>
             <TableCell>
               <TextField
-                v-model="roomsNumberRow1"
+                v-model="row.roomNumber"
                 input-type="number"
                 placeholder="0"
                 width="63px"
@@ -217,7 +221,7 @@
             </TableCell>
             <TableCell>
               <TextField
-                v-model="adultsNumberRow1"
+                v-model="row.roomAdults"
                 input-type="number"
                 placeholder="0"
                 width="63px"
@@ -225,7 +229,7 @@
             </TableCell>
             <TableCell>
               <TextField
-                v-model="childrenNumberRow1"
+                v-model="row.roomChildren"
                 input-type="number"
                 placeholder="0"
                 width="63px"
@@ -233,7 +237,7 @@
             </TableCell>
             <TableCell>
               <TextField
-                v-model="infantsNumberRow1"
+                v-model="row.roomInfants"
                 input-type="number"
                 placeholder="0"
                 width="63px"
@@ -241,7 +245,7 @@
             </TableCell>
             <TableCell>
               <TextField
-                v-model="babiesNumberRow1"
+                v-model="row.roomBabies"
                 input-type="number"
                 placeholder="0"
                 width="63px"
@@ -249,7 +253,7 @@
             </TableCell>
             <TableCell text-align="center">
               <InlinePopupSplitStays
-                :days-to-split="daysNumberRow1"
+                :days-to-split="row.roomDays"
                 target-label="連泊"
                 aligned="right"
                 counter-label="泊"
@@ -381,17 +385,8 @@ import InlinePopupSplitStays from '../components/InlinePopup/variations/InlinePo
 
 const sampleData = vacanciesSampleDataPatternB();
 
-const nameOfRoom = ref('');
-const row1RoomType = ref('');
-const roomRequestRow1 = ref('海側');
-const roomCodeRow1 = ref('301');
-const row1Date = ref('');
-const daysNumberRow1 = ref('1');
-const roomsNumberRow1 = ref('1');
-const adultsNumberRow1 = ref('2');
-const childrenNumberRow1 = ref('0');
-const infantsNumberRow1 = ref('0');
-const babiesNumberRow1 = ref('0');
+const rowDate = ref('');
+const daysNumberRow = ref('1');
 
 const roomCondition = ref('');
 const roomRequest = ref('');
@@ -399,35 +394,44 @@ const selectedDate1 = ref(new Date());
 
 const colorForSelection: Ref<SlotColors> = ref('slot01');
 
-const selectedRow = ref(['row-1']);
-
-const roomName = (roomName: string) => {
-  const name  = roomName;
-  nameOfRoom.value = name;
-}
+const selectedRow = ref(['']);
 
 const errorMessageActivated = computed(() => {
   return checkError();
 })
 
 const checkButtonSplit = computed(() => {
-  if (Number(daysNumberRow1.value) > 1) {
-    return false;
-  } else {
-    return true;
+  for (const row of rows) {
+    if (Number(row.roomDays) > 1) {
+      return false;
+    } else {
+      return true;
+    }
   }
 })
 
 const checkButtonAdd = computed(() => {
+  console.log("asdasdasd");
   return checkError();
 })
 
 const checkError = () => {
-  if (nameOfRoom.value === "" || row1Date.value === "" || roomCodeRow1.value === "") {
-    return true;
-  } else {
-    return false;
+  for (const row of rows) {
+    if (row.roomName === "" || row.roomDate === "" || row.roomCode === "") {
+      return true
+    } else {
+      return false;
+    }
   }
+}
+
+const roomName = (roomName: string) => {
+  const name  = roomName;
+  rows.forEach(row => {
+    if (row.rowId === selectedRow.value[0]){
+      row.roomName = name;
+    }
+  })
 }
 
 const selectDays = (selectedDays: SelectedDates) => {
@@ -443,8 +447,12 @@ const selectDays = (selectedDays: SelectedDates) => {
     blockId,
   );
 
-  row1RoomType.value = categoryName;
-  row1Date.value = dates[0];
+  rows.forEach(row => {
+    if (row.rowId === selectedRow.value[0]){
+      row.roomeType = categoryName;
+      row.roomDate = dates[0]
+    }
+  })
 };
 
 const goToPrevTwoWeeks = () => {
@@ -462,12 +470,12 @@ const onChangeDate1 = (date: Date) => {
 
 const onChangeRow1Date = (date: Date) => {
   console.log('onChangeDate', date);
-  row1Date.value = date;
+  rowDate.value = date;
 };
 
 const onSelectRow = (rowId: string) => {
   console.log('onSelectRow', rowId);
-    selectedRow.value = ['row-1'];
+    selectedRow.value = [rowId];
     colorForSelection.value = 'slot01';
 };
 
@@ -494,7 +502,9 @@ const onMakeReservation = () => {
 const getDaysForSelection = () => {
   switch (selectedRow.value[0]) {
     case 'row-1':
-      return parseInt(daysNumberRow1.value);
+      return parseInt(daysNumberRow.value);
+    case 'row-2':
+      return parseInt(daysNumberRow.value);
     default:
       return 0;
   }
@@ -778,6 +788,37 @@ const roomTypeOptions = [
   {
     label: 'SDファミリーツイン',
     value: 'category-1-3',
+  },
+];
+
+const rows = [
+  {
+    rowId: 'row-1',
+    roomName: '',
+    roomeType: '',
+    roomRequest: '海側',
+    roomCode: '301',
+    roomDate: '',
+    roomDays: '',
+    roomNumber: '1',
+    roomAdults: '2',
+    roomChildren: '0',
+    roomInfants: '0',
+    roomBabies: '0',
+  },
+  {
+    rowId: 'row-2',
+    roomName: '',
+    roomeType: '',
+    roomRequest: '海側',
+    roomCode: '301',
+    roomDate: '',
+    roomDays: '',
+    roomNumber: '1',
+    roomAdults: '2',
+    roomChildren: '0',
+    roomInfants: '0',
+    roomBabies: '0',
   },
 ];
 
