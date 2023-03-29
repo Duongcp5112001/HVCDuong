@@ -135,13 +135,13 @@
           </TableRow>
         </template>
         <template #body>
-          <TableRow id="row-1">
+          <TableRow id="1">
             <TableCell text-align="center" slot-color="slot01">
               <span class="util-flex util-flex--justify-center">
                 <RadioButton
-                  :checked="selectedRow.includes('row-1')"
+                  :checked="selectedRow.includes('1')"
                   name="hotel-selection"
-                  @input="onSelectRow('row-1')"
+                  @input="onSelectRow('1')"
                 />
               </span>
             </TableCell>
@@ -246,10 +246,11 @@
             </TableCell>
             <TableCell text-align="center">
               <InlinePopupSplitStays
-                :days-to-split="14"
+                :days-to-split="Number(daysNumberRow1)"
                 target-label="連泊"
                 aligned="right"
                 counter-label="泊"
+                :disabled="checkDisableSplit"
                 @confirm-split="onConfirmSplit1"
               />
             </TableCell>
@@ -260,270 +261,6 @@
                 confirm-button-color="critical"
                 confirm-button-label="削除"
                 @confirm="onConfirmDeleteRow1"
-              >
-                <Button color="critical" icon="delete" type="text" />
-                <template #popupTitle>削除しますか？</template>
-              </InlinePopup>
-            </TableCell>
-          </TableRow>
-          <TableRow id="row-2">
-            <TableCell text-align="center" slot-color="slot01">
-              <span class="util-flex util-flex--justify-center">
-                <RadioButton
-                  :checked="selectedRow.includes('row-2')"
-                  name="hotel-selection"
-                  @input="onSelectRow('row-2')"
-                />
-              </span>
-            </TableCell>
-            <TableCell> 裏磐梯グランデコ </TableCell>
-            <TableCell>
-              <ComboBox
-                v-model:value="row2RoomType"
-                placeholder=""
-                size="small"
-                width="224px"
-                error
-                :search-icon="false"
-              >
-                <ComboBoxItem
-                  v-for="(option, i) in roomTypeOptions"
-                  :key="i"
-                  :label="option.label"
-                  :value="option.value"
-                >
-                </ComboBoxItem>
-              </ComboBox>
-            </TableCell>
-            <TableCell>
-              <ComboBox
-                v-model:value="roomRequestRow2"
-                placeholder=""
-                size="small"
-                width="160px"
-                :search-icon="false"
-              >
-                <ComboBoxItem
-                  v-for="(option, i) in roomRequestOptions"
-                  :key="i"
-                  :label="option.label"
-                  :value="option.value"
-                >
-                </ComboBoxItem>
-              </ComboBox>
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="roomCodeRow2"
-                input-type="number"
-                placeholder="0"
-                width="159px"
-              />
-            </TableCell>
-            <TableCell>
-              <DatePicker
-                size="small"
-                width="160px"
-                :date="row2Date"
-                @change-date="onChangeRow2Date"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="daysNumberRow2"
-                input-type="number"
-                placeholder="0"
-                width="63px"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="roomsNumberRow2"
-                input-type="number"
-                placeholder="0"
-                width="63px"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="adultsNumberRow2"
-                input-type="number"
-                placeholder="0"
-                width="63px"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="childrenNumberRow2"
-                input-type="number"
-                placeholder="0"
-                width="63px"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="infantsNumberRow2"
-                input-type="number"
-                placeholder="0"
-                width="63px"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="babiesNumberRow2"
-                input-type="number"
-                placeholder="0"
-                width="63px"
-              />
-            </TableCell>
-            <TableCell text-align="center">
-              <InlinePopupSplitStays
-                :days-to-split="14"
-                target-label="連泊"
-                aligned="right"
-                counter-label="泊"
-                @confirm-split="onConfirmSplit2"
-              />
-            </TableCell>
-            <TableCell text-align="center">
-              <InlinePopup
-                direction="top"
-                aligned="right"
-                confirm-button-color="critical"
-                confirm-button-label="削除"
-                @confirm="onConfirmDeleteRow2"
-              >
-                <Button color="critical" icon="delete" type="text" />
-                <template #popupTitle>削除しますか？</template>
-              </InlinePopup>
-            </TableCell>
-          </TableRow>
-          <TableRow id="row-3">
-            <TableCell text-align="center" slot-color="slot01">
-              <span class="util-flex util-flex--justify-center">
-                <RadioButton
-                  :checked="selectedRow.includes('row-3')"
-                  name="hotel-selection"
-                  @input="onSelectRow('row-3')"
-                />
-              </span>
-            </TableCell>
-            <TableCell> 裏磐梯グランデコ </TableCell>
-            <TableCell>
-              <ComboBox
-                v-model:value="row3RoomType"
-                placeholder=""
-                size="small"
-                width="224px"
-                error
-                :search-icon="false"
-              >
-                <ComboBoxItem
-                  v-for="(option, i) in roomTypeOptions"
-                  :key="i"
-                  :label="option.label"
-                  :value="option.value"
-                >
-                </ComboBoxItem>
-              </ComboBox>
-            </TableCell>
-            <TableCell>
-              <ComboBox
-                v-model:value="roomRequestRow3"
-                placeholder=""
-                size="small"
-                width="160px"
-                :search-icon="false"
-              >
-                <ComboBoxItem
-                  v-for="(option, i) in roomRequestOptions"
-                  :key="i"
-                  :label="option.label"
-                  :value="option.value"
-                >
-                </ComboBoxItem>
-              </ComboBox>
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="roomCodeRow3"
-                input-type="number"
-                placeholder="0"
-                width="159px"
-              />
-            </TableCell>
-            <TableCell>
-              <DatePicker
-                size="small"
-                width="160px"
-                :date="row3Date"
-                @change-date="onChangeRow3Date"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="daysNumberRow3"
-                input-type="number"
-                placeholder="0"
-                width="63px"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="roomsNumberRow3"
-                input-type="number"
-                placeholder="0"
-                width="63px"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="adultsNumberRow3"
-                input-type="number"
-                placeholder="0"
-                width="63px"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="childrenNumberRow3"
-                input-type="number"
-                placeholder="0"
-                width="63px"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="infantsNumberRow3"
-                input-type="number"
-                placeholder="0"
-                width="63px"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                v-model="babiesNumberRow3"
-                input-type="number"
-                placeholder="0"
-                width="63px"
-              />
-            </TableCell>
-            <TableCell text-align="center">
-              <InlinePopupSplitStays
-                :days-to-split="14"
-                target-label="連泊"
-                aligned="right"
-                counter-label="泊"
-                @confirm-split="onConfirmSplit2"
-              />
-            </TableCell>
-            <TableCell text-align="center">
-              <InlinePopup
-                direction="top"
-                aligned="right"
-                confirm-button-color="critical"
-                confirm-button-label="削除"
-                @confirm="onConfirmDeleteRow3"
               >
                 <Button color="critical" icon="delete" type="text" />
                 <template #popupTitle>削除しますか？</template>
@@ -557,6 +294,7 @@
           width="120px"
           type="outlined"
           color="neutral"
+          :disabled="errorMessageActivated"
           @click="onAddPattern"
         >
           追加
@@ -608,7 +346,7 @@
 
 <script setup lang="ts">
 import Text from '../components/Text/Text.vue';
-import { ref, Ref } from 'vue';
+import { computed, ref, Ref } from 'vue';
 import Dialog from '../components/Dialog/Dialog.vue';
 import Button from '../components/Button/Button.vue';
 import Panel from '../components/Panel/Panel.vue';
@@ -639,6 +377,12 @@ import { vacanciesSampleDataPatternB } from '../data/vacantRoomsTestData';
 import InlinePopupSplitStays from '../components/InlinePopup/variations/InlinePopupSplitStays.vue';
 
 const sampleData = vacanciesSampleDataPatternB();
+
+const rows = [
+  {
+
+  },
+]
 
 const roomCodeRow1 = ref('301');
 const daysNumberRow1 = ref('1');
@@ -672,40 +416,95 @@ const roomCondition = ref('');
 const roomRequest = ref('');
 const selectedDate1 = ref(new Date());
 
-const errorMessageActivated = ref(false);
-
 const colorForSelection: Ref<SlotColors> = ref('slot01');
 
-const selectedRow = ref(['row-1']);
-const row1RoomType = ref('SDツイン');
-const row2RoomType = ref('SDツイン');
-const row3RoomType = ref('SDツイン');
-const row1Date = ref(new Date());
-const row2Date = ref(new Date());
-const row3Date = ref(new Date());
+const selectedRow = ref(['1']);
+const row1RoomType = ref('');
+const row2RoomType = ref('');
+const row3RoomType = ref('');
+const row1Date = ref();
+const row2Date = ref();
+const row3Date = ref();
+
+const checkDisableSplit = computed(() => {
+  switch (selectedRow.value[0]) {
+    case '1':
+      const days1 = daysNumberRow1.value;
+      if (Number(days1) > 1) {
+        return false;
+      } else {
+        return true;
+      }
+    case '2':
+      const days2 = daysNumberRow2.value;
+      if (Number(days2) > 1) {
+        return false;
+      } else {
+        return true;
+      }
+    case '3':
+      const days3 = daysNumberRow3.value;
+      if (Number(days3) > 1) {
+        return false;
+      } else {
+        return true;
+      }
+    default:
+      break;
+  }
+})
+
+const errorMessageActivated = computed(() => {
+  switch (selectedRow.value[0]) {
+    case '1':
+      const code1 = row1RoomType.value;
+      const date1 = row1Date.value;
+      return checkError(code1, date1);
+    case '2':
+      const code2 = row2RoomType.value;
+      const date2 =  row2Date.value;
+      return checkError(code2, date2);
+    case '3':
+      const code3 = row3RoomType.value;
+      const date3 =  row3Date.value;
+      return checkError(code3, date3);
+    default:
+      break;
+  }
+})
+
+const checkError = (code: string, date: Date) => {
+  if (code === '' || date === null) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 const selectDays = (selectedDays: SelectedDates) => {
-  const { blockId, categoryId, dates } = selectedDays;
+  const { blockId, categoryId, categoryName, dates } = selectedDays;
   console.log(
     'The selected dates:',
     dates,
     '\nInside the category Id:',
     categoryId,
     '\nInside the block Id:',
-    blockId
+    blockId,
+    '\nInside the block Id:',
+    categoryName,
   );
 
   switch (selectedRow.value[0]) {
-    case 'row-1':
-      row1RoomType.value = categoryId;
+    case '1':
+      row1RoomType.value = categoryName;
       row1Date.value = dates[0];
       break;
-    case 'row-2':
-      row2RoomType.value = categoryId;
+    case '2':
+      row2RoomType.value = categoryName;
       row2Date.value = dates[0];
       break;
-    case 'row-3':
-      row3RoomType.value = categoryId;
+    case '3':
+      row3RoomType.value = categoryName;
       row3Date.value = dates[0];
       break;
     default:
@@ -744,16 +543,16 @@ const onChangeRow3Date = (date: Date) => {
 const onSelectRow = (rowId: string) => {
   console.log('onSelectRow', rowId);
   switch (rowId) {
-    case 'row-1':
-      selectedRow.value = ['row-1'];
+    case '1':
+      selectedRow.value = ['1'];
       colorForSelection.value = 'slot01';
       break;
-    case 'row-2':
-      selectedRow.value = ['row-2'];
+    case '2':
+      selectedRow.value = ['2'];
       colorForSelection.value = 'slot01';
       break;
-    case 'row-3':
-      selectedRow.value = ['row-3'];
+    case '3':
+      selectedRow.value = ['3'];
       colorForSelection.value = 'slot01';
       break;
     default:
@@ -768,6 +567,9 @@ const onConfirmSplit1 = (splittedNights: number[]) => {
 };
 const onConfirmSplit2 = (splittedNights: number[]) => {
   console.log('onConfirmSplit2', splittedNights);
+};
+const onConfirmSplit3 = (splittedNights: number[]) => {
+  console.log('onConfirmSplit3', splittedNights);
 };
 
 const onConfirmDeleteRow1 = () => {
@@ -796,11 +598,11 @@ const onMakeReservation = () => {
 
 const getDaysForSelection = () => {
   switch (selectedRow.value[0]) {
-    case 'row-1':
+    case '1':
       return parseInt(daysNumberRow1.value);
-    case 'row-2':
+    case '2':
       return parseInt(daysNumberRow2.value);
-    case 'row-3':
+    case '3':
       return parseInt(daysNumberRow3.value);
     default:
       return 0;

@@ -117,6 +117,7 @@ const emit =
 
 const onConfirm = () => {
   emit('confirmSplit', splittedNights.value, props.row_id);
+  console.log(splittedNights.value + " asdasda " + props.row_id);
 };
 
 const availableDays = (index: number) => {

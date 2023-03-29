@@ -308,6 +308,7 @@ export type CalendarDay = {
 export type HighlightedDays = {
   blockId: string;
   categoryId: string;
+  categoryName: string,
   highlightedDays: number[];
 };
 
@@ -383,6 +384,7 @@ const selectDays = (block : any) => {
     emit('selectedDays', {
       blockId: highlightedCells.value.blockId,
       categoryId: highlightedCells.value.categoryId,
+      categoryName: highlightedCells.value.categoryName,
       dates,
     }, props.rowNumber, block.room.name);
   } else {
@@ -433,6 +435,7 @@ const daysWhenHotelIsOpenHeldCount = (
 const highlightedCells: Ref<HighlightedDays> = ref({
   blockId: '',
   categoryId: '',
+  categoryName: '',
   highlightedDays: [],
 });
 
@@ -480,6 +483,7 @@ const highlightCells = (
     highlightedCells.value = {
       blockId,
       categoryId: category.id,
+      categoryName: category.name,
       highlightedDays,
     };
   }
@@ -489,6 +493,7 @@ const unhighlightCells = () => {
   highlightedCells.value = {
     blockId: '',
     categoryId: '',
+    categoryName: '',
     highlightedDays: [],
   };
 };
