@@ -533,7 +533,7 @@ const onChangeDate1 = (date: Date) => {
 
 const onChangeRow1Date = (date: Date) => {
   console.log('onChangeDate', date);
-  rowDate.value = date;
+  row1Date.value = date;
 };
 
 const onSelectRow = (rowId: string) => {
