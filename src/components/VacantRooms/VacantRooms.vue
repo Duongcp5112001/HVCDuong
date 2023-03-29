@@ -493,7 +493,7 @@ const highlightCells = (
       blockId,
       categoryId: category.id,
       categoryName: category.name,
-      highlightedDays: highlightedDays,
+      highlightedDays,
     };
   }
 };

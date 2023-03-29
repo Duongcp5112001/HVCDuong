@@ -136,17 +136,13 @@
           </TableRow>
         </template>
         <template #body>
-          <TableRow 
-            v-for="(row, index) in rows"
-            :key="index"
-            :id="row.rowId"
-            >
+          <TableRow id="1">
             <TableCell text-align="center" slot-color="slot01">
               <span class="util-flex util-flex--justify-center">
                 <RadioButton
-                  :checked="row.rowId.includes('row-1')"
+                  :checked="selectedRow.includes('1')"
                   name="hotel-selection"
-                  @input="onSelectRow(row.rowId)"
+                  @input="onSelectRow('1')"
                 />
               </span>
             </TableCell>
@@ -253,11 +249,12 @@
             </TableCell>
             <TableCell text-align="center">
               <InlinePopupSplitStays
-                :days-to-split="row.roomDays"
+
+                :days-to-split="Number(daysNumberRow1)"
                 target-label="連泊"
                 aligned="right"
                 counter-label="泊"
-                :disabled="checkButtonSplit"
+                :disabled="checkDisableSplit"
                 @confirm-split="onConfirmSplit1"
               />
             </TableCell>
@@ -301,7 +298,7 @@
           width="120px"
           type="outlined"
           color="neutral"
-          :disabled="checkButtonAdd"
+          :disabled="errorMessageActivated"
           @click="onAddPattern"
         >
           追加
@@ -385,8 +382,39 @@ import InlinePopupSplitStays from '../components/InlinePopup/variations/InlinePo
 
 const sampleData = vacanciesSampleDataPatternB();
 
-const rowDate = ref('');
-const daysNumberRow = ref('1');
+const rows = [
+  {
+
+  },
+]
+
+const roomCodeRow1 = ref('301');
+const daysNumberRow1 = ref('1');
+const roomsNumberRow1 = ref('1');
+const adultsNumberRow1 = ref('2');
+const childrenNumberRow1 = ref('0');
+const infantsNumberRow1 = ref('0');
+const babiesNumberRow1 = ref('0');
+
+const roomRequestRow1 = ref('海側');
+const roomRequestRow2 = ref('海側');
+const roomRequestRow3 = ref('海側');
+
+const roomCodeRow2 = ref('301');
+const daysNumberRow2 = ref('1');
+const roomsNumberRow2 = ref('1');
+const adultsNumberRow2 = ref('2');
+const childrenNumberRow2 = ref('0');
+const infantsNumberRow2 = ref('0');
+const babiesNumberRow2 = ref('0');
+
+const roomCodeRow3 = ref('301');
+const daysNumberRow3 = ref('1');
+const roomsNumberRow3 = ref('1');
+const adultsNumberRow3 = ref('2');
+const childrenNumberRow3 = ref('0');
+const infantsNumberRow3 = ref('0');
+const babiesNumberRow3 = ref('0');
 
 const roomCondition = ref('');
 const roomRequest = ref('');
@@ -394,48 +422,71 @@ const selectedDate1 = ref(new Date());
 
 const colorForSelection: Ref<SlotColors> = ref('slot01');
 
-const selectedRow = ref(['']);
+const selectedRow = ref(['1']);
+const row1RoomType = ref('');
+const row2RoomType = ref('');
+const row3RoomType = ref('');
+const row1Date = ref();
+const row2Date = ref();
+const row3Date = ref();
+
+const checkDisableSplit = computed(() => {
+  switch (selectedRow.value[0]) {
+    case '1':
+      const days1 = daysNumberRow1.value;
+      if (Number(days1) > 1) {
+        return false;
+      } else {
+        return true;
+      }
+    case '2':
+      const days2 = daysNumberRow2.value;
+      if (Number(days2) > 1) {
+        return false;
+      } else {
+        return true;
+      }
+    case '3':
+      const days3 = daysNumberRow3.value;
+      if (Number(days3) > 1) {
+        return false;
+      } else {
+        return true;
+      }
+    default:
+      break;
+  }
+})
 
 const errorMessageActivated = computed(() => {
-  return checkError();
-})
-
-const checkButtonSplit = computed(() => {
-  for (const row of rows) {
-    if (Number(row.roomDays) > 1) {
-      return false;
-    } else {
-      return true;
-    }
+  switch (selectedRow.value[0]) {
+    case '1':
+      const code1 = row1RoomType.value;
+      const date1 = row1Date.value;
+      return checkError(code1, date1);
+    case '2':
+      const code2 = row2RoomType.value;
+      const date2 =  row2Date.value;
+      return checkError(code2, date2);
+    case '3':
+      const code3 = row3RoomType.value;
+      const date3 =  row3Date.value;
+      return checkError(code3, date3);
+    default:
+      break;
   }
 })
 
-const checkButtonAdd = computed(() => {
-  console.log("asdasdasd");
-  return checkError();
-})
-
-const checkError = () => {
-  for (const row of rows) {
-    if (row.roomName === "" || row.roomDate === "" || row.roomCode === "") {
-      return true
-    } else {
-      return false;
-    }
+const checkError = (code: string, date: Date) => {
+  if (code === '' || date === null) {
+    return true;
+  } else {
+    return false;
   }
-}
-
-const roomName = (roomName: string) => {
-  const name  = roomName;
-  rows.forEach(row => {
-    if (row.rowId === selectedRow.value[0]){
-      row.roomName = name;
-    }
-  })
 }
 
 const selectDays = (selectedDays: SelectedDates) => {
-  const { blockId, categoryId, categoryName, dates} = selectedDays;
+  const { blockId, categoryId, categoryName, dates } = selectedDays;
   console.log(
     'The selected dates:',
     dates,
@@ -445,14 +496,26 @@ const selectDays = (selectedDays: SelectedDates) => {
     categoryName,
     '\nInside the block Id:',
     blockId,
+    '\nInside the block Id:',
+    categoryName,
   );
 
-  rows.forEach(row => {
-    if (row.rowId === selectedRow.value[0]){
-      row.roomeType = categoryName;
-      row.roomDate = dates[0]
-    }
-  })
+  switch (selectedRow.value[0]) {
+    case '1':
+      row1RoomType.value = categoryName;
+      row1Date.value = dates[0];
+      break;
+    case '2':
+      row2RoomType.value = categoryName;
+      row2Date.value = dates[0];
+      break;
+    case '3':
+      row3RoomType.value = categoryName;
+      row3Date.value = dates[0];
+      break;
+    default:
+      break;
+  }
 };
 
 const goToPrevTwoWeeks = () => {
@@ -475,13 +538,36 @@ const onChangeRow1Date = (date: Date) => {
 
 const onSelectRow = (rowId: string) => {
   console.log('onSelectRow', rowId);
-    selectedRow.value = [rowId];
-    colorForSelection.value = 'slot01';
+  switch (rowId) {
+    case '1':
+      selectedRow.value = ['1'];
+      colorForSelection.value = 'slot01';
+      break;
+    case '2':
+      selectedRow.value = ['2'];
+      colorForSelection.value = 'slot01';
+      break;
+    case '3':
+      selectedRow.value = ['3'];
+      colorForSelection.value = 'slot01';
+      break;
+    default:
+      selectedRow.value = [];
+      colorForSelection.value = '';
+      break;
+  }
 };
 
 const onConfirmSplit1 = (splittedNights: number[]) => {
   console.log('onConfirmSplit1', splittedNights);
 };
+const onConfirmSplit2 = (splittedNights: number[]) => {
+  console.log('onConfirmSplit2', splittedNights);
+};
+const onConfirmSplit3 = (splittedNights: number[]) => {
+  console.log('onConfirmSplit3', splittedNights);
+};
+
 const onConfirmDeleteRow1 = () => {
   console.log('onConfirmDeleteRow1');
 };
@@ -501,10 +587,12 @@ const onMakeReservation = () => {
 
 const getDaysForSelection = () => {
   switch (selectedRow.value[0]) {
-    case 'row-1':
-      return parseInt(daysNumberRow.value);
-    case 'row-2':
-      return parseInt(daysNumberRow.value);
+    case '1':
+      return parseInt(daysNumberRow1.value);
+    case '2':
+      return parseInt(daysNumberRow2.value);
+    case '3':
+      return parseInt(daysNumberRow3.value);
     default:
       return 0;
   }

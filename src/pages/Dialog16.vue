@@ -1,6 +1,6 @@
 <template>
   <Button @click="open = true ; disabled = true">Open Dialog</Button>
-  <Dialog :open="open" size="large" @close-dialog="onCloseDialog" @vnode-before-update="onCheckButtonDisabled()">
+  <Dialog :open="open" size="large" @close-dialog="onCloseDialog">
     <template #header>
       <Text size="xl" bold>手配品・備品</Text>
     </template>
@@ -76,14 +76,14 @@
       </Table>
     </template>
     <template #footer>
-      <Button size="large" width="200px" :disabled="disabled" @click="">登録</Button>
+      <Button size="large" width="200px" :disabled="disabled">登録</Button>
     </template>
   </Dialog>
 </template>
 
 <script setup lang="ts">
 import Text from '../components/Text/Text.vue';
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import Dialog from '../components/Dialog/Dialog.vue';
 import Button from '../components/Button/Button.vue';
 import Panel from '../components/Panel/Panel.vue';
@@ -98,13 +98,14 @@ import Checkbox from '../components/Checkbox/Checkbox.vue';
 import TextField from '../components/TextField/TextField.vue';
 import { resolve } from 'path';
 import { reject } from 'lodash';
+import { computed, watch } from 'vue';
+
 
 
 const open = ref(true);
 
 const supply = ref('');
 const code = ref('');
-const disabled = ref(true);
 
 const supplyDropdownOptions = [
   {
@@ -214,6 +215,7 @@ const rowsData = ref([
   },
 ]);
 
+
 const onCloseDialog = () => {
   open.value = false;
 };
@@ -246,60 +248,26 @@ const onCheckAll = () => {
   });
 };
 
-const checkTypeDataNumberMethod = (checkTypeDataNumber: any) => {
-  for (var i = 0; i < checkTypeDataNumber.length; i++) {
-    console.log("method number");
-    const con1 = checkTypeDataNumber[i].maxQuantity as number >= checkTypeDataNumber[i].valueTextField;
-    const con2 = checkTypeDataNumber[i].valueTextField > 0;
-    const con3 = checkTypeDataNumber[i].valueTextField == 0 || checkTypeDataNumber[i].valueTextField == null;
-    if (con1 && con2) {
-      disabled.value = false;
-    } else if (con3) {
-      disabled.value = true;
-      break;
-    } else {
-      disabled.value = true;
-      break;
-    }
-  }
-};
-
-const checkTypeDataUndefinedMethod = (checkTypeDataUndefine: any) => {
-  for (var i = 0; i < checkTypeDataUndefine.length; i++) {
-    console.log("method Undefined");
-    const con1 = checkTypeDataUndefine[i].valueTextField > 0;
-    const con2 = checkTypeDataUndefine[i].valueTextField == 0 || checkTypeDataUndefine[i].valueTextField == null;
-    if (con1) {
-      disabled.value = false;
-    } else if (con2) {
-      disabled.value = true;
-      break;
-    } else {
-      disabled.value = true;
-      break;
-    }
-  }
-} 
-
 const onCheckButtonDisabled = () => {
   const rowValue = rowsData.value.filter((row) => row.checked === true);
-  if(rowValue.length > 0){
-    const checkTypeDataNumber = rowValue.filter((row) => typeof row.maxQuantity == 'number');
-    const checkTypeDataUndefine = rowValue.filter((row) => typeof row.maxQuantity == 'undefined');
-    if (checkTypeDataNumber.length > 0 && checkTypeDataUndefine.length > 0) {
-      checkTypeDataUndefinedMethod(checkTypeDataUndefine); 
-      checkTypeDataNumberMethod(checkTypeDataNumber);
-    } else if (checkTypeDataNumber.length > 0 && checkTypeDataUndefine.length <= 0) {
-      checkTypeDataNumberMethod(checkTypeDataNumber);
-    } else if (checkTypeDataNumber.length <= 0 && checkTypeDataUndefine.length > 0) {
-      checkTypeDataUndefinedMethod(checkTypeDataUndefine);
-    } else {
-      disabled.value = true;
+  for(const row of rowValue) {
+    if(row.maxQuantity && Number(row.valueTextField) <= Number(row.maxQuantity) && Number(row.valueTextField) ){
+      console.log(row.maxQuantity);
+      return false;
+      // console.log("if");
+    }else{
+      return true;
+      // console.log("else");
+      // break
     }
-  } else {
-    disabled.value = true;
   }
 }
+
+// const disabled = computed(() => ref(onCheckButtonDisabled()))
+
+const disabled = computed(() => {
+  return onCheckButtonDisabled()
+});
 </script>
 
 <style scoped lang="scss"></style>
