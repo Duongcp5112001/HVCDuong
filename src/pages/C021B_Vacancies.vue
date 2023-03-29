@@ -100,6 +100,7 @@
         :color-for-selection="colorForSelection"
         :days-for-selection="getDaysForSelection()"
         @selected-days="selectDays"
+        @room-name="roomName"
         @go-to-prev-two-weeks="goToPrevTwoWeeks"
         @go-to-next-two-weeks="goToNextTwoWeeks"
       >
@@ -145,10 +146,11 @@
                 />
               </span>
             </TableCell>
-            <TableCell> 裏磐梯グランデコ </TableCell>
+            <TableCell>{{ row.roomName }}
+            </TableCell>
             <TableCell>
               <ComboBox
-                v-model:value="row1RoomType"
+                v-model:value="row.roomeType"
                 placeholder=""
                 size="small"
                 width="224px"
@@ -165,7 +167,7 @@
             </TableCell>
             <TableCell>
               <ComboBox
-                v-model:value="roomRequestRow1"
+                v-model:value="row.roomRequest"
                 placeholder=""
                 size="small"
                 width="160px"
@@ -182,7 +184,7 @@
             </TableCell>
             <TableCell>
               <TextField
-                v-model="roomCodeRow1"
+                v-model="row.roomCode"
                 input-type="number"
                 placeholder="0"
                 width="159px"
@@ -192,13 +194,14 @@
               <DatePicker
                 size="small"
                 width="160px"
-                :date="row1Date"
+                placeholder="yyyy/mm/dd"
+                :date="row.roomDate"
                 @change-date="onChangeRow1Date"
               />
             </TableCell>
             <TableCell>
               <TextField
-                v-model="daysNumberRow1"
+                v-model="row.roomDays"
                 input-type="number"
                 placeholder="0"
                 width="63px"
@@ -206,7 +209,7 @@
             </TableCell>
             <TableCell>
               <TextField
-                v-model="roomsNumberRow1"
+                v-model="row.roomNumber"
                 input-type="number"
                 placeholder="0"
                 width="63px"
@@ -214,7 +217,7 @@
             </TableCell>
             <TableCell>
               <TextField
-                v-model="adultsNumberRow1"
+                v-model="row.roomAdults"
                 input-type="number"
                 placeholder="0"
                 width="63px"
@@ -222,7 +225,7 @@
             </TableCell>
             <TableCell>
               <TextField
-                v-model="childrenNumberRow1"
+                v-model="row.roomChildren"
                 input-type="number"
                 placeholder="0"
                 width="63px"
@@ -230,7 +233,7 @@
             </TableCell>
             <TableCell>
               <TextField
-                v-model="infantsNumberRow1"
+                v-model="row.roomInfants"
                 input-type="number"
                 placeholder="0"
                 width="63px"
@@ -238,7 +241,7 @@
             </TableCell>
             <TableCell>
               <TextField
-                v-model="babiesNumberRow1"
+                v-model="row.roomBabies"
                 input-type="number"
                 placeholder="0"
                 width="63px"
@@ -246,6 +249,7 @@
             </TableCell>
             <TableCell text-align="center">
               <InlinePopupSplitStays
+
                 :days-to-split="Number(daysNumberRow1)"
                 target-label="連泊"
                 aligned="right"
@@ -368,7 +372,7 @@ import Icon from '../components/Icon/Icon.vue';
 import InlinePopup from '../components/InlinePopup/InlinePopup.vue';
 import VacantRooms, {
   SlotColors,
-  SelectedDates,
+  SelectedDates
 } from '../components/VacantRooms/VacantRooms.vue';
 import ComboBox from '../components/ComboBox/ComboBox.vue';
 import ComboBoxItem from '../components/ComboBox/ComboBoxItem.vue';
@@ -488,6 +492,8 @@ const selectDays = (selectedDays: SelectedDates) => {
     dates,
     '\nInside the category Id:',
     categoryId,
+    '\nInside the category Name:',
+    categoryName,
     '\nInside the block Id:',
     blockId,
     '\nInside the block Id:',
@@ -527,17 +533,7 @@ const onChangeDate1 = (date: Date) => {
 
 const onChangeRow1Date = (date: Date) => {
   console.log('onChangeDate', date);
-  row1Date.value = date;
-};
-
-const onChangeRow2Date = (date: Date) => {
-  console.log('onChangeDate', date);
-  row2Date.value = date;
-};
-
-const onChangeRow3Date = (date: Date) => {
-  console.log('onChangeDate', date);
-  row3Date.value = date;
+  rowDate.value = date;
 };
 
 const onSelectRow = (rowId: string) => {
@@ -576,13 +572,6 @@ const onConfirmDeleteRow1 = () => {
   console.log('onConfirmDeleteRow1');
 };
 
-const onConfirmDeleteRow2 = () => {
-  console.log('onConfirmDeleteRow2');
-};
-
-const onConfirmDeleteRow3 = () => {
-  console.log('onConfirmDeleteRow3');
-};
 
 const onConfirmDeleteAll = () => {
   console.log('onConfirmDeleteAll');
@@ -887,6 +876,37 @@ const roomTypeOptions = [
   {
     label: 'SDファミリーツイン',
     value: 'category-1-3',
+  },
+];
+
+const rows = [
+  {
+    rowId: 'row-1',
+    roomName: '',
+    roomeType: '',
+    roomRequest: '海側',
+    roomCode: '301',
+    roomDate: '',
+    roomDays: '',
+    roomNumber: '1',
+    roomAdults: '2',
+    roomChildren: '0',
+    roomInfants: '0',
+    roomBabies: '0',
+  },
+  {
+    rowId: 'row-2',
+    roomName: '',
+    roomeType: '',
+    roomRequest: '海側',
+    roomCode: '301',
+    roomDate: '',
+    roomDays: '',
+    roomNumber: '1',
+    roomAdults: '2',
+    roomChildren: '0',
+    roomInfants: '0',
+    roomBabies: '0',
   },
 ];
 
