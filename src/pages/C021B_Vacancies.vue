@@ -100,7 +100,6 @@
         :color-for-selection="colorForSelection"
         :days-for-selection="getDaysForSelection()"
         @selected-days="selectDays"
-        @room-name="roomName"
         @go-to-prev-two-weeks="goToPrevTwoWeeks"
         @go-to-next-two-weeks="goToNextTwoWeeks"
       >
@@ -136,21 +135,20 @@
           </TableRow>
         </template>
         <template #body>
-          <TableRow id="1">
+          <TableRow v-for="row in rows" :id="row.id">
             <TableCell text-align="center" slot-color="slot01">
               <span class="util-flex util-flex--justify-center">
                 <RadioButton
-                  :checked="selectedRow.includes('1')"
+                  :checked="selectedRow.includes(row.id)"
                   name="hotel-selection"
-                  @input="onSelectRow('1')"
+                  @input="onSelectRow(row.id)"
                 />
               </span>
             </TableCell>
-            <TableCell>{{ row.roomName }}
-            </TableCell>
+            <TableCell> 裏磐梯グランデコ </TableCell>
             <TableCell>
               <ComboBox
-                v-model:value="row.roomeType"
+                v-model:value="row.roomType"
                 placeholder=""
                 size="small"
                 width="224px"
@@ -196,7 +194,7 @@
                 width="160px"
                 placeholder="yyyy/mm/dd"
                 :date="row.roomDate"
-                @change-date="onChangeRow1Date"
+                @change-date="onChangeRowDate(row.id, row.roomDate)"
               />
             </TableCell>
             <TableCell>
@@ -249,8 +247,7 @@
             </TableCell>
             <TableCell text-align="center">
               <InlinePopupSplitStays
-
-                :days-to-split="Number(daysNumberRow1)"
+                :days-to-split="Number(row.roomDays)"
                 target-label="連泊"
                 aligned="right"
                 counter-label="泊"
@@ -264,7 +261,7 @@
                 aligned="right"
                 confirm-button-color="critical"
                 confirm-button-label="削除"
-                @confirm="onConfirmDeleteRow1"
+                @confirm="onConfirmDeleteRow1(row.id)"
               >
                 <Button color="critical" icon="delete" type="text" />
                 <template #popupTitle>削除しますか？</template>
@@ -343,7 +340,7 @@
           <Text bold>人</Text>
         </span>
       </span>
-      <Button width="200px" @click="onMakeReservation"> 予約 </Button>
+      <Button width="200px" @click="onMakeReservation" :disabled="errorMessageActivated"> 予約 </Button>
     </template>
   </Dialog>
 </template>
@@ -382,98 +379,65 @@ import InlinePopupSplitStays from '../components/InlinePopup/variations/InlinePo
 
 const sampleData = vacanciesSampleDataPatternB();
 
-const rows = [
-  {
-
-  },
-]
-
-const roomCodeRow1 = ref('301');
-const daysNumberRow1 = ref('1');
-const roomsNumberRow1 = ref('1');
-const adultsNumberRow1 = ref('2');
-const childrenNumberRow1 = ref('0');
-const infantsNumberRow1 = ref('0');
-const babiesNumberRow1 = ref('0');
-
-const roomRequestRow1 = ref('海側');
-const roomRequestRow2 = ref('海側');
-const roomRequestRow3 = ref('海側');
-
-const roomCodeRow2 = ref('301');
-const daysNumberRow2 = ref('1');
-const roomsNumberRow2 = ref('1');
-const adultsNumberRow2 = ref('2');
-const childrenNumberRow2 = ref('0');
-const infantsNumberRow2 = ref('0');
-const babiesNumberRow2 = ref('0');
-
-const roomCodeRow3 = ref('301');
-const daysNumberRow3 = ref('1');
-const roomsNumberRow3 = ref('1');
-const adultsNumberRow3 = ref('2');
-const childrenNumberRow3 = ref('0');
-const infantsNumberRow3 = ref('0');
-const babiesNumberRow3 = ref('0');
-
 const roomCondition = ref('');
 const roomRequest = ref('');
 const selectedDate1 = ref(new Date());
 
 const colorForSelection: Ref<SlotColors> = ref('slot01');
 
+
 const selectedRow = ref(['1']);
-const row1RoomType = ref('');
-const row2RoomType = ref('');
-const row3RoomType = ref('');
-const row1Date = ref();
-const row2Date = ref();
-const row3Date = ref();
+
+interface RowType {
+  id: string,
+  roomType: string,
+  roomRequest: string,
+  roomCode: string,
+  roomDate: Date,
+  roomDays: string,
+  roomNumber: string,
+  roomAdults: string,
+  roomChildren: string,
+  roomInfants: string,
+  roomBabies: string,
+}
+
+const rows = ref<RowType[]>([
+  {
+    id: '1',
+    roomType: '',
+    roomRequest: '海側',
+    roomCode: '301',
+    roomDate: new Date(),
+    roomDays: '1',
+    roomNumber: '1',
+    roomAdults: '2',
+    roomChildren: '0',
+    roomInfants: '0',
+    roomBabies: '0',
+  },
+])
 
 const checkDisableSplit = computed(() => {
-  switch (selectedRow.value[0]) {
-    case '1':
-      const days1 = daysNumberRow1.value;
-      if (Number(days1) > 1) {
+  for (let i = 0; i < rows.value.length; i++) {
+    if (selectedRow.value[0] === rows.value[i].id) {
+      const days = rows.value[i].roomDays;
+      if (Number(days) > 1) {
         return false;
       } else {
         return true;
       }
-    case '2':
-      const days2 = daysNumberRow2.value;
-      if (Number(days2) > 1) {
-        return false;
-      } else {
-        return true;
-      }
-    case '3':
-      const days3 = daysNumberRow3.value;
-      if (Number(days3) > 1) {
-        return false;
-      } else {
-        return true;
-      }
-    default:
-      break;
+    }
   }
 })
 
 const errorMessageActivated = computed(() => {
-  switch (selectedRow.value[0]) {
-    case '1':
-      const code1 = row1RoomType.value;
-      const date1 = row1Date.value;
-      return checkError(code1, date1);
-    case '2':
-      const code2 = row2RoomType.value;
-      const date2 =  row2Date.value;
-      return checkError(code2, date2);
-    case '3':
-      const code3 = row3RoomType.value;
-      const date3 =  row3Date.value;
-      return checkError(code3, date3);
-    default:
-      break;
+  for (let i = 0; i < rows.value.length; i++) {
+    if (selectedRow.value[0] === rows.value[i].id) {
+      const type = rows.value[i].roomType;
+      const date = rows.value[i].roomDate;
+      return checkError(type, date);
+    }
   }
 })
 
@@ -485,38 +449,21 @@ const checkError = (code: string, date: Date) => {
   }
 }
 
-const selectDays = (selectedDays: SelectedDates) => {
-  const { blockId, categoryId, categoryName, dates } = selectedDays;
-  console.log(
-    'The selected dates:',
-    dates,
-    '\nInside the category Id:',
-    categoryId,
-    '\nInside the category Name:',
-    categoryName,
-    '\nInside the block Id:',
-    blockId,
-    '\nInside the block Id:',
-    categoryName,
-  );
+// const selectedDays: SelectedDates
 
-  switch (selectedRow.value[0]) {
-    case '1':
-      row1RoomType.value = categoryName;
-      row1Date.value = dates[0];
-      break;
-    case '2':
-      row2RoomType.value = categoryName;
-      row2Date.value = dates[0];
-      break;
-    case '3':
-      row3RoomType.value = categoryName;
-      row3Date.value = dates[0];
-      break;
-    default:
-      break;
+
+const selectDays = (selectedDays: SelectedDates) => {
+  const { categoryName, dates } = selectedDays;
+  
+  for (let i = 0; i < rows.value.length; i++) {
+    if (selectedRow.value[0] === rows.value[i].id) {
+      rows.value[i].roomType = categoryName;
+      rows.value[i].roomDate = dates[0];
+    }
   }
 };
+
+
 
 const goToPrevTwoWeeks = () => {
   console.log('goToPrevTwoWeeks');
@@ -527,49 +474,75 @@ const goToNextTwoWeeks = () => {
 };
 
 const onChangeDate1 = (date: Date) => {
-  console.log('onChangeDate', date);
   selectedDate1.value = date;
 };
 
-const onChangeRow1Date = (date: Date) => {
-  console.log('onChangeDate', date);
-  row1Date.value = date;
+const onChangeRowDate = (id: string, date: Date) => {
+  for (let i = 0; i < rows.value.length; i++) {
+    if (id === rows.value[i].id) {
+      rows.value[i].roomDate = date;
+    }
+  }
+  
 };
 
 const onSelectRow = (rowId: string) => {
-  console.log('onSelectRow', rowId);
-  switch (rowId) {
-    case '1':
-      selectedRow.value = ['1'];
+  for (let i = 0; i < rows.value.length; i++) {
+    if (rowId === rows.value[i].id) {
+      selectedRow.value = [rows.value[i].id];
       colorForSelection.value = 'slot01';
-      break;
-    case '2':
-      selectedRow.value = ['2'];
-      colorForSelection.value = 'slot01';
-      break;
-    case '3':
-      selectedRow.value = ['3'];
-      colorForSelection.value = 'slot01';
-      break;
-    default:
-      selectedRow.value = [];
-      colorForSelection.value = '';
-      break;
+    }
   }
 };
 
 const onConfirmSplit1 = (splittedNights: number[]) => {
   console.log('onConfirmSplit1', splittedNights);
-};
-const onConfirmSplit2 = (splittedNights: number[]) => {
-  console.log('onConfirmSplit2', splittedNights);
-};
-const onConfirmSplit3 = (splittedNights: number[]) => {
-  console.log('onConfirmSplit3', splittedNights);
+
+  for (let i = 0; i < rows.value.length; i++) {
+    if (selectedRow.value[0] === rows.value[i].id) {
+      for (let j = 1; j < splittedNights.length; j++) {
+        const getDateRow = rows.value[i].roomDate.getDate();
+        const row1 = String(Number(rows.value[i].id) + 1);
+        const row2 = rows.value[i].roomType;
+        const row3 = rows.value[i].roomRequest;
+        const row4 = rows.value[i].roomCode;
+        const row5 = new Date(rows.value[i].roomDate.setDate(getDateRow + 1));
+        const row6 = String(splittedNights[i]);
+        const row7 = rows.value[i].roomNumber;
+        const row8 = rows.value[i].roomAdults;
+        const row9 = rows.value[i].roomChildren;
+        const row10 = rows.value[i].roomInfants;
+        const row11 = rows.value[i].roomBabies;
+        rows.value[i].roomDays = String(Number(rows.value[i].roomDays) - splittedNights[i]);
+
+        const dataDone: RowType = {
+          id: row1,
+          roomType: row2,
+          roomRequest: row3,
+          roomCode: row4,
+          roomDate: row5,
+          roomDays: row6,
+          roomNumber: row7,
+          roomAdults: row8,
+          roomChildren: row9,
+          roomInfants: row10,
+          roomBabies: row11
+        }
+
+        rows.value.push(dataDone)
+      };
+    }
+  }
 };
 
-const onConfirmDeleteRow1 = () => {
-  console.log('onConfirmDeleteRow1');
+const onConfirmDeleteRow1 = (id: string) => {
+  const rowToDelete = rows.value.findIndex((row) => row.id === id);
+
+  if (rowToDelete > -1) {
+    rows.value.splice(rowToDelete, 1);
+  }
+
+  return rows.value;
 };
 
 
@@ -586,15 +559,10 @@ const onMakeReservation = () => {
 };
 
 const getDaysForSelection = () => {
-  switch (selectedRow.value[0]) {
-    case '1':
-      return parseInt(daysNumberRow1.value);
-    case '2':
-      return parseInt(daysNumberRow2.value);
-    case '3':
-      return parseInt(daysNumberRow3.value);
-    default:
-      return 0;
+  for (let i = 0; i < rows.value.length; i++) {
+    if (selectedRow.value[0] === rows.value[i].id) {
+      return parseInt(rows.value[i].roomDays);
+    }
   }
 };
 
@@ -876,37 +844,6 @@ const roomTypeOptions = [
   {
     label: 'SDファミリーツイン',
     value: 'category-1-3',
-  },
-];
-
-const rows = [
-  {
-    rowId: 'row-1',
-    roomName: '',
-    roomeType: '',
-    roomRequest: '海側',
-    roomCode: '301',
-    roomDate: '',
-    roomDays: '',
-    roomNumber: '1',
-    roomAdults: '2',
-    roomChildren: '0',
-    roomInfants: '0',
-    roomBabies: '0',
-  },
-  {
-    rowId: 'row-2',
-    roomName: '',
-    roomeType: '',
-    roomRequest: '海側',
-    roomCode: '301',
-    roomDate: '',
-    roomDays: '',
-    roomNumber: '1',
-    roomAdults: '2',
-    roomChildren: '0',
-    roomInfants: '0',
-    roomBabies: '0',
   },
 ];
 
