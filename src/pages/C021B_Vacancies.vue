@@ -247,11 +247,12 @@
             </TableCell>
             <TableCell text-align="center">
               <InlinePopupSplitStays
+                :row-id="row.id"
                 :days-to-split="Number(row.roomDays)"
                 target-label="連泊"
                 aligned="right"
                 counter-label="泊"
-                :disabled="checkDisableSplit"
+                :disabled="Number(row.roomDays) > 1 ? false : true"
                 @confirm-split="onConfirmSplit1"
               />
             </TableCell>
@@ -418,15 +419,14 @@ const rows = ref<RowType[]>([
   },
 ])
 
-const checkDisableSplit = computed(() => {
-  for (let i = 0; i < rows.value.length; i++) {
-    if (selectedRow.value[0] === rows.value[i].id) {
-      const days = rows.value[i].roomDays;
-      if (Number(days) > 1) {
-        return false;
-      } else {
-        return true;
-      }
+const checkDisableSplit = computed(() => { 
+  console.log("asdasd: " + rows.value.length)
+  for (const row of rows.value) {
+    const days = row.roomDays;
+    if (Number(days) > 1) {
+      return false;
+    } else {
+      return true;
     }
   }
 })
@@ -448,8 +448,6 @@ const checkError = (code: string, date: Date) => {
     return false;
   }
 }
-
-// const selectedDays: SelectedDates
 
 
 const selectDays = (selectedDays: SelectedDates) => {
@@ -495,43 +493,42 @@ const onSelectRow = (rowId: string) => {
   }
 };
 
-const onConfirmSplit1 = (splittedNights: number[]) => {
-  console.log('onConfirmSplit1', splittedNights);
+const onConfirmSplit1 = (splittedNights: number[], rowId: string) => {
+  const rowData = rows.value.filter((row) => row.id === rowId);
+  for (const row of rowData) {
+    for (let j = 1; j < splittedNights.length; j++) {
+      const getDateRow = row.roomDate.getDate();
+      const row1 = String(Number(row.id) + 1);
+      const row2 = row.roomType;
+      const row3 = row.roomRequest;
+      const row4 = row.roomCode;
+      const row5 = new Date(row.roomDate.setDate(getDateRow + 1));
+      const row6 = String(splittedNights[j]);
+      const row7 = row.roomNumber;
+      const row8 = row.roomAdults;
+      const row9 = row.roomChildren;
+      const row10 = row.roomInfants;
+      const row11 = row.roomBabies;
+      row.roomDays = String(Number(row.roomDays) - splittedNights[j]);
 
-  for (let i = 0; i < rows.value.length; i++) {
-    if (selectedRow.value[0] === rows.value[i].id) {
-      for (let j = 1; j < splittedNights.length; j++) {
-        const getDateRow = rows.value[i].roomDate.getDate();
-        const row1 = String(Number(rows.value[i].id) + 1);
-        const row2 = rows.value[i].roomType;
-        const row3 = rows.value[i].roomRequest;
-        const row4 = rows.value[i].roomCode;
-        const row5 = new Date(rows.value[i].roomDate.setDate(getDateRow + 1));
-        const row6 = String(splittedNights[i]);
-        const row7 = rows.value[i].roomNumber;
-        const row8 = rows.value[i].roomAdults;
-        const row9 = rows.value[i].roomChildren;
-        const row10 = rows.value[i].roomInfants;
-        const row11 = rows.value[i].roomBabies;
-        rows.value[i].roomDays = String(Number(rows.value[i].roomDays) - splittedNights[i]);
+      const dataDone: RowType = {
+        id: row1,
+        roomType: row2,
+        roomRequest: row3,
+        roomCode: row4,
+        roomDate: row5,
+        roomDays: row6,
+        roomNumber: row7,
+        roomAdults: row8,
+        roomChildren: row9,
+        roomInfants: row10,
+        roomBabies: row11
+      }
 
-        const dataDone: RowType = {
-          id: row1,
-          roomType: row2,
-          roomRequest: row3,
-          roomCode: row4,
-          roomDate: row5,
-          roomDays: row6,
-          roomNumber: row7,
-          roomAdults: row8,
-          roomChildren: row9,
-          roomInfants: row10,
-          roomBabies: row11
-        }
+      rows.value.push(dataDone)
 
-        rows.value.push(dataDone)
-      };
-    }
+      console.log(rows.value);
+    };
   }
 };
 
@@ -547,7 +544,7 @@ const onConfirmDeleteRow1 = (id: string) => {
 
 
 const onConfirmDeleteAll = () => {
-  console.log('onConfirmDeleteAll');
+  rows.value = [];
 };
 
 const onAddPattern = () => {
