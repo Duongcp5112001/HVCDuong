@@ -91,7 +91,7 @@ type Props = {
   targetLabel?: string;
   counterLabel?: string;
   disabled?: boolean,
-  row_id?: number
+  rowId: string
 };
 
 const props = withDefaults(defineProps<Props>(), {
@@ -113,10 +113,11 @@ const onChangeSplittedNight = (value: string, index: number) => {
 };
 
 const emit =
-  defineEmits<{ (event: 'confirmSplit', splittedNights: number[], row_id?: number): void }>();
+  defineEmits<{ (event: 'confirmSplit', splittedNights: number[], rowId: string): void }>();
 
 const onConfirm = () => {
-  emit('confirmSplit', splittedNights.value, props.row_id);
+  emit('confirmSplit', splittedNights.value, props.rowId);
+  console.log(props.rowId);
 };
 
 const availableDays = (index: number) => {
