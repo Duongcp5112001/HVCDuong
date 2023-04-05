@@ -409,7 +409,7 @@ const rows = ref<RowType[]>([
     roomType: '',
     roomRequest: '海側',
     roomCode: '301',
-    roomDate: new Date(),
+    roomDate: null,
     roomDays: '1',
     roomNumber: '1',
     roomAdults: '2',
@@ -418,18 +418,6 @@ const rows = ref<RowType[]>([
     roomBabies: '0',
   },
 ])
-
-const checkDisableSplit = computed(() => { 
-  console.log("asdasd: " + rows.value.length)
-  for (const row of rows.value) {
-    const days = row.roomDays;
-    if (Number(days) > 1) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-})
 
 const errorMessageActivated = computed(() => {
   for (let i = 0; i < rows.value.length; i++) {
@@ -495,10 +483,19 @@ const onSelectRow = (rowId: string) => {
 
 const onConfirmSplit1 = (splittedNights: number[], rowId: string) => {
   const rowData = rows.value.filter((row) => row.id === rowId);
+ 
+
   for (const row of rowData) {
     for (let j = 1; j < splittedNights.length; j++) {
+      let maxId = 0;
+      rows.value.forEach(row => {
+          if (Number(row.id) > maxId) {
+            maxId = Number(row.id);
+        }
+      })
+      
       const getDateRow = row.roomDate.getDate();
-      const row1 = String(Number(row.id) + 1);
+      const row1 = String(maxId + 1);
       const row2 = row.roomType;
       const row3 = row.roomRequest;
       const row4 = row.roomCode;
@@ -535,8 +532,21 @@ const onConfirmSplit1 = (splittedNights: number[], rowId: string) => {
 const onConfirmDeleteRow1 = (id: string) => {
   const rowToDelete = rows.value.findIndex((row) => row.id === id);
 
-  if (rowToDelete > -1) {
+  if (rowToDelete > 0) {
     rows.value.splice(rowToDelete, 1);
+  } else {
+    const row1 = rows.value.find(row => row.id === '1')
+    row1.id = '1';
+    row1.roomType = '';
+    row1.roomRequest = '海側';
+    row1.roomCode = '301';
+    row1.roomDate = null;
+    row1.roomDays = '1';
+    row1.roomNumber = '1';
+    row1.roomAdults = '2';
+    row1.roomChildren = '0';
+    row1.roomInfants = '0';
+    row1.roomBabies = '0';
   }
 
   return rows.value;
@@ -544,7 +554,22 @@ const onConfirmDeleteRow1 = (id: string) => {
 
 
 const onConfirmDeleteAll = () => {
-  rows.value = [];
+  rows.value.splice(1, rows.value.length - 1);
+
+  const row2 = rows.value.find((data) => data.id === '1')
+  row2.id = '1';
+  row2.roomType = '';
+  row2.roomRequest = '海側';
+  row2.roomCode = '301';
+  row2.roomDate = null;
+  row2.roomDays = '1';
+  row2.roomNumber = '1';
+  row2.roomAdults = '2';
+  row2.roomChildren = '0';
+  row2.roomInfants = '0';
+  row2.roomBabies = '0';
+
+  return rows.value;
 };
 
 const onAddPattern = () => {
