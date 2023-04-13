@@ -243,7 +243,7 @@ import Text from '../Text/Text.vue';
 import Dots from '../Dots/Dots.vue';
 import moment from "moment";
 
-interface ExampleData {
+export interface ExampleData {
   blockId: string,
   rowId: number,
   hotelName: string,
@@ -251,7 +251,7 @@ interface ExampleData {
   arrival_date: Date,
   numberOfNight: number,
   colorIndex: number
-}
+};
 
 export type TopDay = {
   counter: number;

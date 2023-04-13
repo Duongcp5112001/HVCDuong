@@ -136,7 +136,7 @@
         </template>
         <template #body>
           <TableRow v-for="row in rows" :id="row.id">
-            <TableCell text-align="center" slot-color="slot01">
+            <TableCell text-align="center" :slot-color="row.colorSlot">
               <span class="util-flex util-flex--justify-center">
                 <RadioButton
                   :checked="selectedRow.includes(row.id)"
@@ -370,7 +370,7 @@ import Icon from '../components/Icon/Icon.vue';
 import InlinePopup from '../components/InlinePopup/InlinePopup.vue';
 import VacantRooms, {
   SlotColors,
-  SelectedDates
+  SelectedDates,
 } from '../components/VacantRooms/VacantRooms.vue';
 import ComboBox from '../components/ComboBox/ComboBox.vue';
 import ComboBoxItem from '../components/ComboBox/ComboBoxItem.vue';
@@ -385,8 +385,6 @@ const roomRequest = ref('');
 const selectedDate1 = ref(new Date());
 
 const colorForSelection: Ref<SlotColors> = ref('slot01');
-
-
 const selectedRow = ref(['1']);
 
 interface RowType {
@@ -401,6 +399,7 @@ interface RowType {
   roomChildren: string,
   roomInfants: string,
   roomBabies: string,
+  colorSlot: string
 }
 
 const rows = ref<RowType[]>([
@@ -416,14 +415,17 @@ const rows = ref<RowType[]>([
     roomChildren: '0',
     roomInfants: '0',
     roomBabies: '0',
+    colorSlot: 'slot01'
   },
 ])
 
+
+
 const errorMessageActivated = computed(() => {
-  for (let i = 0; i < rows.value.length; i++) {
-    if (selectedRow.value[0] === rows.value[i].id) {
-      const type = rows.value[i].roomType;
-      const date = rows.value[i].roomDate;
+  for (const row of rows.value) {
+    if (selectedRow.value[0] === row.id) {
+      const type = row.roomType;
+      const date = row.roomDate;
       return checkError(type, date);
     }
   }
@@ -449,8 +451,6 @@ const selectDays = (selectedDays: SelectedDates) => {
   }
 };
 
-
-
 const goToPrevTwoWeeks = () => {
   console.log('goToPrevTwoWeeks');
 };
@@ -464,19 +464,19 @@ const onChangeDate1 = (date: Date) => {
 };
 
 const onChangeRowDate = (id: string, date: Date) => {
-  for (let i = 0; i < rows.value.length; i++) {
-    if (id === rows.value[i].id) {
-      rows.value[i].roomDate = date;
+  for (const row of rows.value) {
+    if (id === row.id) {
+      row.roomDate = date;
     }
   }
   
 };
 
 const onSelectRow = (rowId: string) => {
-  for (let i = 0; i < rows.value.length; i++) {
-    if (rowId === rows.value[i].id) {
-      selectedRow.value = [rows.value[i].id];
-      colorForSelection.value = 'slot01';
+  for (const row of rows.value) {
+    if (rowId === row.id) {
+      selectedRow.value = [row.id];
+      colorForSelection.value = row.colorSlot;
     }
   }
 };
@@ -506,6 +506,7 @@ const onConfirmSplit1 = (splittedNights: number[], rowId: string) => {
       const row9 = row.roomChildren;
       const row10 = row.roomInfants;
       const row11 = row.roomBabies;
+      const row12 = "slot0" + String(maxId + 1)
       row.roomDays = String(Number(row.roomDays) - splittedNights[j]);
 
       const dataDone: RowType = {
@@ -519,7 +520,8 @@ const onConfirmSplit1 = (splittedNights: number[], rowId: string) => {
         roomAdults: row8,
         roomChildren: row9,
         roomInfants: row10,
-        roomBabies: row11
+        roomBabies: row11,
+        colorSlot: row12
       }
 
       rows.value.push(dataDone)
@@ -547,6 +549,7 @@ const onConfirmDeleteRow1 = (id: string) => {
     row1.roomChildren = '0';
     row1.roomInfants = '0';
     row1.roomBabies = '0';
+    row1.colorSlot = 'slot01'
   }
 
   return rows.value;
@@ -568,6 +571,7 @@ const onConfirmDeleteAll = () => {
   row2.roomChildren = '0';
   row2.roomInfants = '0';
   row2.roomBabies = '0';
+  row1.colorSlot = 'slot01'
 
   return rows.value;
 };
@@ -581,9 +585,9 @@ const onMakeReservation = () => {
 };
 
 const getDaysForSelection = () => {
-  for (let i = 0; i < rows.value.length; i++) {
-    if (selectedRow.value[0] === rows.value[i].id) {
-      return parseInt(rows.value[i].roomDays);
+  for (const row of rows.value) {
+    if (selectedRow.value[0] === row.id) {
+      return parseInt(row.roomDays);
     }
   }
 };
